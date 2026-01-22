@@ -1,0 +1,16 @@
+{
+  "name": "Pavitra Mandal - ML Engineer & Data Engineer",
+  "short_name": "Pavitra Mandal",
+  "description": "ML Engineer & Data Engineer specializing in demand forecasting systems, MLOps pipelines, and intelligent automation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
