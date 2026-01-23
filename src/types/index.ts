@@ -4,7 +4,7 @@
 
 export type ProjectCategory = 'Personal' | 'Professional' | 'Automation' | 'AI-ML';
 export type ProjectStatus = 'Live' | 'In Development' | 'Completed' | 'Archived';
-export type Company = 'Sony' | 'Cisco' | 'Tech Mahindra' | null;
+export type Company = 'Sony' | 'Cisco' | 'Tech Mahindra' | 'Human Resocia' | 'Delhivery' | 'Rogers Communication' | null;
 
 export interface ProjectLink {
   type: 'linkedin' | 'github' | 'live' | 'blog';
@@ -38,17 +38,41 @@ export interface Project {
   relatedProjects?: string[]; // Array of project IDs
 }
 
+// Role within a company (for companies with multiple positions)
+export interface Role {
+  title: string;
+  startDate: string;
+  endDate: string | 'Present';
+  location: string;
+  description: string;
+  highlights: string[];
+  technologies: string[];
+  clientCompany?: string; // If working on client site (e.g., dispatch to Sony)
+  projects?: RoleProject[];
+}
+
+// Project within a role
+export interface RoleProject {
+  name: string;
+  description: string;
+  highlights?: string[];
+}
+
 export interface Experience {
   id: string;
   company: string;
   companyLogo?: string;
-  role: string;
+  employmentType?: 'Full-time' | 'Contract' | 'Internship' | 'Part-time';
   location: string;
   startDate: string;
   endDate: string | 'Present';
-  description: string;
-  highlights: string[];
-  technologies: string[];
+  // Main role info (for single-role experiences)
+  role?: string;
+  description?: string;
+  highlights?: string[];
+  technologies?: string[];
+  // Multiple roles (for companies with progression or multiple positions)
+  roles?: Role[];
   relatedProjects?: string[]; // Array of project IDs
   linkedInUrl?: string;
 }
@@ -68,7 +92,7 @@ export interface BlogPost {
 }
 
 export interface SocialLink {
-  platform: 'linkedin' | 'github' | 'instagram' | 'twitter' | 'email';
+  platform: 'linkedin' | 'github' | 'instagram' | 'twitter' | 'youtube' | 'email';
   url: string;
   label: string;
 }
@@ -88,4 +112,14 @@ export interface NavItem {
   label: string;
   href: string;
   isExternal?: boolean;
+}
+
+// Hobby/Gallery types
+export interface Photo {
+  id: string;
+  src: string;
+  alt: string;
+  category?: string;
+  width?: number;
+  height?: number;
 }
