@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getAllProjects, getProjectBySlug, getRelatedProjects } from '@/data/projects';
 import { Button, Tag } from '@/components/ui';
 import { ProjectCard } from '@/components/sections';
+import { formatRelativeDate, formatEndDate } from '@/utils';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -317,10 +318,13 @@ export default async function ProjectDetailPage({ params }: Props) {
                   <div className="flex justify-between">
                     <dt className="text-navy-500">Created</dt>
                     <dd className="font-medium text-navy-900">
-                      {new Date(project.dateCreated).toLocaleDateString('en-US', {
-                        month: 'short',
-                        year: 'numeric',
-                      })}
+                      {formatRelativeDate(project.dateCreated)}
+                    </dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-navy-500">Ended</dt>
+                    <dd className="font-medium text-navy-900">
+                      {formatEndDate(project.dateEnded)}
                     </dd>
                   </div>
                 </dl>

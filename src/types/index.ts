@@ -34,6 +34,7 @@ export interface Project {
   outcomes?: string[];
   techStack?: string[];
   dateCreated: string;
+  dateEnded?: string | 'Present'; // End date or 'Present' if ongoing
   dateUpdated?: string;
   relatedProjects?: string[]; // Array of project IDs
 }
