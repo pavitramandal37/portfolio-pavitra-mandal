@@ -11,7 +11,7 @@ const creativeLinks = [
   {
     id: 'youtube',
     platform: 'YouTube',
-    url: '[PLACEHOLDER_YOUTUBE_URL]', // Add your YouTube channel URL
+    url: 'https://www.youtube.com/@pavitramandal37',
     description: 'Video content, tutorials & vlogs',
     icon: (
       <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">

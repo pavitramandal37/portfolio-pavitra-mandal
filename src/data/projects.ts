@@ -110,7 +110,7 @@ export const projects: Project[] = [
   },
   {
     id: 'airflow-demand-forecasting',
-    title: 'Airflow Demand Forecasting System',
+    title: 'Open Source Time Series Forecasting System',
     slug: 'airflow-demand-forecasting',
     description: 'Production-grade MLOps pipeline using Apache Airflow for demand forecasting with Prophet, SARIMA, and DeepAR models. Built for retail SaaS applications.',
     longDescription: 'A comprehensive MLOps solution that automates the entire demand forecasting workflow from data ingestion to model deployment. The system supports multiple forecasting algorithms and automatically selects the best performing model for each product category.',
@@ -127,7 +127,7 @@ export const projects: Project[] = [
     ],
     links: [
       { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
-      { type: 'github', url: '[PLACEHOLDER_GITHUB_URL]', label: 'View Code' },
+      { type: 'github', url: 'https://github.com/pavitramandal37/airflow-demand-forecasting-pipeline', label: 'View Code' },
     ],
     problemStatement: 'Retail businesses struggle with accurate demand forecasting, leading to overstock or stockouts. Manual forecasting processes are time-consuming and don\'t scale well across thousands of SKUs.',
     approach: 'Designed a modular pipeline architecture using Apache Airflow that handles data preprocessing, feature engineering, model training, and prediction generation. Implemented automated model selection based on historical accuracy metrics.',
@@ -155,7 +155,7 @@ export const projects: Project[] = [
     banner: '/images/projects/home-automation-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
     links: [
       { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
-      { type: 'github', url: '[PLACEHOLDER_GITHUB_URL]', label: 'Setup Guide' },
+      { type: 'github', url: 'https://github.com/pavitramandal37/Control-windows-with-Siri', label: 'Setup Guide' },
     ],
     problemStatement: 'Controlling a Windows PC remotely using voice commands through Apple\'s ecosystem requires bridging two incompatible platforms.',
     approach: 'Created a pipeline using iOS Shortcuts to send commands to a cloud service, which then triggers Python scripts running on the Windows PC. Implemented secure authentication and various command handlers.',
