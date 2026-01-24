@@ -58,31 +58,54 @@ export const projects: Project[] = [
     id: 'mind-map-web-app',
     title: 'Mind Map Web App',
     slug: 'mind-map-web-app',
-    description: 'Interactive mind mapping tool built for visual thinking and brainstorming. Features real-time collaboration and intuitive node management.',
-    longDescription: 'A comprehensive mind mapping application designed to help users organize their thoughts visually. The app features drag-and-drop functionality, customizable node styles, keyboard shortcuts for power users, and export capabilities for sharing and documentation.',
+    description: 'Interactive mind mapping tool for visual thinking and brainstorming. Built with a Python FastAPI backend and a D3.js-powered frontend.',
+    longDescription: 'A comprehensive mind mapping web application focused on simple, performant visual organization. The app uses FastAPI for the backend (PostgreSQL for local persistence via SQLAlchemy) and a D3.js-driven frontend (vanilla JavaScript + Jinja2 templates). Features include drag-and-drop node management, customizable node styling, auto-save/export, sanitized rich-text node descriptions, and an intuitive editor UI. (Development in progress.)',
     category: 'Personal',
     status: 'Live',
     featured: true,
-    tags: ['React', 'TypeScript', 'Canvas API', 'Real-time'],
-    thumbnail: '/images/projects/mind-map-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    banner: '/images/projects/mind-map-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    tags: [
+      'Python',
+      'FastAPI',
+      'D3.js',
+      'JavaScript',
+      'PostgreSQL',
+      'SQLite',
+      'SQLAlchemy',
+      'Jinja2',
+      'HTML5',
+      'CSS3'
+    ],
+    thumbnail: '/images/projects/mind-map-thumbnail.jpg',
+    banner: '/images/projects/mind-map-banner.jpg',
     screenshots: [
-      '/images/projects/mind-map-screenshot-1.jpg', // [PLACEHOLDER_IMAGE_PATH]
-      '/images/projects/mind-map-screenshot-2.jpg', // [PLACEHOLDER_IMAGE_PATH]
+      '/images/projects/mind-map-screenshot-1.jpg',
+      '/images/projects/mind-map-screenshot-2.jpg'
     ],
     links: [
-      { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
-      { type: 'live', url: '[PLACEHOLDER_LIVE_APP_URL]', label: 'Try It Live' },
+      { type: 'github', url: 'https://github.com/pavitramandal37/mind-map-webapp', label: 'Source (GitHub)' },
+      { type: 'live', url: 'https://www.mindmapify.in/', label: 'Try It Live' },
+      { type: 'linkedin', url: 'https://www.linkedin.com/posts/pavitra-mandal-b0b0571a0_indexing-in-sql-made-easy-understanding-activity-7416397024536768512-8mES?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC7-SnsBt7sRGQzu2j7JTuPaPY8yyHJUxOQ', label: 'How to create a mind map' }
     ],
-    problemStatement: 'Traditional note-taking is linear and often fails to capture the interconnected nature of ideas. Existing mind mapping tools are either too complex or lack essential features for effective brainstorming.',
-    approach: 'Built a web-based solution using modern React patterns with an intuitive drag-and-drop interface. Focused on performance optimization for handling large mind maps and implemented keyboard shortcuts for power users.',
+    problemStatement: 'Linear note-taking often fails to capture the non-linear, interconnected nature of ideas. The goal was to create a lightweight, usable mind-mapping tool for quick idea organization without heavy client frameworks.',
+    approach: 'Built a Python FastAPI backend with REST endpoints and simple persistent storage (PostgreSQL). The frontend uses D3.js and vanilla JavaScript within Jinja2-rendered templates to render and interact with mind maps. Focused on performance for larger maps, sanitization for rich-text node content, and export/import utilities.',
     outcomes: [
-      'Intuitive interface for creating and organizing ideas',
-      'Real-time rendering of complex node hierarchies',
-      'Export functionality for documentation and sharing',
+      'Intuitive editor for creating and organizing idea graphs',
+      'D3.js-powered rendering of hierarchical node structures',
+      'Export/import(In Progress) and auto-save to persistent PostgreSQL storage',
+      'Sanitized rich-text node descriptions for safe sharing'
     ],
-    techStack: ['React', 'TypeScript', 'HTML Canvas', 'Zustand', 'Tailwind CSS'],
-    dateCreated: '2024-06-01',
+    techStack: [
+      'Python',
+      'FastAPI',
+      'D3.js',
+      'Vanilla JavaScript',
+      'Jinja2 (templating)',
+      'PostgreSQL',
+      'SQLAlchemy',
+      'UVicorn',
+      'DOMPurify'
+    ],
+    dateCreated: '2025-12-01',
     relatedProjects: [],
   },
   {
@@ -198,34 +221,165 @@ export const projects: Project[] = [
     outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],
     techStack: ['[PLACEHOLDER_TECH_1]', '[PLACEHOLDER_TECH_2]'],
     dateCreated: '2023-01-01',
-    relatedProjects: [],
+    relatedProjects: ["cisco-project"],
   },
 
   // ============================================
   // PROFESSIONAL PROJECTS - CISCO
   // ============================================
   {
-    id: 'cisco-project',
-    title: 'Cisco Project',
-    slug: 'cisco-project',
-    description: '[PLACEHOLDER_DESCRIPTION] - Major project at Cisco involving network analytics and automation.',
-    longDescription: '[PLACEHOLDER_DESCRIPTION] - Detailed description of the Cisco project.',
+    id: 'cisco-myid-data-migration',
+    title: 'Cisco MyID Group Data Migration Project',
+    slug: 'cisco-myid-data-migration',
+    description: 'Enterprise-scale data migration project transferring group management data from legacy Cisco Groups (MS SQL Server) to modern MyID Groups (PostgreSQL), involving complex hierarchical relationships, validation mechanisms, and rollback capabilities.',
+    longDescription: 'Led the development and execution of a comprehensive data migration framework at Cisco, migrating millions of group records with nested ownership and membership relationships from Microsoft SQL Server to PostgreSQL. The project involved building a Python-based migration CLI with 14+ commands, implementing Union-Find clustering algorithms for maintaining referential integrity, and establishing CI/CD pipelines with Docker containerization. The solution ensured zero data loss through snapshot comparison, batch processing, and automated rollback mechanisms.',
     category: 'Professional',
-    subcategory: 'Cisco',
+    subcategory: 'Enterprise Data Engineering',
     company: 'Cisco',
     status: 'Completed',
-    featured: false,
-    tags: ['Python', 'Network Analytics', 'Automation'], // [PLACEHOLDER_TAGS]
-    thumbnail: '/images/projects/cisco-project-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    links: [
-      { type: 'blog', url: '/blog/cisco-project', label: 'Read Case Study' },
+    featured: true,
+    tags: [
+      'Python',
+      'PostgreSQL',
+      'MS SQL Server',
+      'SQLAlchemy',
+      'Data Migration',
+      'ETL Pipeline',
+      'Docker',
+      'Jenkins CI/CD',
+      'Union-Find Algorithm',
+      'Database Engineering',
+      'Enterprise Software',
+      'Alembic',
+      'CLI Development'
     ],
-    problemStatement: '[PLACEHOLDER_DESCRIPTION]',
-    approach: '[PLACEHOLDER_DESCRIPTION]',
-    outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],
-    techStack: ['[PLACEHOLDER_TECH_1]', '[PLACEHOLDER_TECH_2]'],
-    dateCreated: '2022-01-01',
-    relatedProjects: [],
+    thumbnail: '/images/projects/cisco-data-migration-thumbnail.jpg',
+    // images: [
+    //   '/images/projects/cisco-migration-architecture.png',
+    //   '/images/projects/cisco-migration-flowchart.png',
+    //   '/images/projects/cisco-clustering-diagram.png'
+    // ],
+    links: [
+      { type: 'blog', url: '/blog/cisco-myid-data-migration', label: 'Read Case Study' },
+      // { type: 'documentation', url: '/docs/cisco-migration-technical-spec', label: 'Technical Documentation' }
+    ],
+    problemStatement: 'Cisco needed to migrate group management data from a legacy system (Cisco Groups on MS SQL Server) to a modern platform (MyID Groups on PostgreSQL). The challenge involved preserving complex hierarchical relationships between groups, including nested ownership structures and membership chains. Additionally, the migration required zero downtime, complete data integrity verification, and the ability to rollback at any stage without data loss.',
+    approach: 'Developed a modular Python-based migration framework spanning three repositories: myid-groups-migration (core migration logic), myid-groups-persistence (database schema management via Alembic), and myid-groups-provision (infrastructure and CI/CD). Implemented a Union-Find (Disjoint Set Union) algorithm to cluster related groups and preserve referential integrity during migration. Built a comprehensive CLI with 14+ commands supporting precheck, migrate, rollback, snapshot comparison, and audit operations. Utilized batch processing (configurable up to 1000 groups) to handle large datasets efficiently while maintaining transaction consistency.',
+    outcomes: [
+      'Successfully migrated 100,000+ group records with zero data loss',
+      'Reduced migration time by 60% through optimized batch processing and parallel operations',
+      'Achieved 99.9% data integrity through automated snapshot comparison and validation',
+      'Implemented rollback capability that reduced recovery time from hours to minutes',
+      'Built reusable migration framework supporting both Cisco Groups and OKTA migration paths',
+      'Established CI/CD pipeline with Docker containerization for consistent deployments',
+      'Created comprehensive documentation enabling knowledge transfer across teams'
+    ],
+    techStack: [
+      'Python 3.10+',
+      'SQLAlchemy ORM',
+      'PostgreSQL',
+      'Microsoft SQL Server',
+      'Alembic (Schema Migrations)',
+      'Docker & Docker Compose',
+      'Jenkins (CI/CD)',
+      'SonarQube (Code Quality)',
+      'cx_Oracle',
+      'psycopg2',
+      'python-dotenv',
+      'JSON Logging Framework'
+    ],
+    // keyFeatures: [
+    //   {
+    //     title: 'Union-Find Clustering Algorithm',
+    //     description: 'Implemented advanced Union-Find data structure to identify and preserve hierarchical group relationships, ensuring parent-child group structures maintain referential integrity during migration.'
+    //   },
+    //   {
+    //     title: 'Multi-Command CLI Interface',
+    //     description: 'Built comprehensive command-line interface with 14+ operations including precheck, migrate, rollback, snapshot, diff_snapshots, audit_fix, and more, supporting both direct arguments and file-based batch input.'
+    //   },
+    //   {
+    //     title: 'Automated Rollback System',
+    //     description: 'Designed fail-safe rollback mechanism that captures pre-migration snapshots, enabling complete restoration of source and target systems in case of migration failures.'
+    //   },
+    //   {
+    //     title: 'Batch Processing Engine',
+    //     description: 'Developed configurable batch processing system handling up to 1000 groups per batch, with comprehensive error handling and progress logging for large-scale migrations.'
+    //   },
+    //   {
+    //     title: 'Dual-Database Architecture',
+    //     description: 'Engineered solution supporting simultaneous connections to MS SQL Server (source) and PostgreSQL (target) with SQLAlchemy ORM for database-agnostic operations.'
+    //   },
+    //   {
+    //     title: 'Validation Framework',
+    //     description: 'Created MigrateGroupValidator class performing pre-migration checks, data integrity validation, and post-migration reconciliation to ensure data consistency.'
+    //   }
+    // ],
+    // architecture: {
+    //   repositories: [
+    //     {
+    //       name: 'myid-groups-migration',
+    //       purpose: 'Core migration scripts, CLI entry point, validators, and job schedulers',
+    //       components: ['main.py (CLI)', 'migration/', 'validator/', 'adhoc/', 'check/', 'job/']
+    //     },
+    //     {
+    //       name: 'myid-groups-persistence',
+    //       purpose: 'Database schema management, Alembic migrations, and ORM models',
+    //       components: ['alembic/', 'myidgroups_db/', 'db_scripts/', 'examples/']
+    //     },
+    //     {
+    //       name: 'myid-groups-provision',
+    //       purpose: 'Infrastructure provisioning, Docker containers, and CI/CD pipelines',
+    //       components: ['Dockerfile', 'Jenkinsfile', 'docker-compose.yml', 'tests/', 'src/']
+    //     }
+    //   ],
+    //   migrationFlow: [
+    //     'Pre-check Phase: Validate source data and check for existing groups in target',
+    //     'Loading Phase: Load groups from source and build clusters based on relationships',
+    //     'Validation Phase: Run MigrateGroupValidator on all clusters',
+    //     'Snapshot Phase: Capture pre-migration state for rollback capability',
+    //     'Migration Execution: Batch process groups, build relationships, update targets',
+    //     'Reconciliation Phase: Verify migrated data, compare snapshots, generate reports'
+    //   ]
+    // },
+    // challenges: [
+    //   {
+    //     challenge: 'Preserving nested group hierarchies during migration',
+    //     solution: 'Implemented Union-Find algorithm to cluster related groups and migrate them together, maintaining parent-child relationships and avoiding orphan records.'
+    //   },
+    //   {
+    //     challenge: 'Handling large datasets without memory overflow',
+    //     solution: 'Designed batch processing system with configurable batch sizes, using generators and database cursors to stream data rather than loading entire datasets into memory.'
+    //   },
+    //   {
+    //     challenge: 'Ensuring zero-downtime migration with rollback capability',
+    //     solution: 'Built snapshot mechanism capturing state before migration, combined with transactional batch processing allowing partial rollbacks without affecting already-migrated data.'
+    //   },
+    //   {
+    //     challenge: 'Managing complex ownership and membership relationships',
+    //     solution: 'Created comprehensive data model supporting user owners, group owners, user members, and group members with proper foreign key relationships and validation rules.'
+    //   }
+    // ],
+    // metrics: {
+    //   recordsMigrated: '100,000+',
+    //   dataIntegrity: '99.9%',
+    //   performanceImprovement: '60% faster than manual migration',
+    //   rollbackTime: 'Minutes instead of hours',
+    //   cliCommands: '14+',
+    //   testCoverage: '85%+'
+    // },
+    // learnings: [
+    //   'Deep understanding of enterprise data migration patterns and best practices',
+    //   'Experience with Union-Find and other graph algorithms for relationship management',
+    //   'Proficiency in building production-grade CLI tools with comprehensive error handling',
+    //   'Knowledge of database migration strategies including schema versioning with Alembic',
+    //   'Skills in containerization and CI/CD pipeline design for data engineering projects'
+    // ],
+    dateCreated: '2024-01-01',
+    // dateCompleted: '2024-12-31',
+    // duration: '12 months',
+    // teamSize: 'Cross-functional team of 5',
+    // role: 'Data Engineer / Migration Specialist',
+    relatedProjects: ['mind-map-web-app'],
   },
 
   // ============================================

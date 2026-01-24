@@ -22,7 +22,7 @@ export const experiences: Experience[] = [
     endDate: 'Present',
     roles: [
       {
-        title: 'Data Scientist (Dispatch to Sony BI Strategy & Planning Division)',
+        title: 'Data Engineer | AI Engineer - Sony BI Strategy & Planning Division (Contract)',
         startDate: '2025-01',
         endDate: 'Present',
         location: 'Tokyo, Japan',
@@ -33,9 +33,9 @@ export const experiences: Experience[] = [
           'Enables business users to query sales data using natural language, eliminating SQL dependencies',
           'Implementing AI Observability using TruLens to monitor response accuracy and detect hallucinations',
           'Successfully delivered migration of "AI Demand Forecasting System" from Dataiku to Azure Databricks',
-          'Built scalable ETL pipelines using Medallion Architecture for cost optimization and data governance',
+          'Built End to End scalable ETL pipelines using Medallion Architecture for cost optimization and data governance',
         ],
-        technologies: ['Python', 'Snowflake', 'Cortex Analyst', 'TruLens', 'Azure Databricks', 'PySpark', 'SQL', 'Power BI', 'MLOps'],
+        technologies: ['Python', 'Snowflake', 'Cortex Analyst', 'TruLens', 'Azure Databricks', 'ETL', 'PySpark', 'SQL', 'Power BI', 'MLOps'],
         projects: [
           {
             name: 'Sales Data Agent',
@@ -82,7 +82,7 @@ export const experiences: Experience[] = [
           'Developed AI API support chatbot POC using Azure OpenAI Service',
           'Implemented data architecture improvements for group management systems',
         ],
-        technologies: ['PostgreSQL', 'Azure OpenAI', 'Python', 'SQL', 'Data Architecture'],
+        technologies: ['PostgreSQL', 'Azure OpenAI', 'Python', 'SQL', 'Data Architecture', 'Database Migration'],
         projects: [
           {
             name: 'MyID Group Database Migration',
@@ -104,7 +104,7 @@ export const experiences: Experience[] = [
           'Comprehensive training in ML, Deep Learning, LLMs, SDLC, Quantum Computing, Cybersecurity',
           'Python Django framework development',
           'Enhanced professional skills: client presentation, time management, communication',
-          'Collaborated on 5 projects including enterprise search engine optimization and face recognition',
+          'Collaborated on projects including enterprise search engine optimization and face recognition',
         ],
         technologies: ['Machine Learning', 'Deep Learning', 'NLP', 'Python', 'Django', 'Quantum Computing'],
       },
@@ -116,9 +116,9 @@ export const experiences: Experience[] = [
         clientCompany: 'Rogers Communication',
         description: 'Worked on end-to-end telecom customer data migration from on-premises to Azure cloud.',
         highlights: [
-          'End-to-end Telecom Customer data migration from On-prem MS SQL Servers to Azure Data Storage',
-          'Developed Customer Churn prediction ML model',
-          'Built data pipelines using Azure Synapse Studio',
+          'End-to-end Telecom Customer data migration(Including data validation and transformation) from On-prem MS SQL Servers to Azure Data Storage',
+          'Developed Customer Churn prediction ML model in  Azure ML Studio',
+          'Built data pipelines and Materailized Views in SQL using Azure Synapse Studio',
         ],
         technologies: ['Azure Data Lake', 'Azure Synapse', 'MS SQL Server', 'Python', 'Machine Learning', 'Data Pipelines'],
         projects: [
