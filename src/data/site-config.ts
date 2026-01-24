@@ -26,12 +26,12 @@ export const siteConfig: SiteConfig = {
     },
     {
       platform: 'youtube',
-      url: '[PLACEHOLDER_YOUTUBE_URL]', // Add your YouTube channel URL
+      url: 'https://www.youtube.com/@pavitramandal37',
       label: 'YouTube',
     },
     {
       platform: 'email',
-      url: 'mailto:pavitra@example.com', // [PLACEHOLDER_EMAIL] - Update with your actual email
+      url: 'mailto:pavitramandal37@gmail.com',
       label: 'Email',
     },
   ],
@@ -41,7 +41,6 @@ export const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
   { label: 'Experience', href: '/experience' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Hobby', href: '/hobby' },
   { label: 'Contact', href: '/contact' },
 ];
