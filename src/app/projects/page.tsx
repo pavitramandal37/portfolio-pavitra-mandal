@@ -12,7 +12,7 @@ type FilterCategory = Project['category'] | 'All';
 // Default filter values
 const DEFAULT_CATEGORY: FilterCategory = 'All';
 const DEFAULT_TAG = 'All';
-const DEFAULT_SORT: SortOption = 'endDate';
+const DEFAULT_SORT: SortOption = 'newest';
 const DEFAULT_SEARCH = '';
 
 export default function ProjectsPage() {

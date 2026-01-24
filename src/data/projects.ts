@@ -237,7 +237,7 @@ export const projects: Project[] = [
   // ============================================
   {
     id: 'sony-ai-demand-forecasting',
-    title: 'AI Demand Forecasting Toolkit',
+    title: 'AI Demand Forecasting Development at Sony',
     slug: 'sony-ai-demand-forecasting',
     description: 'Developed the Focus model within a toolkit used for AI-driven demand forecasting on Azure Databricks platform at Sony.',
     longDescription: 'Led the development of a critical forecasting model within Sony\'s enterprise demand forecasting toolkit. The Focus model specializes in handling irregular demand patterns and promotional effects, providing accurate predictions for inventory planning and supply chain optimization.',
