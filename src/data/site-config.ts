@@ -25,6 +25,11 @@ export const siteConfig: SiteConfig = {
       label: 'Instagram',
     },
     {
+      platform: 'youtube',
+      url: '[PLACEHOLDER_YOUTUBE_URL]', // Add your YouTube channel URL
+      label: 'YouTube',
+    },
+    {
       platform: 'email',
       url: 'mailto:pavitra@example.com', // [PLACEHOLDER_EMAIL] - Update with your actual email
       label: 'Email',
@@ -37,5 +42,6 @@ export const navItems: NavItem[] = [
   { label: 'Projects', href: '/projects' },
   { label: 'Experience', href: '/experience' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Hobby', href: '/hobby' },
   { label: 'Contact', href: '/contact' },
 ];
