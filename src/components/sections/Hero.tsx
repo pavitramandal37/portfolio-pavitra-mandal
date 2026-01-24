@@ -226,19 +226,21 @@ export default function Hero() {
           {/* Right: Main Content */}
           <div className="order-1 lg:order-2 space-y-8">
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 border border-teal-200 rounded-full text-teal-700 text-sm font-medium animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mt-6 bg-teal-50 border border-teal-200 rounded-full text-teal-700 text-sm font-medium animate-fade-in">
               <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
               Open for Tech Lead Roles in India
             </div>
+
 
             {/* Greeting */}
             <div className="animate-slide-up">
               <p className="text-teal-600 text-lg font-medium mb-2">
                 Hello, I&apos;m
               </p>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 mb-4">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 mb-4 -ml-1">
                 Pavitra Mandal
               </h1>
+
               <div className="flex items-center gap-3 text-xl text-slate-700 font-medium">
                 <span>Building AI Systems</span>
                 <span className="block text-teal-500 text-2xl">at Scale</span>
