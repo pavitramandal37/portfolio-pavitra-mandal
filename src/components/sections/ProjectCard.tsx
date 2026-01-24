@@ -12,13 +12,11 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, showFullDescription = false }: ProjectCardProps) {
   // Get primary links
-  const linkedInLink = project.links.find((l) => l.type === 'linkedin');
   const liveLink = project.links.find((l) => l.type === 'live');
   const githubLink = project.links.find((l) => l.type === 'github');
-  const blogLink = project.links.find((l) => l.type === 'blog');
 
-  // Determine which link to use for "Read More" and "Access Project"
-  const readMoreLink = blogLink || linkedInLink;
+  // Read More always goes to the project detail page
+  const readMoreHref = `/projects/${project.slug}`;
   const accessLink = liveLink || githubLink;
 
   return (
@@ -102,17 +100,14 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
 
         {/* Actions */}
         <div className="flex gap-2 pt-3 border-t border-navy-100">
-          {readMoreLink && (
-            <Button
-              href={readMoreLink.url.startsWith('[PLACEHOLDER') ? '#' : readMoreLink.url}
-              external={!readMoreLink.url.startsWith('/')}
-              variant="outline"
-              size="sm"
-              className="flex-1"
-            >
-              Read More
-            </Button>
-          )}
+          <Button
+            href={readMoreHref}
+            variant="outline"
+            size="sm"
+            className="flex-1"
+          >
+            Read More
+          </Button>
           {accessLink && (
             <Button
               href={accessLink.url.startsWith('[PLACEHOLDER') ? '#' : accessLink.url}
@@ -122,16 +117,6 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
               className="flex-1"
             >
               {accessLink.type === 'live' ? 'Live Demo' : 'View Code'}
-            </Button>
-          )}
-          {!readMoreLink && !accessLink && (
-            <Button
-              href={`/projects/${project.slug}`}
-              variant="secondary"
-              size="sm"
-              className="flex-1"
-            >
-              View Details
             </Button>
           )}
         </div>

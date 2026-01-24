@@ -84,7 +84,7 @@ export const projects: Project[] = [
     links: [
       { type: 'github', url: 'https://github.com/pavitramandal37/mind-map-webapp', label: 'Source (GitHub)' },
       { type: 'live', url: 'https://www.mindmapify.in/', label: 'Try It Live' },
-      { type: 'linkedin', url: 'https://www.linkedin.com/posts/pavitra-mandal-b0b0571a0_indexing-in-sql-made-easy-understanding-activity-7416397024536768512-8mES?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC7-SnsBt7sRGQzu2j7JTuPaPY8yyHJUxOQ', label: 'How to create a mind map' }
+      { type: 'linkedin', url: 'https://www.linkedin.com/pulse/architecting-scalable-mind-map-webapp-hybrid-ai-dev-approach-mandal-z4abc/', label: 'Architecture Article' }
     ],
     problemStatement: 'Linear note-taking often fails to capture the non-linear, interconnected nature of ideas. The goal was to create a lightweight, usable mind-mapping tool for quick idea organization without heavy client frameworks.',
     approach: 'Built a Python FastAPI backend with REST endpoints and simple persistent storage (PostgreSQL). The frontend uses D3.js and vanilla JavaScript within Jinja2-rendered templates to render and interact with mind maps. Focused on performance for larger maps, sanitization for rich-text node content, and export/import utilities.',
@@ -186,9 +186,7 @@ export const projects: Project[] = [
     tags: ['Python', 'Azure Databricks', 'PySpark', 'Machine Learning', 'Time Series'],
     thumbnail: '/images/projects/sony-forecasting-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
     banner: '/images/projects/sony-forecasting-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    links: [
-      { type: 'blog', url: '/blog/sony-demand-forecasting', label: 'Read Case Study' },
-    ],
+    links: [],
     problemStatement: 'Enterprise demand forecasting at scale requires handling diverse product categories, promotional effects, and market dynamics while maintaining prediction accuracy.',
     approach: 'Developed a specialized forecasting model using PySpark on Azure Databricks, focusing on handling promotional lifts and irregular demand patterns. Implemented feature engineering pipelines and model validation frameworks.',
     outcomes: [
@@ -213,9 +211,7 @@ export const projects: Project[] = [
     featured: false,
     tags: ['Python', 'Azure', 'Data Engineering'], // [PLACEHOLDER_TAGS]
     thumbnail: '/images/projects/sony-project-2-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    links: [
-      { type: 'blog', url: '/blog/sony-project-2', label: 'Read Case Study' },
-    ],
+    links: [],
     problemStatement: '[PLACEHOLDER_DESCRIPTION]',
     approach: '[PLACEHOLDER_DESCRIPTION]',
     outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],
@@ -259,10 +255,7 @@ export const projects: Project[] = [
     //   '/images/projects/cisco-migration-flowchart.png',
     //   '/images/projects/cisco-clustering-diagram.png'
     // ],
-    links: [
-      { type: 'blog', url: '/blog/cisco-myid-data-migration', label: 'Read Case Study' },
-      // { type: 'documentation', url: '/docs/cisco-migration-technical-spec', label: 'Technical Documentation' }
-    ],
+    links: [],
     problemStatement: 'Cisco needed to migrate group management data from a legacy system (Cisco Groups on MS SQL Server) to a modern platform (MyID Groups on PostgreSQL). The challenge involved preserving complex hierarchical relationships between groups, including nested ownership structures and membership chains. Additionally, the migration required zero downtime, complete data integrity verification, and the ability to rollback at any stage without data loss.',
     approach: 'Developed a modular Python-based migration framework spanning three repositories: myid-groups-migration (core migration logic), myid-groups-persistence (database schema management via Alembic), and myid-groups-provision (infrastructure and CI/CD). Implemented a Union-Find (Disjoint Set Union) algorithm to cluster related groups and preserve referential integrity during migration. Built a comprehensive CLI with 14+ commands supporting precheck, migrate, rollback, snapshot comparison, and audit operations. Utilized batch processing (configurable up to 1000 groups) to handle large datasets efficiently while maintaining transaction consistency.',
     outcomes: [
@@ -398,9 +391,7 @@ export const projects: Project[] = [
     featured: false,
     tags: ['Python', 'Data Engineering'], // [PLACEHOLDER_TAGS]
     thumbnail: '/images/projects/tech-mahindra-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    links: [
-      { type: 'blog', url: '/blog/tech-mahindra-project', label: 'Read Case Study' },
-    ],
+    links: [],
     problemStatement: '[PLACEHOLDER_DESCRIPTION]',
     approach: '[PLACEHOLDER_DESCRIPTION]',
     outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],

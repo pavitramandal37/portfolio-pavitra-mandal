@@ -345,9 +345,9 @@ export default function ExperiencePage() {
 
       {/* Skills Summary */}
       <section className="section-padding bg-background-alt">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-navy-900 mb-6 text-center">Core Competencies</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 border border-card-border">
               <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center mb-4">
                 <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -373,7 +373,16 @@ export default function ExperiencePage() {
                 </svg>
               </div>
               <h3 className="font-semibold text-navy-900 mb-2">Data Science & AI</h3>
-              <p className="text-sm text-navy-600">Forecasting Models, Deep Learning, NLP, MLOps</p>
+              <p className="text-sm text-navy-600">Forecasting Models, Deep Learning, NLP, MLOps, Supervised and Unsupervised ML, Reinforcement Learning, Models Registry</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 border border-card-border">
+              <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-navy-900 mb-2">Data Analytics & Visualization</h3>
+              <p className="text-sm text-navy-600">Power BI, Databricks Dashboard, Tableau, Google Looker Studio, Excel</p>
             </div>
           </div>
         </div>

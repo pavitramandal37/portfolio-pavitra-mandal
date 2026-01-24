@@ -34,22 +34,6 @@ const navCards = [
     color: 'navy',
   },
   {
-    title: 'Blog',
-    description: 'Deep dives into technical projects and engineering insights',
-    href: '/blog',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-        />
-      </svg>
-    ),
-    color: 'rose',
-  },
-  {
     title: 'Contact',
     description: 'Let\'s connect and discuss opportunities or collaborations',
     href: '/contact',
@@ -78,18 +62,13 @@ const colorClasses = {
     icon: 'text-navy-600',
     hover: 'hover:border-navy-300',
   },
-  rose: {
-    bg: 'bg-rose-300/20',
-    icon: 'text-rose-500',
-    hover: 'hover:border-rose-300',
-  },
 };
 
 export default function QuickNav() {
   return (
     <section className="section-padding">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {navCards.map((card) => {
             const colors = colorClasses[card.color as keyof typeof colorClasses];
             return (
