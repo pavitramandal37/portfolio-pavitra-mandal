@@ -106,6 +106,7 @@ export const projects: Project[] = [
       'DOMPurify'
     ],
     dateCreated: '2025-12-01',
+    dateEnded: 'Present',
     relatedProjects: [],
   },
   {
@@ -139,6 +140,7 @@ export const projects: Project[] = [
     ],
     techStack: ['Python', 'Apache Airflow', 'Prophet', 'SARIMA', 'DeepAR', 'PostgreSQL', 'Docker', 'Redis'],
     dateCreated: '2024-09-01',
+    dateEnded: 'Present',
     relatedProjects: ['sony-ai-demand-forecasting'],
   },
   {
@@ -149,7 +151,7 @@ export const projects: Project[] = [
     longDescription: 'A creative automation solution that bridges Apple\'s Siri ecosystem with Windows PC control. Using a combination of iOS Shortcuts, cloud services, and local Python scripts, this system enables voice-activated control of your Windows computer from anywhere.',
     category: 'Automation',
     status: 'Completed',
-    featured: true,
+    featured: false,
     tags: ['Python', 'iOS Shortcuts', 'Automation', 'Voice Control', 'API'],
     thumbnail: '/images/projects/home-automation-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
     banner: '/images/projects/home-automation-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
@@ -166,6 +168,67 @@ export const projects: Project[] = [
     ],
     techStack: ['Python', 'iOS Shortcuts', 'Firebase', 'Windows Task Scheduler'],
     dateCreated: '2024-03-15',
+    dateEnded: '2024-05-01',
+    relatedProjects: [],
+  },
+  {
+    id: 'player-selection-predictive-model',
+    title: 'Player Selection Predictive Model',
+    slug: 'player-selection-predictive-model',
+    description: 'Machine learning model to predict player selection for national-level sports competitions based on fitness level, behavioral aspects, and physical parameters.',
+    longDescription: 'A predictive analytics solution developed for sports institutions to assist in selecting players for national-level competitions. The model analyzes various features including fitness parameters, behavioral aspects, and physical measurements to predict whether a player will be selected. Built using a comprehensive dataset of 18,659 training samples across 30 features, the model helps coaches and selectors make data-driven decisions in player selection.',
+    category: 'Personal',
+    subcategory: 'Machine Learning',
+    status: 'Completed',
+    featured: false,
+    tags: ['Python', 'Machine Learning', 'Data Science', 'Predictive Modeling', 'Sports Analytics', 'Pandas', 'Scikit-learn'],
+    thumbnail: '/images/projects/player-selection-thumbnail.jpg',
+    banner: '/images/projects/player-selection-banner.jpg',
+    links: [
+      { type: 'github', url: 'https://github.com/pavitramandal37/Player-Selection-Predictive-Model', label: 'View Code' },
+    ],
+    problemStatement: 'Sports institutions need to select players for national-level competitions based on multiple criteria including fitness levels, behavioral aspects, and physical parameters. Manual selection can be subjective and may miss important patterns in the data.',
+    approach: 'Developed a machine learning pipeline that processes player data with 30 features, performs feature engineering and selection, and trains predictive models to classify whether a player will be selected. The solution generates submission predictions for evaluation.',
+    outcomes: [
+      'Built predictive model for player selection classification',
+      'Processed dataset of 18,659 samples with 30 features',
+      'Automated prediction generation for player selection',
+      'Enabled data-driven decision making for sports selectors',
+    ],
+    techStack: ['Python', 'Pandas', 'NumPy', 'Scikit-learn', 'Jupyter Notebook'],
+    dateCreated: '2021-11-01',
+    dateEnded: '2021-12-01',
+    relatedProjects: [],
+  },
+  {
+    id: 'audio-transcription-app',
+    title: 'Audio Transcription Application - Powered by Faster Whisper',
+    slug: 'audio-transcription-app',
+    description: 'A PyQt5-based GUI application for transcribing audio files with high accuracy and efficiency using the Faster Whisper model.',
+    longDescription: 'A user-friendly desktop application that simplifies the process of converting speech to text. Built with PyQt5 for the graphical interface and powered by Faster Whisper for transcription, the application offers robust features including multi-language support, flexible model selection, hardware acceleration (CPU/GPU), result persistence, and real-time progress monitoring.',
+    category: 'Personal',
+    subcategory: 'AI/ML Application',
+    status: 'Completed',
+    featured: false,
+    tags: ['Python', 'PyQt5', 'Faster Whisper', 'Speech-to-Text', 'CUDA', 'GUI', 'Audio Processing', 'AI'],
+    thumbnail: '/images/projects/transcribe-audio-thumbnail.jpg',
+    banner: '/images/projects/transcribe-audio-banner.jpg',
+    links: [
+      { type: 'github', url: 'https://github.com/pavitramandal37/Transcribe-Audio', label: 'View Code' },
+    ],
+    problemStatement: 'Transcribing audio files manually is time-consuming and error-prone. Existing solutions often lack user-friendly interfaces or require technical expertise to set up and use effectively.',
+    approach: 'Created a desktop application using PyQt5 that wraps the Faster Whisper transcription model in an intuitive GUI. Implemented support for multiple audio formats, various model sizes for accuracy/speed trade-offs, and GPU acceleration for faster processing. Added features like automatic language detection and result persistence.',
+    outcomes: [
+      'Intuitive GUI for non-technical users to transcribe audio',
+      'Support for multiple audio formats (mp3, wav, m4a, flac)',
+      'Multi-language transcription with automatic language detection',
+      'GPU acceleration reducing transcription time significantly',
+      'Flexible model selection (tiny to large-v3) for accuracy/speed balance',
+      'Real-time progress monitoring and result saving',
+    ],
+    techStack: ['Python 3.10', 'PyQt5', 'Faster Whisper', 'CUDA 9.0', 'cuDNN 11.8', 'Anaconda'],
+    dateCreated: '2025-01-01',
+    dateEnded: '2025-02-01',
     relatedProjects: [],
   },
 
@@ -174,7 +237,7 @@ export const projects: Project[] = [
   // ============================================
   {
     id: 'sony-ai-demand-forecasting',
-    title: 'AI Demand Forecasting Toolkit',
+    title: 'AI Demand Forecasting Development at Sony',
     slug: 'sony-ai-demand-forecasting',
     description: 'Developed the Focus model within a toolkit used for AI-driven demand forecasting on Azure Databricks platform at Sony.',
     longDescription: 'Led the development of a critical forecasting model within Sony\'s enterprise demand forecasting toolkit. The Focus model specializes in handling irregular demand patterns and promotional effects, providing accurate predictions for inventory planning and supply chain optimization.',
@@ -182,7 +245,7 @@ export const projects: Project[] = [
     subcategory: 'Sony',
     company: 'Sony',
     status: 'Completed',
-    featured: false,
+    featured: true,
     tags: ['Python', 'Azure Databricks', 'PySpark', 'Machine Learning', 'Time Series'],
     thumbnail: '/images/projects/sony-forecasting-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
     banner: '/images/projects/sony-forecasting-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
@@ -196,6 +259,7 @@ export const projects: Project[] = [
     ],
     techStack: ['Python', 'PySpark', 'Azure Databricks', 'Delta Lake', 'MLflow'],
     dateCreated: '2023-06-01',
+    dateEnded: '2024-06-01',
     relatedProjects: ['airflow-demand-forecasting'],
   },
   {
@@ -217,6 +281,7 @@ export const projects: Project[] = [
     outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],
     techStack: ['[PLACEHOLDER_TECH_1]', '[PLACEHOLDER_TECH_2]'],
     dateCreated: '2023-01-01',
+    dateEnded: '2023-06-01',
     relatedProjects: ["cisco-project"],
   },
 
@@ -372,6 +437,7 @@ export const projects: Project[] = [
     // duration: '12 months',
     // teamSize: 'Cross-functional team of 5',
     // role: 'Data Engineer / Migration Specialist',
+    dateEnded: '2024-12-01',
     relatedProjects: ['mind-map-web-app'],
   },
 
@@ -397,6 +463,7 @@ export const projects: Project[] = [
     outcomes: ['[PLACEHOLDER_OUTCOME_1]', '[PLACEHOLDER_OUTCOME_2]'],
     techStack: ['[PLACEHOLDER_TECH_1]', '[PLACEHOLDER_TECH_2]'],
     dateCreated: '2021-01-01',
+    dateEnded: '2021-06-01',
     relatedProjects: [],
   },
 ];

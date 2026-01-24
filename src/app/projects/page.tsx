@@ -6,18 +6,39 @@ import { Project } from '@/types';
 import { SectionHeader } from '@/components/ui';
 import { ProjectCard } from '@/components/sections';
 
-type SortOption = 'newest' | 'oldest' | 'title';
+type SortOption = 'newest' | 'oldest' | 'endDate' | 'title';
 type FilterCategory = Project['category'] | 'All';
+
+// Default filter values
+const DEFAULT_CATEGORY: FilterCategory = 'All';
+const DEFAULT_TAG = 'All';
+const DEFAULT_SORT: SortOption = 'newest';
+const DEFAULT_SEARCH = '';
 
 export default function ProjectsPage() {
   const allProjects = getAllProjects();
   const categories = getAllCategories();
   const allTags = getAllTags();
 
-  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>('All');
-  const [selectedTag, setSelectedTag] = useState<string>('All');
-  const [sortBy, setSortBy] = useState<SortOption>('newest');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>(DEFAULT_CATEGORY);
+  const [selectedTag, setSelectedTag] = useState<string>(DEFAULT_TAG);
+  const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
+  const [searchQuery, setSearchQuery] = useState(DEFAULT_SEARCH);
+
+  // Check if filters have been modified from defaults
+  const hasActiveFilters =
+    selectedCategory !== DEFAULT_CATEGORY ||
+    selectedTag !== DEFAULT_TAG ||
+    sortBy !== DEFAULT_SORT ||
+    searchQuery !== DEFAULT_SEARCH;
+
+  // Reset all filters to defaults
+  const resetFilters = () => {
+    setSelectedCategory(DEFAULT_CATEGORY);
+    setSelectedTag(DEFAULT_TAG);
+    setSortBy(DEFAULT_SORT);
+    setSearchQuery(DEFAULT_SEARCH);
+  };
 
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = [...allProjects];
@@ -50,6 +71,21 @@ export default function ProjectsPage() {
           return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
         case 'oldest':
           return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
+        case 'endDate': {
+          // Sort by end date (most recent first), projects with 'Present' or no end date come first
+          const aEndDate = a.dateEnded;
+          const bEndDate = b.dateEnded;
+
+          // Handle 'Present' or undefined - these come first
+          if (aEndDate === 'Present' || !aEndDate) {
+            if (bEndDate === 'Present' || !bEndDate) return 0;
+            return -1;
+          }
+          if (bEndDate === 'Present' || !bEndDate) return 1;
+
+          // Both have actual dates, sort by most recent first
+          return new Date(bEndDate).getTime() - new Date(aEndDate).getTime();
+        }
         case 'title':
           return a.title.localeCompare(b.title);
         default:
@@ -140,11 +176,25 @@ export default function ProjectsPage() {
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
                   className="px-3 py-2 rounded-lg border border-navy-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
+                  <option value="endDate">End Date</option>
+                  <option value="newest">Start Date (Newest)</option>
+                  <option value="oldest">Start Date (Oldest)</option>
                   <option value="title">Alphabetical</option>
                 </select>
               </div>
+
+              {/* Reset Button */}
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="px-4 py-2 rounded-lg border border-navy-300 bg-white text-sm font-medium text-navy-600 hover:bg-navy-50 hover:border-navy-400 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Reset
+                </button>
+              )}
             </div>
           </div>
         </div>
