@@ -1,13 +1,9 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "20"
-
-# Next.js requires the Next.js plugin for Netlify
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
 
 # Redirect rules
 [[redirects]]
