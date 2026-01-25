@@ -13,7 +13,7 @@ export default function Hero() {
 
   const terminalLines = [
     { command: '$ cat ~/.profile', output: 'Pavitra Mandal | Full Stack Data Engineer @ Sony' },
-    { command: '$ databricks --version', output: 'Production DWH: 3.2TB | ETL: 280+ pipelines | Zero-downtime migrations' },
+    { command: '$ databricks --version', output: 'Production DWH: 3.2GB | ETL: 17+ pipelines & 280+ products | Zero-downtime migrations' },
     { command: '$ python -c "import pandas,pyspark,airflow"', output: '✓ SQL Expert | ✓ Python | ✓ PySpark | ✓ Big Data | ✓ Cloud DWH' },
     { command: '$ ./calculate_impact.sh', output: '📈 High ROI Delivery | 📊 156M+ rows | 🚀 99.9% uptime | ⚡ <65min ETL' },
   ];
