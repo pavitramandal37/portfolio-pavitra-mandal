@@ -1,4 +1,4 @@
-import { Project } from '@/types';
+import { Project, ProjectCategory } from '@/types';
 
 /**
  * Projects Data
@@ -537,6 +537,6 @@ export function getAllTags(): string[] {
 /**
  * Get all unique categories
  */
-export function getAllCategories(): Project['category'][] {
-  return ['Personal', 'Professional', 'Automation', 'AI-ML'];
+export function getAllCategories(): ProjectCategory[] {
+  return ['Personal', 'Professional', 'Automation', 'AI-ML', 'Full-Stack Web App'];
 }
