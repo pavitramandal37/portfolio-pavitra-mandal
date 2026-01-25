@@ -1,4 +1,4 @@
-import { Project } from '@/types';
+import { Project, ProjectCategory } from '@/types';
 
 /**
  * Projects Data
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       'CSS3'
     ],
     thumbnail: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
-    banner: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
+    // banner: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
     screenshots: [
       '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
       '/images/projects/mind-map-webapp/mind-map-webapp-architecture.jpg'
@@ -537,6 +537,6 @@ export function getAllTags(): string[] {
 /**
  * Get all unique categories
  */
-export function getAllCategories(): Project['category'][] {
-  return ['Personal', 'Professional', 'Automation', 'AI-ML'];
+export function getAllCategories(): ProjectCategory[] {
+  return ['Personal', 'Professional', 'Automation', 'AI-ML', 'Full-Stack Web App'];
 }
