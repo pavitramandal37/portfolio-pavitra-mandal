@@ -228,7 +228,7 @@ export default function Hero() {
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 mt-6 bg-teal-50 border border-teal-200 rounded-full text-teal-700 text-sm font-medium animate-fade-in">
               <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-              Open for Tech Lead Roles in India & Tokyo
+              Open for Tech Lead Roles in India & Japan
             </div>
 
 
