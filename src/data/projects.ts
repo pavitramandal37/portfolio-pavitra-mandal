@@ -76,7 +76,7 @@ export const projects: Project[] = [
       'CSS3'
     ],
     thumbnail: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
-    banner: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
+    // banner: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
     screenshots: [
       '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
       '/images/projects/mind-map-webapp/mind-map-webapp-architecture.jpg'

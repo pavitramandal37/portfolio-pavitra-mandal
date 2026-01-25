@@ -282,16 +282,16 @@ export default async function ProjectDetailPage({ params }: Props) {
 
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Tech Stack */}
-              {project.techStack && project.techStack.length > 0 && (
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 shadow-xl">
-                  <h3 className="text-lg font-bold text-white mb-4">Tech Stack</h3>
+                {/* Tech Stack */}
+                {project.techStack && project.techStack.length > 0 && (
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                  <h3 className="text-lg font-bold text-slate-900 mb-4">Tech Stack</h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech) => (
-                      <Tag key={tech} variant="navy" size="md">
-                        {tech}
-                      </Tag>
-                    ))}
+                  {project.techStack.map((tech) => (
+                    <Tag key={tech} size="md">
+                    {tech}
+                    </Tag>
+                  ))}
                   </div>
                 </div>
               )}
