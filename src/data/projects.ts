@@ -75,11 +75,11 @@ export const projects: Project[] = [
       'HTML5',
       'CSS3'
     ],
-    thumbnail: '/images/projects/mind-map-thumbnail.jpg',
-    banner: '/images/projects/mind-map-banner.jpg',
+    thumbnail: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
+    banner: '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
     screenshots: [
-      '/images/projects/mind-map-screenshot-1.jpg',
-      '/images/projects/mind-map-screenshot-2.jpg'
+      '/images/projects/mind-map-webapp/mind-map-webapp.jpg',
+      '/images/projects/mind-map-webapp/mind-map-webapp-architecture.jpg'
     ],
     links: [
       { type: 'github', url: 'https://github.com/pavitramandal37/mind-map-webapp', label: 'Source (GitHub)' },
@@ -120,11 +120,11 @@ export const projects: Project[] = [
     status: 'In Development',
     featured: true,
     tags: ['Python', 'Apache Airflow', 'Prophet', 'SARIMA', 'DeepAR', 'MLOps', 'Docker'],
-    thumbnail: '/images/projects/airflow-forecasting-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    banner: '/images/projects/airflow-forecasting-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    thumbnail: '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-thumbnail.jpg',
+    banner: '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-banner.jpg',
     screenshots: [
-      '/images/projects/airflow-dag-screenshot.jpg', // [PLACEHOLDER_IMAGE_PATH]
-      '/images/projects/forecasting-dashboard.jpg', // [PLACEHOLDER_IMAGE_PATH]
+      '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-screenshot.jpg',
+      '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-banner.jpg',
     ],
     links: [
       { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
@@ -153,8 +153,8 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: false,
     tags: ['Python', 'iOS Shortcuts', 'Automation', 'Voice Control', 'API'],
-    thumbnail: '/images/projects/home-automation-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    banner: '/images/projects/home-automation-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    thumbnail: '/images/projects/home-automation-thumbnail.jpg',
+    banner: '/images/projects/home-automation-banner.jpg',
     links: [
       { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
       { type: 'github', url: 'https://github.com/pavitramandal37/Control-windows-with-Siri', label: 'Setup Guide' },
@@ -204,29 +204,36 @@ export const projects: Project[] = [
     id: 'audio-transcription-app',
     title: 'Audio Transcription Application - Powered by Faster Whisper',
     slug: 'audio-transcription-app',
-    description: 'A PyQt5-based GUI application for transcribing audio files with high accuracy and efficiency using the Faster Whisper model.',
-    longDescription: 'A user-friendly desktop application that simplifies the process of converting speech to text. Built with PyQt5 for the graphical interface and powered by Faster Whisper for transcription, the application offers robust features including multi-language support, flexible model selection, hardware acceleration (CPU/GPU), result persistence, and real-time progress monitoring.',
+    description: 'A user-friendly PyQt5-based GUI application for transcribing audio files with high accuracy and efficiency, leveraging the Faster Whisper model for speech-to-text conversion.',
+    longDescription: 'A comprehensive audio transcription desktop application that simplifies the process of converting speech to text. Built with PyQt5 for the graphical interface and powered by Faster Whisper, this application offers robust features including multi-language transcription with automatic language detection, flexible model selection for accuracy/speed balance, hardware acceleration (CPU/GPU with CUDA support), result persistence, and real-time progress monitoring. The application provides an intuitive and user-friendly interface suitable for both beginners and advanced users.',
     category: 'Personal',
     subcategory: 'AI/ML Application',
     status: 'Completed',
     featured: false,
-    tags: ['Python', 'PyQt5', 'Faster Whisper', 'Speech-to-Text', 'CUDA', 'GUI', 'Audio Processing', 'AI'],
-    thumbnail: '/images/projects/transcribe-audio-thumbnail.jpg',
-    banner: '/images/projects/transcribe-audio-banner.jpg',
+    tags: ['Python', 'PyQt5', 'Faster Whisper', 'Speech-to-Text', 'CUDA', 'GPU Acceleration', 'GUI', 'Audio Processing', 'AI', 'Machine Learning', 'Desktop Application'],
+    thumbnail: '/images/projects/Transcribe-Audio/Transcribe-Audio-thumbnail.jpg',
+    banner: '/images/projects/Transcribe-Audio/Transcribe-Audio-banner.jpg',
+    screenshots: [
+      '/images/projects/Transcribe-Audio/Transcribe-Audio-screenshot.jpg',
+      '/images/projects/Transcribe-Audio/Transcribe-Audio-banner.jpg',
+    ],
     links: [
       { type: 'github', url: 'https://github.com/pavitramandal37/Transcribe-Audio', label: 'View Code' },
     ],
-    problemStatement: 'Transcribing audio files manually is time-consuming and error-prone. Existing solutions often lack user-friendly interfaces or require technical expertise to set up and use effectively.',
-    approach: 'Created a desktop application using PyQt5 that wraps the Faster Whisper transcription model in an intuitive GUI. Implemented support for multiple audio formats, various model sizes for accuracy/speed trade-offs, and GPU acceleration for faster processing. Added features like automatic language detection and result persistence.',
+    problemStatement: 'Transcribing audio files manually is time-consuming and error-prone. Existing solutions often lack user-friendly interfaces, require extensive technical expertise to set up, or impose restrictive hardware limitations. Users need an accessible, efficient solution for converting speech to text across multiple languages.',
+    approach: 'Created a desktop application using PyQt5 that wraps the Faster Whisper transcription model in an intuitive, accessible GUI. Implemented support for multiple audio formats (mp3, wav, m4a, flac), various model sizes (tiny to large-v3) for accuracy/speed trade-offs, and GPU acceleration with CUDA 9.0 and cuDNN 11.8 for significantly faster processing. Added features including automatic language detection, result persistence to text files, real-time progress monitoring, and flexible hardware configuration (CPU/GPU selection). The application is optimized for Anaconda environments with comprehensive setup automation.',
     outcomes: [
-      'Intuitive GUI for non-technical users to transcribe audio',
+      'Intuitive GUI enabling non-technical users to transcribe audio without command-line expertise',
+      'Support for 7 model sizes (tiny, base, small, medium, large-v2, large-v3) with configurable accuracy/speed balance',
+      'Multi-language transcription supporting 50+ languages including English, Japanese, Chinese, German, Spanish, Russian, Korean, French, and more',
+      'GPU acceleration reducing transcription time from minutes to seconds for 5-minute audio files',
+      'Real-time progress monitoring with live updates and confidence level display',
+      'Automatic language detection with displayed confidence metrics',
+      'Result persistence with easy-to-access text file exports',
       'Support for multiple audio formats (mp3, wav, m4a, flac)',
-      'Multi-language transcription with automatic language detection',
-      'GPU acceleration reducing transcription time significantly',
-      'Flexible model selection (tiny to large-v3) for accuracy/speed balance',
-      'Real-time progress monitoring and result saving',
+      'Detected language and confidence level display during transcription',
     ],
-    techStack: ['Python 3.10', 'PyQt5', 'Faster Whisper', 'CUDA 9.0', 'cuDNN 11.8', 'Anaconda'],
+    techStack: ['Python 3.10', 'PyQt5', 'Faster Whisper', 'CUDA 9.0', 'cuDNN 11.8', 'Anaconda', 'Windows/macOS/Linux'],
     dateCreated: '2025-01-01',
     dateEnded: '2025-02-01',
     relatedProjects: [],
@@ -247,8 +254,8 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: true,
     tags: ['Python', 'Azure Databricks', 'PySpark', 'Machine Learning', 'Time Series'],
-    thumbnail: '/images/projects/sony-forecasting-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
-    banner: '/images/projects/sony-forecasting-banner.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    thumbnail: '/images/projects/sony-forecasting-thumbnail.jpg',
+    banner: '/images/projects/sony-forecasting-banner.jpg',
     links: [],
     problemStatement: 'Enterprise demand forecasting at scale requires handling diverse product categories, promotional effects, and market dynamics while maintaining prediction accuracy.',
     approach: 'Developed a specialized forecasting model using PySpark on Azure Databricks, focusing on handling promotional lifts and irregular demand patterns. Implemented feature engineering pipelines and model validation frameworks.',
@@ -273,8 +280,8 @@ export const projects: Project[] = [
     company: 'Sony',
     status: 'Completed',
     featured: false,
-    tags: ['Python', 'Azure', 'Data Engineering'], // [PLACEHOLDER_TAGS]
-    thumbnail: '/images/projects/sony-project-2-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    tags: ['Python', 'Azure', 'Data Engineering'],
+    thumbnail: '/images/projects/sony-project-2-thumbnail.jpg',
     links: [],
     problemStatement: '[PLACEHOLDER_DESCRIPTION]',
     approach: '[PLACEHOLDER_DESCRIPTION]',
@@ -455,8 +462,8 @@ export const projects: Project[] = [
     company: 'Tech Mahindra',
     status: 'Completed',
     featured: false,
-    tags: ['Python', 'Data Engineering'], // [PLACEHOLDER_TAGS]
-    thumbnail: '/images/projects/tech-mahindra-thumbnail.jpg', // [PLACEHOLDER_IMAGE_PATH]
+    tags: ['Python', 'Data Engineering'],
+    thumbnail: '/images/projects/tech-mahindra-thumbnail.jpg',
     links: [],
     problemStatement: '[PLACEHOLDER_DESCRIPTION]',
     approach: '[PLACEHOLDER_DESCRIPTION]',

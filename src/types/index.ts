@@ -2,7 +2,7 @@
 // Type Definitions for Portfolio
 // ============================================
 
-export type ProjectCategory = 'Personal' | 'Professional' | 'Automation' | 'AI-ML';
+export type ProjectCategory = 'Personal' | 'Professional' | 'Automation' | 'AI-ML' | 'Full-Stack Web App';
 export type ProjectStatus = 'Live' | 'In Development' | 'Completed' | 'Archived';
 export type Company = 'Sony' | 'Cisco' | 'Tech Mahindra' | 'Human Resocia' | 'Delhivery' | 'Rogers Communication' | null;
 
@@ -18,7 +18,7 @@ export interface Project {
   slug: string;
   description: string;
   longDescription?: string;
-  category: ProjectCategory;
+  category: ProjectCategory | ProjectCategory[];
   subcategory?: string;
   company?: Company;
   status: ProjectStatus;
