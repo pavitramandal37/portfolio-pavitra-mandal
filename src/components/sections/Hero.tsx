@@ -15,7 +15,7 @@ export default function Hero() {
     { command: '$ cat ~/.profile', output: 'Pavitra Mandal | Full Stack Data Engineer @ Sony' },
     { command: '$ databricks --version', output: 'Production DWH: 3.2TB | ETL: 280+ pipelines | Zero-downtime migrations' },
     { command: '$ python -c "import pandas,pyspark,airflow"', output: '✓ SQL Expert | ✓ Python | ✓ PySpark | ✓ Big Data | ✓ Cloud DWH' },
-    { command: '$ ./calculate_impact.sh', output: '💰 ¥36M saved | 📊 156M+ rows | 🚀 99.9% uptime | ⚡ <5min ETL' },
+    { command: '$ ./calculate_impact.sh', output: '📈 High ROI Delivery | 📊 156M+ rows | 🚀 99.9% uptime | ⚡ <65min ETL' },
   ];
 
   // Terminal typing animation
@@ -212,7 +212,23 @@ export default function Hero() {
 
             {/* Tech Stack Pills Below Terminal */}
             <div className="mt-6 flex flex-wrap gap-2">
-              {['Azure Databricks', 'PySpark', 'MLflow', 'TruLens', 'DeepAR', 'Prophet'].map((tech) => (
+              {[
+                'Azure Databricks',
+                'PySpark',
+                'Delta Lake',
+                'Unity Catalog',
+                'Azure Data Lake',
+                'Apache Airflow',
+                'Azure Data Factory',
+                'SQL',
+                'MLflow',
+                'DeepAR',
+                'ARIMA',
+                'Power BI',
+                'CI/CD (GitHub Actions)',
+                'Docker',
+                'AI Observability (TruLens)'
+              ].map((tech) => (
                 <span
                   key={tech}
                   className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 font-medium shadow-sm hover:shadow-md hover:border-teal-300 transition-all"
@@ -221,6 +237,7 @@ export default function Hero() {
                 </span>
               ))}
             </div>
+
           </div>
 
           {/* Right: Main Content */}
