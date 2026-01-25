@@ -12,10 +12,10 @@ export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const terminalLines = [
-    { command: '$ whoami', output: 'Pavitra Mandal' },
-    { command: '$ cat role.txt', output: 'Senior Data Engineer | AI/ML Infrastructure' },
-    { command: '$ grep -r "impact" projects/', output: '¥36M saved • 280+ product lines • 15% accuracy boost' },
-    { command: '$ ls skills/', output: 'Azure Databricks • PySpark • MLOps • Time Series Forecasting' },
+    { command: '$ cat ~/.profile', output: 'Pavitra Mandal | Full Stack Data Engineer @ Sony' },
+    { command: '$ databricks --version', output: 'Production DWH: 3.2TB | ETL: 280+ pipelines | Zero-downtime migrations' },
+    { command: '$ python -c "import pandas,pyspark,airflow"', output: '✓ SQL Expert | ✓ Python | ✓ PySpark | ✓ Big Data | ✓ Cloud DWH' },
+    { command: '$ ./calculate_impact.sh', output: '💰 ¥36M saved | 📊 156M+ rows | 🚀 99.9% uptime | ⚡ <5min ETL' },
   ];
 
   // Terminal typing animation
@@ -228,7 +228,7 @@ export default function Hero() {
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 mt-6 bg-teal-50 border border-teal-200 rounded-full text-teal-700 text-sm font-medium animate-fade-in">
               <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-              Open for Tech Lead Roles in India
+              Open for Tech Lead Roles in India & Tokyo
             </div>
 
 
@@ -242,15 +242,14 @@ export default function Hero() {
               </h1>
 
               <div className="flex items-center gap-3 text-xl text-slate-700 font-medium">
-                <span>Building AI Systems</span>
+                <span>Building Production-Grade AI & Data Systems</span>
                 <span className="block text-teal-500 text-2xl">at Scale</span>
               </div>
             </div>
 
             {/* Description */}
             <p className="text-lg text-slate-600 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              Migrating enterprise ML pipelines to save millions, deploying forecasting models across 
-              280+ product lines, and crafting production-grade AI infrastructure at Sony.
+              I design and deploy end-to-end data and ML platforms — from ingestion and feature engineering to forecasting, CI/CD, and monitoring — powering business decisions across 280+ product lines at Sony.
             </p>
 
             {/* CTA Buttons */}
