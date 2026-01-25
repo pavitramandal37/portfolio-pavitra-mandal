@@ -2,9 +2,9 @@ import { SiteConfig, NavItem } from '@/types';
 
 export const siteConfig: SiteConfig = {
   name: 'Pavitra Mandal',
-  title: 'Pavitra Mandal | ML Engineer & Data Engineer',
-  description: 'ML Engineer & Data Engineer specializing in demand forecasting systems, MLOps pipelines, and intelligent automation. Building production-grade AI solutions.',
-  tagline: 'ML Engineer | Data Engineer',
+  title: 'Pavitra Mandal | Full Stack Data Engineering | AI Infrastructure',
+  description: 'Full Stack Data Engineering | AI Infrastructure specializing in demand forecasting systems, MLOps pipelines, and intelligent automation. Building production-grade AI solutions.',
+  tagline: 'Full Stack Data Engineering | AI Infrastructure',
   author: 'Pavitra Mandal',
   url: 'https://pavitramandal.com', // [PLACEHOLDER_SITE_URL] - Update with your actual domain
   ogImage: '/images/og-image.png', // [PLACEHOLDER_OG_IMAGE] - Create and add OG image
