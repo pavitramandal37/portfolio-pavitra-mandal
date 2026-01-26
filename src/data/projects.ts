@@ -120,7 +120,7 @@ export const projects: Project[] = [
     status: 'In Development',
     featured: true,
     tags: ['Python', 'Apache Airflow', 'Prophet', 'SARIMA', 'DeepAR', 'MLOps', 'Docker'],
-    thumbnail: '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-thumbnail.jpg',
+    thumbnail: '/images/projects/airflow-demand-forecasting/thumbnail.jpg',
     banner: '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-banner.jpg',
     screenshots: [
       '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-screenshot.jpg',
@@ -153,8 +153,8 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: false,
     tags: ['Python', 'iOS Shortcuts', 'Automation', 'Voice Control', 'API'],
-    thumbnail: '/images/projects/home-automation-thumbnail.jpg',
-    banner: '/images/projects/home-automation-banner.jpg',
+    thumbnail: '/images/projects/siri-automation-window/thumbnail.jpg',
+    banner: '',
     links: [
       { type: 'linkedin', url: '[PLACEHOLDER_LINKEDIN_URL]', label: 'LinkedIn Post' },
       { type: 'github', url: 'https://github.com/pavitramandal37/Control-windows-with-Siri', label: 'Setup Guide' },
@@ -211,8 +211,8 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: false,
     tags: ['Python', 'PyQt5', 'Faster Whisper', 'Speech-to-Text', 'CUDA', 'GPU Acceleration', 'GUI', 'Audio Processing', 'AI', 'Machine Learning', 'Desktop Application'],
-    thumbnail: '/images/projects/Transcribe-Audio/Transcribe-Audio-thumbnail.jpg',
-    banner: '/images/projects/Transcribe-Audio/Transcribe-Audio-banner.jpg',
+    thumbnail: '/images/projects/Transcribe-Audio/thumbnail.jpg',
+    banner: '',
     screenshots: [
       '/images/projects/Transcribe-Audio/Transcribe-Audio-screenshot.jpg',
       '/images/projects/Transcribe-Audio/Transcribe-Audio-banner.jpg',
@@ -254,8 +254,8 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: true,
     tags: ['Python', 'Azure Databricks', 'PySpark', 'Machine Learning', 'Time Series'],
-    thumbnail: '/images/projects/sony-forecasting-thumbnail.jpg',
-    banner: '/images/projects/sony-forecasting-banner.jpg',
+    thumbnail: '/images/projects/ai-demand-forecasting/thumbnail.jpg',
+    banner: '/images/projects/banner.jpg',
     links: [],
     problemStatement: 'Enterprise demand forecasting at scale requires handling diverse product categories, promotional effects, and market dynamics while maintaining prediction accuracy.',
     approach: 'Developed a specialized forecasting model using PySpark on Azure Databricks, focusing on handling promotional lifts and irregular demand patterns. Implemented feature engineering pipelines and model validation frameworks.',
@@ -321,7 +321,7 @@ export const projects: Project[] = [
       'Alembic',
       'CLI Development'
     ],
-    thumbnail: '/images/projects/cisco-data-migration-thumbnail.jpg',
+    thumbnail: '/images/projects/cisco-myid-group/thumbnail.jpg',
     // images: [
     //   '/images/projects/cisco-migration-architecture.png',
     //   '/images/projects/cisco-migration-flowchart.png',
