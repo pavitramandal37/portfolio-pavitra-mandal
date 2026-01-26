@@ -152,7 +152,7 @@ export const projects: Project[] = [
     category: 'Automation',
     status: 'Completed',
     featured: false,
-    tags: ['Python', 'iOS Shortcuts', 'Automation', 'Voice Control', 'API'],
+    tags: ['SSH Setup', 'iOS Shortcuts', 'Automation', 'Voice Control', 'Windows Administration', 'Python'],
     thumbnail: '/images/projects/siri-automation-window/thumbnail.jpg',
     banner: '',
     links: [
