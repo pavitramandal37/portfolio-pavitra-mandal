@@ -538,5 +538,5 @@ export function getAllTags(): string[] {
  * Get all unique categories
  */
 export function getAllCategories(): ProjectCategory[] {
-  return ['Personal', 'Professional', 'Automation', 'AI-ML', 'Full-Stack Web App'];
+  return ['Personal', 'Professional', 'Automation', 'AI-ML'];
 }

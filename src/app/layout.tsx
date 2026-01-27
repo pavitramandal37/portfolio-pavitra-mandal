@@ -38,7 +38,6 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        // ✅ MUST resolve to absolute URL via metadataBase
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
