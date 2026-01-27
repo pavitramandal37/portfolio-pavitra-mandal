@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   creator: siteConfig.author,
 
   openGraph: {
-    type: 'website',
+    type: 'article',
     locale: 'en_US',
     url: siteConfig.url,
     title: siteConfig.title,
