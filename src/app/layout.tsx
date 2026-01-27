@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Navigation, Footer } from '@/components/layout';
 import { siteConfig } from '@/data/site-config';
 import './globals.css';
@@ -83,6 +84,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      {/* Google Analytics */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-BGVRT7YMRZ"
+        strategy="afterInteractive"
+      />
+
+      <Script id="ga-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BGVRT7YMRZ', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
+
       <body
         className="font-sans antialiased min-h-screen flex flex-col"
         suppressHydrationWarning
