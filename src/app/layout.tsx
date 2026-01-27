@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     publishedTime: '2026-01-26',
     images: [
       {
-        url: siteConfig.ogImage,
+        url: new URL(siteConfig.ogImage, siteConfig.url).toString(),
         width: 1200,
         height: 630,
         alt: 'Pavitra Mandal – Full Stack Data Engineer',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    images: [new URL(siteConfig.ogImage, siteConfig.url).toString()],
     creator: '@pavitramandal',
   },
 

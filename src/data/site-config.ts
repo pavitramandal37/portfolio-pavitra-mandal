@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
   description: 'Full Stack Data Engineering | AI Infrastructure specializing in demand forecasting systems, MLOps pipelines, and intelligent automation. Building production-grade AI solutions.',
   tagline: 'Full Stack Data Engineering | AI Infrastructure',
   author: 'Pavitra Mandal',
-  url: 'https://pavitramandal.com', // [PLACEHOLDER_SITE_URL] - Update with your actual domain
+  url: 'https://pavitramandal.netlify.app', // [PLACEHOLDER_SITE_URL] - Update with your actual domain
   ogImage: '/images/profile/og-image.png',
   socialLinks: [
     {
