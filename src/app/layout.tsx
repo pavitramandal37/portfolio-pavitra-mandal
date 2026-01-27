@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    publishedTime: '2026-01-26',
     images: [
       {
         url: siteConfig.ogImage,
