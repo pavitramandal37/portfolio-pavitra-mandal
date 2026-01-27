@@ -86,7 +86,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       {/* Google Analytics */}
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-BGVRT7YMRZ"
+        src="https://www.googletagmanager.com/gtag/js?id=G-1MSNYKQ1DC"
         strategy="afterInteractive"
       />
 
@@ -95,7 +95,7 @@ export default function RootLayout({
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-BGVRT7YMRZ', {
+          gtag('config', 'G-1MSNYKQ1DC', {
             page_path: window.location.pathname,
           });
         `}
