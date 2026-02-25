@@ -15,7 +15,7 @@ export const experiences: Experience[] = [
   {
     id: 'human-resocia',
     company: 'Human Resocia / Global IT Talent',
-    companyLogo: '/images/companies/human-resocia-logo.png',
+    companyLogo: '/images/companies/HumanResocia.png',
     employmentType: 'Full-time',
     location: 'Tokyo, Japan',
     startDate: '2025-01',
@@ -64,7 +64,7 @@ export const experiences: Experience[] = [
   {
     id: 'tech-mahindra',
     company: 'Tech Mahindra',
-    companyLogo: '/images/companies/tech-mahindra-logo.png',
+    companyLogo: '/images/companies/TechM.png',
     employmentType: 'Full-time',
     location: 'India',
     startDate: '2021-12',
@@ -138,7 +138,7 @@ export const experiences: Experience[] = [
   {
     id: 'delhivery',
     company: 'Delhivery Pvt Ltd',
-    companyLogo: '/images/companies/delhivery-logo.png',
+    companyLogo: '/images/companies/Delhivery.png',
     employmentType: 'Full-time',
     location: 'India',
     startDate: '2021-08',
