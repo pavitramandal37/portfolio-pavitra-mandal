@@ -7,6 +7,7 @@ export const siteConfig: SiteConfig = {
   tagline: 'Full Stack Data Engineering | AI Infrastructure',
   author: 'Pavitra Mandal',
   url: 'https://pavitramandal.online', // [PLACEHOLDER_SITE_URL] - Update with your actual domain
+  ogImage: '/images/profile/og-image.png',
   socialLinks: [
     {
       platform: 'linkedin',
