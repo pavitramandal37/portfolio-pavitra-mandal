@@ -60,12 +60,10 @@ export default function ContactPage() {
         setFormState('success');
         form.reset();
       } else {
-        // Fallback for local testing if netlify isn't active
-        setFormState('success'); 
+        setFormState('error');
       }
     } catch {
-       // Fallback for local testing
-      setFormState('success');
+      setFormState('error');
     }
   };
 
