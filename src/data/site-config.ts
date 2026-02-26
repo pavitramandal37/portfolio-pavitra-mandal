@@ -31,7 +31,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       platform: 'email',
-      url: 'mailto:pavitramandal37@gmail.com',
+      url: 'mailto:pavitramandal2000@gmail.com',
       label: 'Email',
     },
   ],
