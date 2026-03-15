@@ -515,7 +515,7 @@ export const projects: Project[] = [
     status: 'Completed',
     featured: false,
     tags: ['Python', 'Django', 'PostgreSQL', 'pgvector', 'RAG', 'Ollama', 'Docker', 'REST API', 'Vector Search', 'LLM'],
-    thumbnail: '/images/projects/tech-mahindra-thumbnail.jpg',
+    thumbnail: '/images/projects/api-support-chatbot/thumbnail2.png',
     links: [
       { type: 'github', url: 'https://github.com/pavitramandal37/api-support-ai-chatbot', label: 'View Code' },
     ],
@@ -529,8 +529,8 @@ export const projects: Project[] = [
       'Dockerized stack for simplified one-command deployment',
     ],
     techStack: ['Python 3.11', 'Django 5', 'Django REST Framework', 'PostgreSQL 16', 'pgvector', 'Ollama', 'Docker', 'docker-compose'],
-    dateCreated: '2025-06-01',
-    dateEnded: '2025-08-01',
+    dateCreated: '2024-06-01',
+    dateEnded: '2024-08-01',
     relatedProjects: ['sale-data-agent'],
   },
 ];
