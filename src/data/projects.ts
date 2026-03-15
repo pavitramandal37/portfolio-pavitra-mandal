@@ -118,7 +118,7 @@ export const projects: Project[] = [
     category: 'AI-ML',
     subcategory: 'MLOps',
     status: 'In Development',
-    featured: true,
+    featured: false,
     tags: ['Python', 'Apache Airflow', 'Prophet', 'SARIMA', 'DeepAR', 'MLOps', 'Docker'],
     thumbnail: '/images/projects/airflow-demand-forecasting/thumbnail.jpg',
     banner: '/images/projects/airflow-demand-forecasting/Airflow-demand-forecasting-architecture-banner.jpg',
@@ -505,6 +505,34 @@ export const projects: Project[] = [
   // PROFESSIONAL PROJECTS - TECH MAHINDRA
   // ============================================
   {
+    id: 'sales-profit-analysis-tableau',
+    title: 'Sales & Profit Analysis Dashboard',
+    slug: 'sales-profit-analysis-tableau',
+    description: 'Interactive Tableau storytelling dashboard analyzing sales and profit trends across product categories, regions, and time periods. Features multi-page story with drill-down insights and visual analytics.',
+    longDescription: 'A comprehensive Tableau Public visualization project that transforms raw sales data into an interactive analytical story. The dashboard provides multi-dimensional analysis of sales performance, profit margins, discount impacts, and regional breakdowns. Built as a multi-page Tableau Story with interactive filters, allowing stakeholders to explore data across categories, sub-categories, segments, and time periods to uncover actionable business insights.',
+    category: 'Personal',
+    subcategory: 'Data Visualization',
+    status: 'Live',
+    featured: false,
+    tags: ['Tableau', 'Data Visualization', 'Business Intelligence', 'Analytics', 'Storytelling', 'Dashboard'],
+    thumbnail: '/images/projects/tableau-sales-analysis/thumbnail.jpg',
+    links: [
+      { type: 'live', url: 'https://public.tableau.com/app/profile/pavitra.mandal/viz/StoryTellingforSalesData/Story1', label: 'View on Tableau Public' },
+    ],
+    problemStatement: 'Business stakeholders need a clear, interactive way to understand sales performance, identify profit drivers, and spot underperforming segments without sifting through raw data.',
+    approach: 'Designed a multi-page Tableau Story that walks viewers through key insights: overall sales trends, category-level profitability, regional performance, and the impact of discounts on margins. Used calculated fields, filters, and interactive parameters to enable self-service exploration.',
+    outcomes: [
+      'Interactive story-driven dashboard with drill-down capabilities',
+      'Multi-dimensional analysis across categories, regions, and time periods',
+      'Visual identification of profit drivers and underperforming segments',
+      'Published on Tableau Public for stakeholder self-service access',
+    ],
+    techStack: ['Tableau Desktop', 'Tableau Public', 'Data Analysis', 'Visual Analytics'],
+    dateCreated: '2025-03-01',
+    dateEnded: '2025-04-01',
+    relatedProjects: ['sale-data-agent'],
+  },
+  {
     id: 'api-support-ai-chatbot',
     title: 'RAG API Support AI Chatbot',
     slug: 'api-support-ai-chatbot',
@@ -513,7 +541,7 @@ export const projects: Project[] = [
     category: 'Personal',
     subcategory: 'AI/ML Application',
     status: 'Completed',
-    featured: false,
+    featured: true,
     tags: ['Python', 'Django', 'PostgreSQL', 'pgvector', 'RAG', 'Ollama', 'Docker', 'REST API', 'Vector Search', 'LLM'],
     thumbnail: '/images/projects/api-support-chatbot/thumbnail2.png',
     links: [

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@/types';
@@ -11,6 +12,26 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, showFullDescription = false }: ProjectCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -4;
+    const rotateY = ((x - centerX) / centerX) * 4;
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+  };
   // Get primary links
   const liveLink = project.links.find((l) => l.type === 'live');
   const githubLink = project.links.find((l) => l.type === 'github');
@@ -22,7 +43,12 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
   const isFeatured = project.featured;
 
   return (
-    <div className={`group bg-white rounded-xl overflow-hidden card-hover ${
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transition: 'transform 0.2s ease-out' }}
+      className={`group bg-white rounded-xl overflow-hidden ${
       isFeatured
         ? 'border-2 border-teal-200 shadow-lg shadow-teal-500/5 hover:border-teal-400 hover:shadow-xl hover:shadow-teal-500/10'
         : 'border border-card-border'
