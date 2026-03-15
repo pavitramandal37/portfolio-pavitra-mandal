@@ -34,7 +34,7 @@ export default function Navigation() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm'
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/50'
           : 'bg-transparent'
       }`}
     >
@@ -59,13 +59,16 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive(item.href)
-                    ? 'text-teal-600 bg-teal-50'
+                    ? 'text-teal-700 bg-teal-50 font-semibold'
                     : 'text-navy-700 hover:text-teal-600 hover:bg-navy-50'
                 }`}
               >
                 {item.label}
+                {isActive(item.href) && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-teal-500 rounded-full" />
+                )}
               </Link>
             ))}
           </div>
@@ -108,14 +111,14 @@ export default function Navigation() {
             isOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="py-4 space-y-1 bg-white/95 backdrop-blur-md rounded-lg mb-4 shadow-lg">
+          <div className="py-4 space-y-1 bg-white/95 backdrop-blur-md rounded-lg mb-4 shadow-lg border border-slate-200/50">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`block px-4 py-3 text-base font-medium transition-colors ${
                   isActive(item.href)
-                    ? 'text-teal-600 bg-teal-50'
+                    ? 'text-teal-700 bg-teal-50 border-l-4 border-teal-500 font-semibold'
                     : 'text-navy-700 hover:text-teal-600 hover:bg-navy-50'
                 }`}
               >

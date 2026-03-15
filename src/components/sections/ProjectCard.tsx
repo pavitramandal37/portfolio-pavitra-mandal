@@ -19,10 +19,16 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
   const readMoreHref = `/projects/${project.slug}`;
   const accessLink = liveLink || githubLink;
 
+  const isFeatured = project.featured;
+
   return (
-    <div className="group bg-white rounded-xl border border-card-border overflow-hidden card-hover">
+    <div className={`group bg-white rounded-xl overflow-hidden card-hover ${
+      isFeatured
+        ? 'border-2 border-teal-200 shadow-lg shadow-teal-500/5 hover:border-teal-400 hover:shadow-xl hover:shadow-teal-500/10'
+        : 'border border-card-border'
+    }`}>
       {/* Thumbnail */}
-      <div className="relative h-48 overflow-hidden bg-navy-100">
+      <div className={`relative overflow-hidden bg-navy-100 ${isFeatured ? 'h-52' : 'h-48'}`}>
         <Image
           src={project.thumbnail}
           alt={project.title}
@@ -41,7 +47,7 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
         {/* Status Badge */}
         <div className="absolute top-3 right-3">
           <span
-            className={`px-2 py-1 text-xs font-medium rounded-full ${
+            className={`px-2.5 py-1 text-xs font-bold rounded-full ${
               project.status === 'Live'
                 ? 'bg-teal-500 text-white'
                 : project.status === 'In Development'
@@ -53,11 +59,20 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
           </span>
         </div>
 
-        {/* Category Badge */}
+        {/* Company Badge */}
         {project.company && (
           <div className="absolute top-3 left-3">
-            <span className="px-2 py-1 text-xs font-medium rounded-full bg-navy-900/80 text-white">
+            <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-navy-900/80 text-white backdrop-blur-sm">
               {project.company}
+            </span>
+          </div>
+        )}
+
+        {/* Featured Ribbon */}
+        {isFeatured && (
+          <div className="absolute bottom-3 left-3">
+            <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-teal-600 text-white shadow-lg">
+              Featured
             </span>
           </div>
         )}
@@ -74,7 +89,9 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
       <div className="p-5">
         {/* Title */}
         <Link href={`/projects/${project.slug}`}>
-          <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-1">
+          <h3 className={`font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-1 ${
+            isFeatured ? 'text-xl' : 'text-lg'
+          }`}>
             {project.title}
           </h3>
         </Link>
