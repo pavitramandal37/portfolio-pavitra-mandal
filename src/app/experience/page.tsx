@@ -308,57 +308,76 @@ export default function ExperiencePage() {
             </p>
           </div>
 
-          {/* Impact Metrics Banner - High Impact Display */}
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl mb-8">
-            {/* Dark gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(20,184,166,0.25),transparent_70%)]" />
-
-            <div className="relative p-8 sm:p-10">
-              <div className="text-center mb-8">
-                <p className="text-teal-400 text-sm font-semibold uppercase tracking-widest mb-2">Measurable Results</p>
-                <h2 className="text-white text-3xl sm:text-4xl font-bold">Business Impact at Scale</h2>
+          {/* Impact Metrics Banner - Sophisticated Display */}
+          <div className="relative rounded-2xl p-8 shadow-2xl mb-8
+            bg-[radial-gradient(circle_at_top,rgba(20,184,166,0.35),rgba(15,23,42,1))]">
+            <div className="text-center mb-6">
+              <h2 className="text-white text-2xl font-bold mb-2">Business Impact & Scale</h2>
+              <p className="text-teal-100 text-sm">Measurable results across enterprise data infrastructure</p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {/* Cost Optimization - Prominent but Professional */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-center mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">¥36M</div>
+                  <div className="text-sm font-medium text-teal-100">Annual Cost Savings</div>
+                  <div className="text-xs text-teal-200 mt-1">Platform Migration ROI</div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                {/* Cost Optimization - Hero metric */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 hover:border-teal-400/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-teal-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="text-center">
-                    <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tracking-tight">¥36<span className="text-3xl sm:text-4xl text-teal-400">M</span></div>
-                    <div className="text-sm font-bold text-teal-300 mb-1">Annual Cost Savings</div>
-                    <div className="text-xs text-slate-400">Platform Migration ROI</div>
+              {/* Data Scale */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-center mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                    </svg>
                   </div>
                 </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">3.2GB</div>
+                  <div className="text-sm font-medium text-teal-100">Daily Processing</div>
+                  <div className="text-xs text-teal-200 mt-1">Production DWH Scale</div>
+                </div>
+              </div>
 
-                {/* Data Scale */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 hover:border-teal-400/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-teal-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="text-center">
-                    <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tracking-tight">3.2<span className="text-3xl sm:text-4xl text-teal-400">GB</span></div>
-                    <div className="text-sm font-bold text-teal-300 mb-1">Daily Processing</div>
-                    <div className="text-xs text-slate-400">Production DWH Scale</div>
+              {/* Pipeline Scale */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-center mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    </svg>
                   </div>
                 </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">280+</div>
+                  <div className="text-sm font-medium text-teal-100">ETL Pipelines</div>
+                  <div className="text-xs text-teal-200 mt-1">Production Deployments</div>
+                </div>
+              </div>
 
-                {/* Pipeline Scale */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 hover:border-teal-400/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-teal-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="text-center">
-                    <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tracking-tight">280<span className="text-3xl sm:text-4xl text-teal-400">+</span></div>
-                    <div className="text-sm font-bold text-teal-300 mb-1">Product Lines</div>
-                    <div className="text-xs text-slate-400">ETL Pipeline Coverage</div>
+              {/* Reliability */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-center mb-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
                   </div>
                 </div>
-
-                {/* Reliability */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 hover:border-teal-400/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="text-center">
-                    <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tracking-tight">99.9<span className="text-3xl sm:text-4xl text-emerald-400">%</span></div>
-                    <div className="text-sm font-bold text-emerald-300 mb-1">Uptime SLA</div>
-                    <div className="text-xs text-slate-400">Production Systems</div>
-                  </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white mb-1">99.9%</div>
+                  <div className="text-sm font-medium text-teal-100">Uptime SLA</div>
+                  <div className="text-xs text-teal-200 mt-1">Production Systems</div>
                 </div>
               </div>
             </div>
