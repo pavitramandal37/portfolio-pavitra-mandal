@@ -93,7 +93,7 @@ export interface BlogPost {
 }
 
 export interface SocialLink {
-  platform: 'linkedin' | 'github' | 'instagram' | 'twitter' | 'youtube' | 'tableau' | 'email';
+  platform: 'linkedin' | 'github' | 'instagram' | 'twitter' | 'youtube' | 'email';
   url: string;
   label: string;
 }
