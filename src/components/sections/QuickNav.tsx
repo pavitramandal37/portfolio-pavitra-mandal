@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const navCards = [
   {
@@ -69,26 +72,35 @@ export default function QuickNav() {
     <section className="section-padding">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {navCards.map((card) => {
+          {navCards.map((card, index) => {
             const colors = colorClasses[card.color as keyof typeof colorClasses];
             return (
-              <Link
+              <motion.div
                 key={card.href}
-                href={card.href}
-                className={`group p-6 bg-white rounded-xl border border-card-border ${colors.hover} transition-all duration-300 card-hover`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.15, ease: 'easeOut' }}
               >
-                <div
-                  className={`inline-flex p-3 rounded-lg ${colors.bg} ${colors.icon} mb-4`}
+                <Link
+                  href={card.href}
+                  className={`group block p-6 bg-white rounded-xl border border-card-border ${colors.hover} transition-all duration-300 card-hover`}
                 >
-                  {card.icon}
-                </div>
-                <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-navy-600">
-                  {card.description}
-                </p>
-              </Link>
+                  <motion.div
+                    whileHover={{ scale: 1.05, rotate: 2 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    className={`inline-flex p-3 rounded-lg ${colors.bg} ${colors.icon} mb-4`}
+                  >
+                    {card.icon}
+                  </motion.div>
+                  <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm text-navy-600">
+                    {card.description}
+                  </p>
+                </Link>
+              </motion.div>
             );
           })}
         </div>

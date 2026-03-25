@@ -30,6 +30,11 @@ export const siteConfig: SiteConfig = {
       label: 'YouTube',
     },
     {
+      platform: 'tableau',
+      url: 'https://public.tableau.com/app/profile/pavitra.mandal',
+      label: 'Tableau Public',
+    },
+    {
       platform: 'email',
       url: 'mailto:pavitramandal37@gmail.com',
       label: 'Email',
@@ -41,6 +46,6 @@ export const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
   { label: 'Experience', href: '/experience' },
-  { label: 'Hobby', href: '/hobby' },
+  { label: 'Beyond Code', href: '/hobby' },
   { label: 'Contact', href: '/contact' },
 ];

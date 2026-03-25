@@ -63,7 +63,7 @@ export default function Hero() {
     const timer = setInterval(() => {
       step++;
       const progress = step / steps;
-      
+
       setCounts({
         savings: Math.floor(targets.savings * progress),
         products: Math.floor(targets.products * progress),
@@ -200,7 +200,7 @@ export default function Hero() {
                     )}
                   </div>
                 )}
-                
+
                 {/* Terminal completion indicator */}
                 {terminalComplete && (
                   <div className="mt-4 text-teal-400 animate-fade-in">
@@ -258,15 +258,19 @@ export default function Hero() {
                 Pavitra Mandal
               </h1>
 
-              <div className="flex items-center gap-3 text-xl text-slate-700 font-medium">
-                <span>Building Production-Grade AI & Data Systems</span>
-                <span className="block text-teal-500 text-2xl">at Scale</span>
+              <div className="space-y-1">
+                <p className="text-2xl sm:text-3xl font-bold text-slate-800">
+                  Full Stack Data Engineer
+                </p>
+                <p className="text-lg text-slate-500 font-medium">
+                  Building Production-Grade AI & Data Systems <span className="text-teal-600 font-bold">at Scale</span>
+                </p>
               </div>
             </div>
 
             {/* Description */}
             <p className="text-lg text-slate-600 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              I design and deploy end-to-end data and ML platforms — from ingestion and feature engineering to forecasting, CI/CD, and monitoring — powering business decisions across 280+ product lines at Sony.
+              I design and deploy end-to-end data and ML platforms — from ingestion and feature engineering to forecasting, CI/CD, and monitoring — powering business decisions across <span className="font-semibold text-slate-800">280+ product lines at Sony</span>.
             </p>
 
             {/* CTA Buttons */}
@@ -279,20 +283,23 @@ export default function Hero() {
               </Button>
             </div>
 
-            {/* Animated Metrics */}
+            {/* Animated Impact Metrics */}
             {terminalComplete && (
-              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 animate-fade-in">
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl font-bold text-teal-600">¥{counts.savings}M</div>
-                  <div className="text-xs text-slate-600 font-medium">Cost Savings</div>
+              <div className="grid grid-cols-3 gap-4 pt-6 animate-fade-in">
+                <div className="relative bg-gradient-to-br from-teal-50 to-white rounded-xl p-4 border border-teal-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-teal-600 group-hover:scale-105 transition-transform">¥{counts.savings}M</div>
+                  <div className="text-xs text-slate-600 font-semibold mt-1">Cost Savings</div>
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-teal-400 rounded-full opacity-60" />
                 </div>
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl font-bold text-teal-600">{counts.products}+</div>
-                  <div className="text-xs text-slate-600 font-medium">Product Lines</div>
+                <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-slate-800 group-hover:scale-105 transition-transform">{counts.products}+</div>
+                  <div className="text-xs text-slate-600 font-semibold mt-1">Product Lines</div>
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-slate-400 rounded-full opacity-60" />
                 </div>
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl font-bold text-teal-600">{counts.accuracy}%</div>
-                  <div className="text-xs text-slate-600 font-medium">Accuracy ↑</div>
+                <div className="relative bg-gradient-to-br from-emerald-50 to-white rounded-xl p-4 border border-emerald-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-emerald-600 group-hover:scale-105 transition-transform">{counts.accuracy}%</div>
+                  <div className="text-xs text-slate-600 font-semibold mt-1">Accuracy ↑</div>
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-emerald-400 rounded-full opacity-60" />
                 </div>
               </div>
             )}

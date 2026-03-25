@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@/types';
@@ -11,6 +12,26 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, showFullDescription = false }: ProjectCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -4;
+    const rotateY = ((x - centerX) / centerX) * 4;
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+  };
   // Get primary links
   const liveLink = project.links.find((l) => l.type === 'live');
   const githubLink = project.links.find((l) => l.type === 'github');
@@ -19,10 +40,21 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
   const readMoreHref = `/projects/${project.slug}`;
   const accessLink = liveLink || githubLink;
 
+  const isFeatured = project.featured;
+
   return (
-    <div className="group bg-white rounded-xl border border-card-border overflow-hidden card-hover">
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transition: 'transform 0.2s ease-out' }}
+      className={`group bg-white rounded-xl overflow-hidden ${
+      isFeatured
+        ? 'border-2 border-teal-200 shadow-lg shadow-teal-500/5 hover:border-teal-400 hover:shadow-xl hover:shadow-teal-500/10'
+        : 'border border-card-border'
+    }`}>
       {/* Thumbnail */}
-      <div className="relative h-48 overflow-hidden bg-navy-100">
+      <div className={`relative overflow-hidden bg-navy-100 ${isFeatured ? 'h-52' : 'h-48'}`}>
         <Image
           src={project.thumbnail}
           alt={project.title}
@@ -41,7 +73,7 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
         {/* Status Badge */}
         <div className="absolute top-3 right-3">
           <span
-            className={`px-2 py-1 text-xs font-medium rounded-full ${
+            className={`px-2.5 py-1 text-xs font-bold rounded-full ${
               project.status === 'Live'
                 ? 'bg-teal-500 text-white'
                 : project.status === 'In Development'
@@ -53,11 +85,20 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
           </span>
         </div>
 
-        {/* Category Badge */}
+        {/* Company Badge */}
         {project.company && (
           <div className="absolute top-3 left-3">
-            <span className="px-2 py-1 text-xs font-medium rounded-full bg-navy-900/80 text-white">
+            <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-navy-900/80 text-white backdrop-blur-sm">
               {project.company}
+            </span>
+          </div>
+        )}
+
+        {/* Featured Ribbon */}
+        {isFeatured && (
+          <div className="absolute bottom-3 left-3">
+            <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-teal-600 text-white shadow-lg">
+              Featured
             </span>
           </div>
         )}
@@ -74,7 +115,9 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
       <div className="p-5">
         {/* Title */}
         <Link href={`/projects/${project.slug}`}>
-          <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-1">
+          <h3 className={`font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-1 ${
+            isFeatured ? 'text-xl' : 'text-lg'
+          }`}>
             {project.title}
           </h3>
         </Link>
