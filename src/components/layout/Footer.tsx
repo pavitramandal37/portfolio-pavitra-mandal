@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { siteConfig, navItems } from '@/data/site-config';
 
 // Social Icons
@@ -32,33 +33,67 @@ const SocialIcon = ({ platform }: { platform: string }) => {
   return icons[platform] || null;
 };
 
+// Marquee component
+function ConnectMarquee() {
+  const text = "LET'S WORK TOGETHER";
+  const repeats = 6;
+
+  return (
+    <div className="overflow-hidden py-12 border-b border-white/5">
+      <motion.div
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        className="flex whitespace-nowrap"
+      >
+        {Array.from({ length: repeats }).map((_, i) => (
+          <Link
+            key={i}
+            href="/contact"
+            className="flex items-center gap-8 mx-4 group"
+          >
+            <span className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-transparent stroke-text hover:text-teal-400 transition-colors duration-500 cursor-pointer">
+              {text}
+            </span>
+            <span className="text-teal-400 text-5xl md:text-7xl lg:text-8xl opacity-50 group-hover:opacity-100 transition-opacity">
+              *
+            </span>
+          </Link>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-900 text-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-navy-950 text-white">
+      {/* Marquee */}
+      <ConnectMarquee />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Column */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <Link href="/" className="inline-block">
-              <span className="text-2xl font-bold">
+              <span className="text-3xl font-bold">
                 Pavitra<span className="text-teal-400">.</span>
               </span>
             </Link>
-            <p className="text-navy-300 text-sm leading-relaxed">
+            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
               {siteConfig.tagline}. Building intelligent systems and crafting elegant solutions.
             </p>
             {/* Social Links */}
-            <div className="flex space-x-4 pt-2">
+            <div className="flex space-x-3 pt-2">
               {siteConfig.socialLinks.map((social) => (
                 <a
                   key={social.platform}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-navy-400 hover:text-teal-400 transition-colors"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-teal-400 hover:border-teal-400/30 hover:bg-teal-400/5 transition-all duration-300"
                   aria-label={social.label}
                 >
                   <SocialIcon platform={social.platform} />
@@ -69,15 +104,15 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-navy-400 mb-4">
-              Quick Links
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">
+              Navigation
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-navy-300 hover:text-teal-400 transition-colors text-sm"
+                    className="text-white/50 hover:text-teal-400 transition-colors text-sm font-medium"
                   >
                     {item.label}
                   </Link>
@@ -88,30 +123,19 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-navy-400 mb-4">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">
               Get in Touch
             </h3>
-            <div className="space-y-3 text-sm text-navy-300">
-              <p>
-                Open for opportunities and collaborations.
-              </p>
+            <div className="space-y-4 text-sm text-white/50">
+              <p>Open for opportunities and collaborations.</p>
+              <p className="text-white/30">Based in Tokyo, Japan</p>
               <Link
                 href="/contact"
-                className="inline-flex items-center text-teal-400 hover:text-teal-300 transition-colors"
+                className="inline-flex items-center text-teal-400 hover:text-teal-300 transition-colors font-medium"
               >
                 Send a message
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </Link>
             </div>
@@ -119,13 +143,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-6 border-t border-navy-800">
+        <div className="py-8 border-t border-white/5">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-            <p className="text-navy-400 text-sm">
+            <p className="text-white/20 text-sm">
               &copy; {currentYear} {siteConfig.name}. All rights reserved.
             </p>
-            <p className="text-navy-500 text-xs">
-              Built with Next.js & Tailwind CSS
+            <p className="text-white/15 text-xs">
+              Built with Next.js, Three.js & Framer Motion
             </p>
           </div>
         </div>

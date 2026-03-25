@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
-// Hobby data structure updated to include styling overrides for Light themes
 interface Hobby {
   id: string;
   title: string;
@@ -12,191 +12,154 @@ interface Hobby {
   why: string;
   highlights: string[];
   gradient: string;
-  // New optional styling props for light-themed cards
-  headerTextColor?: string; 
-  pillStyles?: string;
   externalLinks?: { label: string; url: string; icon: string }[];
 }
 
 const hobbies: Hobby[] = [
-  // 1. Content Creator (Moved to Top)
   {
     id: 'social-creator',
     title: 'Content Creator',
     emoji: '🎬',
     category: 'social',
     description: 'Sharing the developer journey and life in Tokyo through video and visuals.',
-    why: 'Building in public and sharing experiences creates a feedback loop that accelerates growth and connects me with global peers.',
-    highlights: [
-      'YouTube: Tech & Life Vlogs',
-      'Instagram: Visual Portfolio',
-      'Community engagement',
-    ],
+    why: 'Building in public and sharing experiences creates a feedback loop that accelerates growth.',
+    highlights: ['YouTube: Tech & Life Vlogs', 'Instagram: Visual Portfolio', 'Community engagement'],
     gradient: 'from-pink-500 to-rose-600',
     externalLinks: [
       { label: 'YouTube Channel', url: 'https://www.youtube.com/@pavitramandal37', icon: '📺' },
-      { label: 'Instagram', url: 'https://www.instagram.com/pavitra.hito/', icon: '📸' }
-    ]
+      { label: 'Instagram', url: 'https://www.instagram.com/pavitra.hito/', icon: '📸' },
+    ],
   },
-  // 2. Hiking & Nature
   {
     id: 'hiking',
     title: 'Hiking & Nature',
     emoji: '🥾',
     category: 'active',
     description: 'Trading the keyboard for mountain trails to reset dopamine levels.',
-    why: 'The best debugging happens offline. Conquering physical peaks builds the endurance needed for complex engineering hurdles.',
-    highlights: [
-      'Weekend trail explorations',
-      'Nature photography integration',
-      'Disconnecting to reconnect with clarity',
-    ],
+    why: 'The best debugging happens offline. Conquering physical peaks builds endurance.',
+    highlights: ['Weekend trail explorations', 'Nature photography integration', 'Disconnecting to reconnect'],
     gradient: 'from-emerald-500 to-teal-700',
   },
-  // 3. Tech Tinkering
   {
     id: 'tech-tinkering',
     title: 'Tech Tinkering',
     emoji: '🔧',
     category: 'learning',
-    description: 'The sandbox for curiosity. Exploring new stacks and hardware outside of work requirements.',
-    why: 'Innovation happens when you break things just to see how they work. This is where I learn without pressure.',
-    highlights: [
-      'Experimenting with LLM fine-tuning',
-      'Home automation & IoT projects',
-      'Building useless but fun CLI tools',
-    ],
+    description: 'Exploring new stacks and hardware outside of work requirements.',
+    why: 'Innovation happens when you break things just to see how they work.',
+    highlights: ['Experimenting with LLM fine-tuning', 'Home automation & IoT projects', 'Building fun CLI tools'],
     gradient: 'from-cyan-500 to-blue-600',
   },
-  // 4. Photo & Video
   {
     id: 'photography',
     title: 'Photo & Video',
     emoji: '📸',
     category: 'creative',
     description: 'Visual storyteller capturing moments through cinematic vlogs and street photography.',
-    why: 'Code builds the logic, but visual storytelling captures the emotion. It teaches me to see the world from different angles/frames.',
-    highlights: [
-      'Cinematic video editing (DaVinci/Premiere)',
-      'Street photography & color grading',
-      'Documenting tech journey & travel logs',
-    ],
+    why: 'Code builds the logic, but visual storytelling captures the emotion.',
+    highlights: ['Cinematic video editing (DaVinci/Premiere)', 'Street photography & color grading', 'Documenting journey'],
     gradient: 'from-purple-600 to-indigo-600',
   },
-  // 5. Chess Strategy (Updated to Light Theme)
   {
     id: 'chess',
     title: 'Chess Strategy',
     emoji: '♟️',
     category: 'learning',
     description: 'A mental "Refresh" button. Playing not for the grind, but for the beauty of pure logic.',
-    why: 'It acts as a palate cleanser for the brain. Stepping away from code syntax to pure strategy helps reset my problem-solving focus.',
-    highlights: [
-      'Casual rapid games for mental agility',
-      'Studying grandmaster patterns',
-      'Pure strategic relaxation',
-    ],
-    // Light Grey/Stone gradient (White square aesthetic)
-    gradient: 'from-stone-100 to-stone-300', 
-    // Dark text for contrast on light background
-    headerTextColor: 'text-stone-800', 
-    // Darker pill for contrast
-    pillStyles: 'bg-stone-800/10 border-stone-800/20 text-stone-900', 
+    why: 'Stepping away from code syntax to pure strategy helps reset problem-solving focus.',
+    highlights: ['Casual rapid games for mental agility', 'Studying grandmaster patterns', 'Pure strategic relaxation'],
+    gradient: 'from-slate-500 to-slate-700',
   },
 ];
 
 const categories = {
-  creative: { label: 'Creative', color: 'purple', icon: '🎨' },
-  active: { label: 'Active', color: 'emerald', icon: '⚡' },
-  learning: { label: 'Learning', color: 'blue', icon: '🧠' },
-  social: { label: 'Social', color: 'pink', icon: '🤝' },
+  creative: { label: 'Creative', icon: '🎨' },
+  active: { label: 'Active', icon: '⚡' },
+  learning: { label: 'Learning', icon: '🧠' },
+  social: { label: 'Social', icon: '🤝' },
 };
 
 export default function HobbiesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedHobby, setExpandedHobby] = useState<string | null>(null);
 
-  const filteredHobbies = selectedCategory === 'all' 
-    ? hobbies 
+  const filteredHobbies = selectedCategory === 'all'
+    ? hobbies
     : hobbies.filter(h => h.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-teal-50/30 pt-20">
-      {/* Playful Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 text-white py-20">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.05)_25%,rgba(255,255,255,.05)_50%,transparent_50%,transparent_75%,rgba(255,255,255,.05)_75%,rgba(255,255,255,.05))] bg-[length:60px_60px]" />
-        </div>
-        
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            {/* Floating Emojis */}
-            <div className="flex justify-center gap-4 mb-8 text-5xl animate-bounce">
-              <span className="inline-block hover:scale-125 transition-transform cursor-pointer">📸</span>
-              <span className="inline-block hover:scale-125 transition-transform cursor-pointer" style={{ animationDelay: '0.1s' }}>🥾</span>
-              <span className="inline-block hover:scale-125 transition-transform cursor-pointer" style={{ animationDelay: '0.2s' }}>♟️</span>
-              <span className="inline-block hover:scale-125 transition-transform cursor-pointer" style={{ animationDelay: '0.3s' }}>🔧</span>
-            </div>
+    <div className="min-h-screen bg-navy-950 pt-20">
+      {/* Hero */}
+      <section className="relative overflow-hidden py-20 border-b border-white/5">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.1),transparent_60%)]" />
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-              Beyond the Code
-            </h1>
-            <p className="text-2xl text-indigo-50 max-w-3xl mx-auto mb-8">
-              From cinematic editing to mountain trails—this is what fuels my creativity and keeps me human.
-            </p>
-            
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full border-2 border-white/40">
-              <span className="text-lg font-semibold">Tech at Core</span>
-              <span className="text-2xl">•</span>
-              <span className="text-lg font-semibold">Creative at Heart</span>
-            </div>
-          </div>
-        </div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center gap-4 mb-8 text-5xl"
+          >
+            {['📸', '🥾', '♟️', '🔧'].map((emoji, i) => (
+              <span key={i} className="inline-block hover:scale-125 transition-transform cursor-pointer">{emoji}</span>
+            ))}
+          </motion.div>
 
-        {/* Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16 fill-white">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" />
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" />
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" />
-          </svg>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6"
+          >
+            Beyond the Code
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-white/50 max-w-3xl mx-auto mb-8"
+          >
+            From cinematic editing to mountain trails — this is what fuels my creativity and keeps me human.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+          >
+            <span className="text-white/70 font-semibold">Tech at Core</span>
+            <span className="text-teal-400">•</span>
+            <span className="text-white/70 font-semibold">Creative at Heart</span>
+          </motion.div>
         </div>
       </section>
 
-      {/* Category Filter Pills */}
-      <section className="sticky top-20 z-20 bg-white/80 backdrop-blur-lg border-b border-slate-200 py-6 shadow-sm">
+      {/* Category Filter */}
+      <section className="sticky top-20 z-20 bg-navy-900/90 backdrop-blur-xl border-b border-white/5 py-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 ${
+              className={`px-6 py-3 rounded-full font-semibold text-sm transition-all ${
                 selectedCategory === 'all'
-                  ? 'bg-gradient-to-r from-slate-700 to-slate-900 text-white shadow-lg'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'bg-teal-500 text-white'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:text-white'
               }`}
             >
-              <span className="mr-2">✨</span>
-              All Interests
-              <span className="ml-2 px-2 py-0.5 bg-white/30 rounded-full text-xs">
-                {hobbies.length}
-              </span>
+              All Interests <span className="ml-1 text-xs opacity-70">{hobbies.length}</span>
             </button>
-            
             {Object.entries(categories).map(([key, cat]) => (
               <button
                 key={key}
                 onClick={() => setSelectedCategory(key)}
-                className={`px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 ${
+                className={`px-6 py-3 rounded-full font-semibold text-sm transition-all ${
                   selectedCategory === key
-                    ? `bg-gradient-to-r from-${cat.color}-500 to-${cat.color}-600 text-white shadow-lg`
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-teal-500 text-white'
+                    : 'bg-white/5 text-white/60 border border-white/10 hover:text-white'
                 }`}
               >
                 <span className="mr-2">{cat.icon}</span>
                 {cat.label}
-                <span className="ml-2 px-2 py-0.5 bg-white/30 rounded-full text-xs">
-                  {hobbies.filter(h => h.category === key).length}
-                </span>
               </button>
             ))}
           </div>
@@ -206,31 +169,24 @@ export default function HobbiesPage() {
       {/* Hobbies Grid */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredHobbies.map((hobby, index) => (
-              <div
+              <motion.div
                 key={hobby.id}
-                className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative bg-navy-900 rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
               >
-                {/* Gradient Header with Dynamic Text Color Logic */}
-                <div 
-                  className={`bg-gradient-to-br ${hobby.gradient} p-8 relative overflow-hidden ${hobby.headerTextColor || 'text-white'}`}
-                >
-                  {/* Decorative Pattern */}
+                {/* Gradient Header */}
+                <div className={`bg-gradient-to-br ${hobby.gradient} p-8 relative overflow-hidden`}>
                   <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent)]" />
-                  
                   <div className="relative z-10">
-                    <div className="text-6xl mb-4 transform group-hover:scale-110 group-hover:rotate-12 transition-transform">
+                    <div className="text-6xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform">
                       {hobby.emoji}
                     </div>
-                    <h3 className="text-2xl font-bold mb-2">{hobby.title}</h3>
-                    {/* Category Pill with Dynamic Styles */}
-                    <span 
-                      className={`inline-block px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border ${
-                        hobby.pillStyles || 'bg-white/20 border-white/30'
-                      }`}
-                    >
+                    <h3 className="text-2xl font-bold text-white mb-2">{hobby.title}</h3>
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/20 border border-white/30 text-white">
                       {categories[hobby.category].label}
                     </span>
                   </div>
@@ -238,151 +194,102 @@ export default function HobbiesPage() {
 
                 {/* Content */}
                 <div className="p-6 flex-grow flex flex-col">
-                  <p className="text-slate-700 mb-4 leading-relaxed">
-                    {hobby.description}
-                  </p>
+                  <p className="text-white/60 mb-4 leading-relaxed">{hobby.description}</p>
 
-                  {/* "Why This Matters" Box */}
-                  <div className="bg-slate-50 border-l-4 border-slate-300 rounded-r-lg p-4 mb-4">
-                    <div className="flex items-start gap-2">
-                      <span className="text-xl">💡</span>
-                      <div>
-                        <p className="text-xs font-bold text-slate-900 mb-1">Perspective Shift</p>
-                        <p className="text-sm text-slate-700 italic">{hobby.why}</p>
-                      </div>
-                    </div>
+                  <div className="bg-white/5 border-l-2 border-teal-400/50 rounded-r-lg p-4 mb-4">
+                    <p className="text-xs font-bold text-teal-400 mb-1">Perspective Shift</p>
+                    <p className="text-sm text-white/40 italic">{hobby.why}</p>
                   </div>
 
                   <div className="mt-auto">
-                    {/* External Links Button (If Social) */}
                     {hobby.externalLinks && (
-                       <div className="mb-4 space-y-2">
-                         {hobby.externalLinks.map((link, idx) => (
-                           <a 
-                             key={idx}
-                             href={link.url}
-                             target="_blank"
-                             rel="noopener noreferrer"
-                             className="flex items-center justify-center gap-2 w-full py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-sm"
-                           >
-                             <span>{link.icon}</span> {link.label}
-                           </a>
-                         ))}
-                       </div>
+                      <div className="mb-4 space-y-2">
+                        {hobby.externalLinks.map((link, idx) => (
+                          <a
+                            key={idx}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 w-full py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-sm"
+                          >
+                            <span>{link.icon}</span> {link.label}
+                          </a>
+                        ))}
+                      </div>
                     )}
 
-                    {/* Expand Button */}
                     <button
                       onClick={() => setExpandedHobby(expandedHobby === hobby.id ? null : hobby.id)}
                       className={`w-full px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
                         expandedHobby === hobby.id
-                          ? 'bg-slate-800 text-white shadow-lg'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          ? 'bg-teal-500 text-white'
+                          : 'bg-white/5 text-white/60 border border-white/10 hover:text-white'
                       }`}
                     >
-                      {expandedHobby === hobby.id ? (
-                        <span className="flex items-center justify-center gap-2">
-                          Close Details
-                        </span>
-                      ) : (
-                        <span className="flex items-center justify-center gap-2">
-                          See Highlights
-                        </span>
-                      )}
+                      {expandedHobby === hobby.id ? 'Close Details' : 'See Highlights'}
                     </button>
 
-                    {/* Expandable Highlights */}
                     {expandedHobby === hobby.id && (
                       <div className="mt-4 space-y-2 animate-slide-down">
-                        <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-                          What I Do:
-                        </p>
                         {hobby.highlights.map((highlight, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
-                          >
-                            <span className="text-indigo-500 font-bold text-lg">•</span>
-                            <span className="text-sm text-slate-700">{highlight}</span>
+                          <div key={idx} className="flex items-start gap-3 p-3 bg-white/5 rounded-lg">
+                            <span className="text-teal-400 font-bold">•</span>
+                            <span className="text-sm text-white/60">{highlight}</span>
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
                 </div>
-
-                {/* Decorative Corner */}
-                <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${hobby.gradient} opacity-10 rounded-bl-full`} />
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+      {/* Stats */}
+      <section className="py-16 border-t border-white/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">The Fun Metrics</h2>
-          
+          <h2 className="text-3xl font-bold text-white text-center mb-12">The Fun Metrics</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { emoji: '📸', value: '1000+', label: 'Clips Edited', color: 'from-purple-400 to-pink-500' },
-              { emoji: '🥾', value: '25+', label: 'Peaks Hiked', color: 'from-emerald-400 to-teal-500' },
-              { emoji: '♟️', value: 'Casually', label: 'Chess Puzzle', color: 'from-slate-300 to-slate-500' },
-              { emoji: '🔧', value: '∞', label: 'Bugs Created', color: 'from-cyan-400 to-blue-500' },
+              { emoji: '📸', value: '1000+', label: 'Clips Edited' },
+              { emoji: '🥾', value: '25+', label: 'Peaks Hiked' },
+              { emoji: '♟️', value: 'Casually', label: 'Chess Puzzle' },
+              { emoji: '🔧', value: '∞', label: 'Bugs Created' },
             ].map((stat, idx) => (
-              <div
-                key={idx}
-                className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all transform hover:scale-105"
-              >
+              <div key={idx} className="p-6 rounded-2xl border border-white/10 bg-white/5 hover:border-teal-400/20 hover:bg-white/10 transition-all text-center">
                 <div className="text-5xl mb-3">{stat.emoji}</div>
-                <div className={`text-3xl font-bold mb-1 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                  {stat.value}
-                </div>
-                <div className="text-sm text-slate-300">{stat.label}</div>
+                <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+                <div className="text-sm text-white/40">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="py-16 bg-white">
+      {/* Philosophy */}
+      <section className="py-16 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="text-6xl mb-6">🌟</div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">The Balance</h2>
-          <p className="text-xl text-slate-600 leading-relaxed mb-8">
-            "My best code logic often comes to me while I'm editing a video or hiking a trail, not while staring at the IDE. 
-            Creativity, Logic, and Endurance are all connected."
+          <h2 className="text-3xl font-bold text-white mb-6">The Balance</h2>
+          <p className="text-xl text-white/40 leading-relaxed italic">
+            &ldquo;My best code logic often comes to me while I&apos;m editing a video or hiking a trail, not while staring at the IDE.
+            Creativity, Logic, and Endurance are all connected.&rdquo;
           </p>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 text-white">
+      <section className="py-16 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Let's Connect!</h2>
-          <p className="text-xl text-indigo-50 mb-8">
-            Check out my YouTube for the visuals or LinkedIn for the professional details.
-          </p>
+          <h2 className="text-3xl font-bold text-white mb-4">Let&apos;s Connect!</h2>
+          <p className="text-white/40 mb-8 text-lg">Check out my YouTube for visuals or LinkedIn for professional details.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://www.youtube.com/@pavitramandal37"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all transform hover:scale-105 shadow-lg"
-            >
-              <span className="text-xl">📺</span>
-              YouTube
+            <a href="https://www.youtube.com/@pavitramandal37" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all">
+              📺 YouTube
             </a>
-            <a
-              href="https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold hover:bg-white hover:text-indigo-600 transition-all transform hover:scale-105"
-            >
-              <span className="text-xl">🔗</span>
-              LinkedIn
+            <a href="https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white rounded-xl font-bold hover:bg-white/10 transition-all">
+              🔗 LinkedIn
             </a>
           </div>
         </div>

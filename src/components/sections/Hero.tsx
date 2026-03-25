@@ -1,58 +1,23 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui';
+import dynamic from 'next/dynamic';
+
+const DataNetwork = dynamic(() => import('@/components/three/DataNetwork'), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Hero() {
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
   const [counts, setCounts] = useState({ savings: 0, products: 0, accuracy: 0 });
-  const [terminalComplete, setTerminalComplete] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
-  const terminalLines = [
-    { command: '$ cat ~/.profile', output: 'Pavitra Mandal | Full Stack Data Engineer @ Sony' },
-    { command: '$ databricks --version', output: 'Production DWH: 3.2GB | ETL: 17+ pipelines & 280+ products | Zero-downtime migrations' },
-    { command: '$ python -c "import pandas,pyspark,airflow"', output: '✓ SQL Expert | ✓ Python | ✓ PySpark | ✓ Big Data | ✓ Cloud DWH' },
-    { command: '$ ./calculate_impact.sh', output: '📈 High ROI Delivery | 📊 156M+ rows | 🚀 99.9% uptime | ⚡ <65min ETL' },
-  ];
-
-  // Terminal typing animation
+  // Animated counters on mount
   useEffect(() => {
-    if (currentLineIndex >= terminalLines.length) {
-      setTerminalComplete(true);
-      return;
-    }
-
-    const currentLine = terminalLines[currentLineIndex];
-    const fullText = currentLine.command + '\n' + currentLine.output;
-
-    if (displayedText.length < fullText.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(fullText.slice(0, displayedText.length + 1));
-      }, 30);
-      return () => clearTimeout(timeout);
-    } else if (currentLineIndex < terminalLines.length - 1) {
-      const timeout = setTimeout(() => {
-        setCurrentLineIndex(currentLineIndex + 1);
-        setDisplayedText('');
-      }, 1000);
-      return () => clearTimeout(timeout);
-    }
-  }, [displayedText, currentLineIndex]);
-
-  // Cursor blinking
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 530);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Animated counters (start after terminal completes)
-  useEffect(() => {
-    if (!terminalComplete) return;
+    if (hasAnimated) return;
+    setHasAnimated(true);
 
     const targets = { savings: 36, products: 280, accuracy: 15 };
     const duration = 2000;
@@ -63,253 +28,152 @@ export default function Hero() {
     const timer = setInterval(() => {
       step++;
       const progress = step / steps;
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
 
       setCounts({
-        savings: Math.floor(targets.savings * progress),
-        products: Math.floor(targets.products * progress),
-        accuracy: Math.floor(targets.accuracy * progress),
+        savings: Math.floor(targets.savings * eased),
+        products: Math.floor(targets.products * eased),
+        accuracy: Math.floor(targets.accuracy * eased),
       });
 
       if (step >= steps) clearInterval(timer);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [terminalComplete]);
-
-  // Subtle particle background
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-    }> = [];
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-
-    const createParticles = () => {
-      particles = [];
-      const numParticles = Math.floor((canvas.width * canvas.height) / 30000);
-
-      for (let i = 0; i < numParticles; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: (Math.random() - 0.5) * 0.2,
-          radius: Math.random() * 1.5 + 0.5,
-        });
-      }
-    };
-
-    const drawParticles = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(20, 184, 166, 0.2)';
-        ctx.fill();
-      });
-
-      animationFrameId = requestAnimationFrame(drawParticles);
-    };
-
-    resize();
-    createParticles();
-    drawParticles();
-
-    window.addEventListener('resize', () => {
-      resize();
-      createParticles();
-    });
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
+  }, [hasAnimated]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
-      {/* Subtle Animated Background */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ zIndex: 0 }}
-      />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy-950">
+      {/* Three.js Data Network Background */}
+      <Suspense fallback={null}>
+        <DataNetwork />
+      </Suspense>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/85 to-teal-50/60" />
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-950/40 via-transparent to-navy-950" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--navy-950)_70%)]" />
 
-      {/* Grid Pattern Accent */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Terminal Window */}
-          <div className="order-2 lg:order-1">
-            <div className="bg-slate-900/95 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
-              {/* Terminal Header */}
-              <div className="bg-slate-800/90 px-4 py-3 flex items-center gap-2 border-b border-slate-700/50">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 cursor-pointer transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 cursor-pointer transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 cursor-pointer transition-colors" />
-                </div>
-                <span className="text-slate-400 text-sm ml-2 font-mono">pavitra@portfolio:~</span>
-              </div>
-
-              {/* Terminal Body */}
-              <div className="p-6 font-mono text-sm min-h-[320px] bg-gradient-to-b from-slate-900 to-slate-950">
-                {terminalLines.slice(0, currentLineIndex).map((line, i) => (
-                  <div key={i} className="mb-4 animate-fade-in">
-                    <div className="text-teal-400">{line.command}</div>
-                    <div className="text-slate-300 mt-1">{line.output}</div>
-                  </div>
-                ))}
-                {currentLineIndex < terminalLines.length && (
-                  <div>
-                    <div className="text-teal-400 inline">{displayedText.split('\n')[0]}</div>
-                    {displayedText.includes('\n') && (
-                      <div className="text-slate-300 mt-1">
-                        {displayedText.split('\n')[1]}
-                        {showCursor && <span className="inline-block w-2 h-4 bg-teal-400 ml-1 animate-pulse" />}
-                      </div>
-                    )}
-                    {!displayedText.includes('\n') && showCursor && (
-                      <span className="inline-block w-2 h-4 bg-teal-400 ml-1 animate-pulse" />
-                    )}
-                  </div>
-                )}
-
-                {/* Terminal completion indicator */}
-                {terminalComplete && (
-                  <div className="mt-4 text-teal-400 animate-fade-in">
-                    <span className="animate-pulse">█</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Tech Stack Pills Below Terminal */}
-            <div className="mt-6 flex flex-wrap gap-2">
-              {[
-                'Azure Databricks',
-                'PySpark',
-                'Delta Lake',
-                'Unity Catalog',
-                'Azure Data Lake',
-                'Apache Airflow',
-                'Azure Data Factory',
-                'SQL',
-                'MLflow',
-                'DeepAR',
-                'ARIMA',
-                'Power BI',
-                'CI/CD (GitHub Actions)',
-                'Docker',
-                'AI Observability (TruLens)'
-              ].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 font-medium shadow-sm hover:shadow-md hover:border-teal-300 transition-all"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-          </div>
-
-          {/* Right: Main Content */}
-          <div className="order-1 lg:order-2 space-y-8">
-            {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 mt-6 bg-teal-50 border border-teal-200 rounded-full text-teal-700 text-sm font-medium animate-fade-in">
-              <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+        <div className="text-center">
+          {/* Status Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 mb-10 border border-teal-500/30 rounded-full bg-teal-500/10 backdrop-blur-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400" />
+            </span>
+            <span className="text-teal-300 text-sm font-medium tracking-wide">
               Open for Tech Lead Roles in India & Japan
-            </div>
+            </span>
+          </motion.div>
 
+          {/* Name - Split Large */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <h1 className="font-bold tracking-tight leading-[0.85]">
+              <span className="block text-[clamp(3.5rem,12vw,10rem)] text-white">
+                PAVITRA
+              </span>
+              <span className="block text-[clamp(3.5rem,12vw,10rem)] text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-emerald-400">
+                MANDAL
+              </span>
+            </h1>
+          </motion.div>
 
-            {/* Greeting */}
-            <div className="animate-slide-up">
-              <p className="text-teal-600 text-lg font-medium mb-2">
-                Hello, I&apos;m
-              </p>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 mb-4 -ml-1">
-                Pavitra Mandal
-              </h1>
-
-              <div className="space-y-1">
-                <p className="text-2xl sm:text-3xl font-bold text-slate-800">
-                  Full Stack Data Engineer
-                </p>
-                <p className="text-lg text-slate-500 font-medium">
-                  Building Production-Grade AI & Data Systems <span className="text-teal-600 font-bold">at Scale</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="text-lg text-slate-600 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              I design and deploy end-to-end data and ML platforms — from ingestion and feature engineering to forecasting, CI/CD, and monitoring — powering business decisions across <span className="font-semibold text-slate-800">280+ product lines at Sony</span>.
+          {/* Role */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="mt-8 space-y-3"
+          >
+            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/90">
+              Full Stack Data Engineer
             </p>
+            <p className="text-lg text-white/50 max-w-2xl mx-auto font-medium">
+              Building Production-Grade AI & Data Systems{' '}
+              <span className="text-teal-400 font-bold">at Scale</span>{' '}
+              — powering business decisions across{' '}
+              <span className="text-white font-semibold">280+ product lines at Sony</span>
+            </p>
+          </motion.div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <Button href="/projects" variant="primary" size="lg">
-                Explore Projects
-              </Button>
-              <Button href="/contact" variant="outline" size="lg">
-                Let&apos;s Connect
-              </Button>
-            </div>
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+            className="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Button href="/projects" variant="secondary" size="lg" className="text-lg px-10 py-4">
+              Explore Projects
+            </Button>
+            <Button
+              href="/contact"
+              variant="ghost"
+              size="lg"
+              className="text-lg px-10 py-4 border border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+            >
+              Let&apos;s Connect
+            </Button>
+          </motion.div>
 
-            {/* Animated Impact Metrics */}
-            {terminalComplete && (
-              <div className="grid grid-cols-3 gap-4 pt-6 animate-fade-in">
-                <div className="relative bg-gradient-to-br from-teal-50 to-white rounded-xl p-4 border border-teal-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-teal-600 group-hover:scale-105 transition-transform">¥{counts.savings}M</div>
-                  <div className="text-xs text-slate-600 font-semibold mt-1">Cost Savings</div>
-                  <div className="absolute top-2 right-2 w-2 h-2 bg-teal-400 rounded-full opacity-60" />
-                </div>
-                <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-slate-800 group-hover:scale-105 transition-transform">{counts.products}+</div>
-                  <div className="text-xs text-slate-600 font-semibold mt-1">Product Lines</div>
-                  <div className="absolute top-2 right-2 w-2 h-2 bg-slate-400 rounded-full opacity-60" />
-                </div>
-                <div className="relative bg-gradient-to-br from-emerald-50 to-white rounded-xl p-4 border border-emerald-200 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all group">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-emerald-600 group-hover:scale-105 transition-transform">{counts.accuracy}%</div>
-                  <div className="text-xs text-slate-600 font-semibold mt-1">Accuracy ↑</div>
-                  <div className="absolute top-2 right-2 w-2 h-2 bg-emerald-400 rounded-full opacity-60" />
-                </div>
+          {/* Impact Metrics */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.9 }}
+            className="mt-20 grid grid-cols-3 gap-6 max-w-3xl mx-auto"
+          >
+            <div className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-teal-400/30 hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                ¥{counts.savings}<span className="text-teal-400 text-3xl">M</span>
               </div>
-            )}
-          </div>
+              <div className="text-sm font-medium text-white/50 mt-2">Cost Savings</div>
+            </div>
+            <div className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-teal-400/30 hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                {counts.products}<span className="text-teal-400 text-3xl">+</span>
+              </div>
+              <div className="text-sm font-medium text-white/50 mt-2">Product Lines</div>
+            </div>
+            <div className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-teal-400/30 hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                {counts.accuracy}<span className="text-teal-400 text-3xl">%</span>
+              </div>
+              <div className="text-sm font-medium text-white/50 mt-2">Accuracy Gain</div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Decorative Blur Elements */}
-      <div className="absolute top-1/4 left-10 w-72 h-72 bg-teal-200/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-slate-200/15 rounded-full blur-3xl" />
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <span className="text-white/30 text-xs uppercase tracking-[0.3em] font-medium">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center p-1.5"
+        >
+          <div className="w-1 h-2 rounded-full bg-teal-400" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { navItems } from '@/data/site-config';
 
 export default function Navigation() {
@@ -10,17 +11,14 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
@@ -32,23 +30,20 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/50'
+          ? 'bg-navy-950/90 backdrop-blur-xl border-b border-white/5'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center space-x-2 group"
-          >
-            <span className="text-2xl font-bold text-navy-900">
-              P<span className="text-teal-600">.</span>
+          <Link href="/" className="flex items-center space-x-2 group">
+            <span className="text-2xl font-bold text-white">
+              P<span className="text-teal-400">.</span>
             </span>
-            <span className="hidden sm:inline text-lg font-semibold text-navy-700 group-hover:text-teal-600 transition-colors">
+            <span className="hidden sm:inline text-lg font-semibold text-white/70 group-hover:text-teal-400 transition-colors">
               Pavitra
             </span>
           </Link>
@@ -59,15 +54,19 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive(item.href)
-                    ? 'text-teal-700 bg-teal-50 font-semibold'
-                    : 'text-navy-700 hover:text-teal-600 hover:bg-navy-50'
+                    ? 'text-teal-400'
+                    : 'text-white/60 hover:text-white'
                 }`}
               >
                 {item.label}
                 {isActive(item.href) && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-teal-500 rounded-full" />
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-teal-400 rounded-full"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
                 )}
               </Link>
             ))}
@@ -76,57 +75,48 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-navy-700 hover:bg-navy-100 transition-colors"
+            className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
             aria-expanded={isOpen}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        <div
-          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-            isOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="py-4 space-y-1 bg-white/95 backdrop-blur-md rounded-lg mb-4 shadow-lg border border-slate-200/50">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-4 py-3 text-base font-medium transition-colors ${
-                  isActive(item.href)
-                    ? 'text-teal-700 bg-teal-50 border-l-4 border-teal-500 font-semibold'
-                    : 'text-navy-700 hover:text-teal-600 hover:bg-navy-50'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="py-4 space-y-1 bg-navy-900/95 backdrop-blur-xl rounded-xl mb-4 border border-white/10">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`block px-5 py-3 text-base font-medium transition-colors ${
+                      isActive(item.href)
+                        ? 'text-teal-400 bg-teal-400/10 border-l-4 border-teal-400'
+                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );

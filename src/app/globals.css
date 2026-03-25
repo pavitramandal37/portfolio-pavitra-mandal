@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 /* ============================================
-   Pavitra Mandal Portfolio - Custom Theme
-   Color Palette: Deep Blues, Teals, Rose Accent
+   Pavitra Mandal Portfolio - Cinematic Theme
+   Dark, bold, film-inspired design
    ============================================ */
 
 :root {
   /* Primary Colors - Deep Blues */
-  --navy-950: #0c1426;
+  --navy-950: #0a0f1a;
   --navy-900: #0f172a;
   --navy-800: #1e293b;
   --navy-700: #334155;
@@ -31,36 +31,36 @@
   --teal-200: #99f6e4;
   --teal-100: #ccfbf1;
 
-  /* Accent Colors - Rose (warm but not orange) */
+  /* Accent Colors - Rose */
   --rose-600: #e11d48;
   --rose-500: #f43f5e;
   --rose-400: #fb7185;
   --rose-300: #fda4af;
 
   /* Semantic Colors */
-  --background: #ffffff;
-  --background-alt: var(--navy-50);
-  --foreground: var(--navy-900);
-  --foreground-muted: var(--navy-600);
+  --background: var(--navy-950);
+  --background-alt: var(--navy-900);
+  --foreground: #ffffff;
+  --foreground-muted: var(--navy-400);
 
-  --primary: var(--navy-900);
-  --primary-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: var(--navy-950);
 
-  --secondary: var(--teal-600);
+  --secondary: var(--teal-500);
   --secondary-foreground: #ffffff;
 
   --accent: var(--rose-500);
   --accent-foreground: #ffffff;
 
-  --card: #ffffff;
-  --card-foreground: var(--navy-900);
-  --card-border: var(--navy-200);
+  --card: var(--navy-900);
+  --card-foreground: #ffffff;
+  --card-border: rgba(255, 255, 255, 0.1);
 
-  --muted: var(--navy-100);
-  --muted-foreground: var(--navy-500);
+  --muted: var(--navy-800);
+  --muted-foreground: var(--navy-400);
 
-  --border: var(--navy-200);
-  --input: var(--navy-200);
+  --border: rgba(255, 255, 255, 0.1);
+  --input: var(--navy-800);
   --ring: var(--teal-500);
 }
 
@@ -183,8 +183,8 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--navy-950);
+  color: #ffffff;
   font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -194,48 +194,54 @@ body {
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  line-height: 1.2;
-  color: var(--navy-900);
+  line-height: 1.1;
+  color: #ffffff;
 }
 
 /* Custom selection */
 ::selection {
-  background: var(--teal-200);
-  color: var(--navy-900);
+  background: var(--teal-500);
+  color: var(--navy-950);
 }
 
-/* Focus styles for accessibility */
+/* Focus styles */
 :focus-visible {
   outline: 2px solid var(--teal-500);
   outline-offset: 2px;
 }
 
-/* Smooth transitions for interactive elements */
+/* Smooth transitions */
 a, button {
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - dark theme */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--navy-100);
+  background: var(--navy-950);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--navy-400);
-  border-radius: 5px;
+  background: var(--navy-700);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--navy-500);
+  background: var(--navy-600);
+}
+
+/* Stroke text for marquee */
+.stroke-text {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+  color: transparent;
 }
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, var(--teal-600) 0%, var(--navy-700) 100%);
+  background: linear-gradient(135deg, var(--teal-400) 0%, var(--teal-200) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -248,7 +254,7 @@ a, button {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
 }
 
 /* Section spacing */
@@ -266,4 +272,26 @@ a, button {
   .section-padding {
     padding: 8rem 2rem;
   }
+}
+
+/* RTL helper for alternating project cards */
+.direction-rtl {
+  direction: rtl;
+}
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }

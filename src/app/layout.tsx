@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Navigation, Footer } from '@/components/layout';
+import SmoothScroll from '@/components/providers/SmoothScroll';
 import { siteConfig } from '@/data/site-config';
 import './globals.css';
 
@@ -105,9 +106,11 @@ export default function RootLayout({
         className="font-sans antialiased min-h-screen flex flex-col"
         suppressHydrationWarning
       >
-        <Navigation />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <SmoothScroll>
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
