@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 /* ============================================
-   Pavitra Mandal Portfolio - Custom Theme
-   Color Palette: Deep Blues, Teals, Rose Accent
+   Pavitra Mandal Portfolio - Dual Theme System
+   Light: Clean whites & subtle teals
+   Dark: Deep blacks, premium minimal (Nikola Radeski inspired)
    ============================================ */
 
+/* ---- LIGHT THEME (default) ---- */
 :root {
   /* Primary Colors - Deep Blues */
   --navy-950: #0c1426;
@@ -31,7 +33,7 @@
   --teal-200: #99f6e4;
   --teal-100: #ccfbf1;
 
-  /* Accent Colors - Rose (warm but not orange) */
+  /* Accent Colors - Rose */
   --rose-600: #e11d48;
   --rose-500: #f43f5e;
   --rose-400: #fb7185;
@@ -62,6 +64,145 @@
   --border: var(--navy-200);
   --input: var(--navy-200);
   --ring: var(--teal-500);
+
+  /* Nav-specific */
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-text: var(--navy-700);
+  --nav-active-bg: rgba(204, 251, 241, 0.5);
+  --nav-active-text: var(--teal-600);
+  --nav-hover-bg: var(--navy-50);
+
+  /* Hero-specific */
+  --hero-bg: #ffffff;
+  --hero-gradient-from: rgba(255, 255, 255, 0.95);
+  --hero-gradient-via: rgba(255, 255, 255, 0.85);
+  --hero-gradient-to: rgba(204, 251, 241, 0.6);
+  --hero-heading: var(--navy-900);
+  --hero-subtitle: var(--navy-700);
+  --hero-text: var(--navy-600);
+  --hero-badge-bg: rgba(204, 251, 241, 0.5);
+  --hero-badge-border: var(--teal-200);
+  --hero-badge-text: var(--teal-700);
+  --hero-pill-bg: #ffffff;
+  --hero-pill-border: var(--navy-200);
+  --hero-pill-text: var(--navy-700);
+
+  /* Terminal */
+  --terminal-bg: rgba(15, 23, 42, 0.95);
+  --terminal-header: rgba(30, 41, 59, 0.9);
+  --terminal-border: rgba(51, 65, 85, 0.5);
+
+  /* Particle color */
+  --particle-color: rgba(20, 184, 166, 0.2);
+
+  /* Section CTA */
+  --cta-bg-from: #0f172a;
+  --cta-bg-to: #1e293b;
+
+  /* Scrollbar */
+  --scrollbar-track: var(--navy-100);
+  --scrollbar-thumb: var(--navy-400);
+  --scrollbar-thumb-hover: var(--navy-500);
+
+  /* Selection */
+  --selection-bg: var(--teal-200);
+  --selection-text: var(--navy-900);
+}
+
+/* ---- DARK THEME ---- */
+[data-theme="dark"] {
+  /* Override Navy palette for dark mode */
+  --navy-950: #fafafa;
+  --navy-900: #f5f5f5;
+  --navy-800: #e5e5e5;
+  --navy-700: #d4d4d4;
+  --navy-600: #a1a1aa;
+  --navy-500: #71717a;
+  --navy-400: #52525b;
+  --navy-300: #3f3f46;
+  --navy-200: #27272a;
+  --navy-100: #1c1c1e;
+  --navy-50: #141414;
+
+  /* Teal adjustments for dark */
+  --teal-600: #14b8a6;
+  --teal-500: #2dd4bf;
+  --teal-400: #5eead4;
+  --teal-200: #0d3d38;
+  --teal-100: #0a2d2a;
+  --teal-50: #071f1d;
+
+  /* Rose adjustments */
+  --rose-500: #fb7185;
+
+  /* Semantic Colors */
+  --background: #0a0a0a;
+  --background-alt: #111111;
+  --foreground: #fafafa;
+  --foreground-muted: #a1a1aa;
+
+  --primary: #fafafa;
+  --primary-foreground: #0a0a0a;
+
+  --secondary: #14b8a6;
+  --secondary-foreground: #0a0a0a;
+
+  --accent: #fb7185;
+  --accent-foreground: #0a0a0a;
+
+  --card: #141414;
+  --card-foreground: #fafafa;
+  --card-border: #27272a;
+
+  --muted: #1c1c1e;
+  --muted-foreground: #a1a1aa;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #14b8a6;
+
+  /* Nav */
+  --nav-bg: rgba(10, 10, 10, 0.9);
+  --nav-text: #d4d4d4;
+  --nav-active-bg: rgba(20, 184, 166, 0.1);
+  --nav-active-text: #2dd4bf;
+  --nav-hover-bg: rgba(255, 255, 255, 0.05);
+
+  /* Hero */
+  --hero-bg: #0a0a0a;
+  --hero-gradient-from: rgba(10, 10, 10, 0.95);
+  --hero-gradient-via: rgba(10, 10, 10, 0.9);
+  --hero-gradient-to: rgba(10, 30, 28, 0.6);
+  --hero-heading: #fafafa;
+  --hero-subtitle: #d4d4d4;
+  --hero-text: #a1a1aa;
+  --hero-badge-bg: rgba(20, 184, 166, 0.1);
+  --hero-badge-border: rgba(20, 184, 166, 0.3);
+  --hero-badge-text: #2dd4bf;
+  --hero-pill-bg: #1c1c1e;
+  --hero-pill-border: #27272a;
+  --hero-pill-text: #a1a1aa;
+
+  /* Terminal */
+  --terminal-bg: rgba(20, 20, 20, 0.95);
+  --terminal-header: rgba(28, 28, 30, 0.9);
+  --terminal-border: rgba(39, 39, 42, 0.5);
+
+  /* Particle */
+  --particle-color: rgba(20, 184, 166, 0.15);
+
+  /* CTA */
+  --cta-bg-from: #141414;
+  --cta-bg-to: #1c1c1e;
+
+  /* Scrollbar */
+  --scrollbar-track: #141414;
+  --scrollbar-thumb: #3f3f46;
+  --scrollbar-thumb-hover: #52525b;
+
+  /* Selection */
+  --selection-bg: rgba(20, 184, 166, 0.3);
+  --selection-text: #fafafa;
 }
 
 @theme inline {
@@ -189,24 +330,25 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
-  color: var(--navy-900);
+  color: var(--foreground);
 }
 
 /* Custom selection */
 ::selection {
-  background: var(--teal-200);
-  color: var(--navy-900);
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 /* Focus styles for accessibility */
 :focus-visible {
-  outline: 2px solid var(--teal-500);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
@@ -221,21 +363,21 @@ a, button {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--navy-100);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--navy-400);
+  background: var(--scrollbar-thumb);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--navy-500);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, var(--teal-600) 0%, var(--navy-700) 100%);
+  background: linear-gradient(135deg, var(--teal-600) 0%, var(--foreground) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -248,7 +390,7 @@ a, button {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
 }
 
 /* Section spacing */

@@ -20,9 +20,9 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
   const accessLink = liveLink || githubLink;
 
   return (
-    <div className="group bg-white rounded-xl border border-card-border overflow-hidden card-hover">
+    <div className="group bg-card rounded-xl border border-card-border overflow-hidden card-hover">
       {/* Thumbnail */}
-      <div className="relative h-48 overflow-hidden bg-navy-100">
+      <div className="relative h-48 overflow-hidden bg-muted">
         <Image
           src={project.thumbnail}
           alt={project.title}
@@ -36,7 +36,7 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
           }}
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Status Badge */}
         <div className="absolute top-3 right-3">
@@ -45,8 +45,8 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
               project.status === 'Live'
                 ? 'bg-teal-500 text-white'
                 : project.status === 'In Development'
-                ? 'bg-yellow-500 text-navy-900'
-                : 'bg-navy-600 text-white'
+                ? 'bg-yellow-500 text-black'
+                : 'bg-muted-foreground text-background'
             }`}
           >
             {project.status}
@@ -56,14 +56,14 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
         {/* Category Badge */}
         {project.company && (
           <div className="absolute top-3 left-3">
-            <span className="px-2 py-1 text-xs font-medium rounded-full bg-navy-900/80 text-white">
+            <span className="px-2 py-1 text-xs font-medium rounded-full bg-black/70 text-white">
               {project.company}
             </span>
           </div>
         )}
 
         {/* Placeholder fallback */}
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-600 to-navy-800 -z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary to-foreground/80 -z-10">
           <span className="text-white/30 text-6xl font-bold">
             {project.title.charAt(0)}
           </span>
@@ -74,13 +74,13 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
       <div className="p-5">
         {/* Title */}
         <Link href={`/projects/${project.slug}`}>
-          <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-1">
+          <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-secondary transition-colors line-clamp-1">
             {project.title}
           </h3>
         </Link>
 
         {/* Description */}
-        <p className={`text-navy-600 text-sm mb-4 ${showFullDescription ? '' : 'line-clamp-2'}`}>
+        <p className={`text-foreground-muted text-sm mb-4 ${showFullDescription ? '' : 'line-clamp-2'}`}>
           {project.description}
         </p>
 
@@ -99,7 +99,7 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 pt-3 border-t border-navy-100">
+        <div className="flex gap-2 pt-3 border-t border-card-border">
           <Button
             href={readMoreHref}
             variant="outline"

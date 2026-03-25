@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Navigation, Footer } from '@/components/layout';
+import ThemeProvider from '@/components/ThemeProvider';
 import { siteConfig } from '@/data/site-config';
 import './globals.css';
 
@@ -83,7 +84,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Inline script to prevent theme flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme') || 'dark';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch(e) {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+
       {/* Google Analytics */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-1MSNYKQ1DC"
@@ -102,12 +121,14 @@ export default function RootLayout({
       </Script>
 
       <body
-        className="font-sans antialiased min-h-screen flex flex-col"
+        className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground"
         suppressHydrationWarning
       >
-        <Navigation />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -15,7 +15,6 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'teal',
   },
   {
     title: 'Experience',
@@ -31,7 +30,6 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'navy',
   },
   {
     title: 'Contact',
@@ -47,50 +45,31 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'teal',
   },
 ];
-
-const colorClasses = {
-  teal: {
-    bg: 'bg-teal-50',
-    icon: 'text-teal-600',
-    hover: 'hover:border-teal-300',
-  },
-  navy: {
-    bg: 'bg-navy-50',
-    icon: 'text-navy-600',
-    hover: 'hover:border-navy-300',
-  },
-};
 
 export default function QuickNav() {
   return (
     <section className="section-padding">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {navCards.map((card) => {
-            const colors = colorClasses[card.color as keyof typeof colorClasses];
-            return (
-              <Link
-                key={card.href}
-                href={card.href}
-                className={`group p-6 bg-white rounded-xl border border-card-border ${colors.hover} transition-all duration-300 card-hover`}
-              >
-                <div
-                  className={`inline-flex p-3 rounded-lg ${colors.bg} ${colors.icon} mb-4`}
-                >
-                  {card.icon}
-                </div>
-                <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-navy-600">
-                  {card.description}
-                </p>
-              </Link>
-            );
-          })}
+          {navCards.map((card) => (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="group p-6 bg-card rounded-xl border border-card-border hover:border-secondary/50 transition-all duration-300 card-hover"
+            >
+              <div className="inline-flex p-3 rounded-lg bg-secondary/10 text-secondary mb-4">
+                {card.icon}
+              </div>
+              <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
+                {card.title}
+              </h3>
+              <p className="text-sm text-foreground-muted">
+                {card.description}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
