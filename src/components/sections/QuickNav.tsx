@@ -1,12 +1,15 @@
+'use client';
+
 import Link from 'next/link';
+import { motion, type Variants } from 'framer-motion';
 
 const navCards = [
   {
     title: 'Projects',
-    description: 'Explore my portfolio of ML systems, data pipelines, and automation tools',
+    description: 'Explore my portfolio of AI systems, data pipelines, and automation tools',
     href: '/projects',
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -15,14 +18,13 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'teal',
   },
   {
     title: 'Experience',
     description: 'My professional journey at Sony, Cisco, and Tech Mahindra',
     href: '/experience',
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -31,14 +33,13 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'navy',
   },
   {
     title: 'Contact',
-    description: 'Let\'s connect and discuss opportunities or collaborations',
+    description: "Let's connect and discuss opportunities or collaborations",
     href: '/contact',
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -47,51 +48,66 @@ const navCards = [
         />
       </svg>
     ),
-    color: 'teal',
   },
 ];
 
-const colorClasses = {
-  teal: {
-    bg: 'bg-teal-50',
-    icon: 'text-teal-600',
-    hover: 'hover:border-teal-300',
-  },
-  navy: {
-    bg: 'bg-navy-50',
-    icon: 'text-navy-600',
-    hover: 'hover:border-navy-300',
-  },
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
 export default function QuickNav() {
   return (
-    <section className="section-padding">
+    <section className="section-padding bg-background-alt relative">
+      {/* Top divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {navCards.map((card) => {
-            const colors = colorClasses[card.color as keyof typeof colorClasses];
-            return (
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+        >
+          {navCards.map((card) => (
+            <motion.div key={card.href} variants={cardVariants}>
               <Link
-                key={card.href}
                 href={card.href}
-                className={`group p-6 bg-white rounded-xl border border-card-border ${colors.hover} transition-all duration-300 card-hover`}
+                className="group relative flex flex-col p-6 rounded-xl bg-card border border-card-border overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-secondary/40 h-full"
               >
-                <div
-                  className={`inline-flex p-3 rounded-lg ${colors.bg} ${colors.icon} mb-4`}
-                >
+                {/* Teal left accent border */}
+                <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-gradient-to-b from-secondary/60 via-secondary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Icon */}
+                <div className="inline-flex p-3 rounded-lg bg-secondary/10 text-secondary mb-4 w-fit">
                   {card.icon}
                 </div>
-                <h3 className="text-lg font-bold text-navy-900 mb-2 group-hover:text-teal-600 transition-colors">
+
+                {/* Text */}
+                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
                   {card.title}
                 </h3>
-                <p className="text-sm text-navy-600">
+                <p className="text-sm text-foreground-muted flex-1">
                   {card.description}
                 </p>
+
+                {/* Arrow */}
+                <div className="mt-4 flex items-center gap-1 text-secondary text-sm font-semibold opacity-0 group-hover:opacity-100 translate-x-0 group-hover:translate-x-1 transition-all duration-200">
+                  Explore
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
               </Link>
-            );
-          })}
-        </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

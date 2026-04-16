@@ -36,18 +36,18 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-900 text-white">
+    <footer className="bg-card border-t border-card-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Column */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <span className="text-2xl font-bold">
-                Pavitra<span className="text-teal-400">.</span>
+              <span className="text-2xl font-bold text-foreground">
+                Pavitra<span className="text-secondary">.</span>
               </span>
             </Link>
-            <p className="text-navy-300 text-sm leading-relaxed">
+            <p className="text-foreground-muted text-sm leading-relaxed">
               {siteConfig.tagline}. Building intelligent systems and crafting elegant solutions.
             </p>
             {/* Social Links */}
@@ -58,7 +58,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-navy-400 hover:text-teal-400 transition-colors"
+                  className="text-muted-foreground hover:text-secondary transition-colors"
                   aria-label={social.label}
                 >
                   <SocialIcon platform={social.platform} />
@@ -69,7 +69,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-navy-400 mb-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
               Quick Links
             </h3>
             <ul className="space-y-3">
@@ -77,7 +77,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-navy-300 hover:text-teal-400 transition-colors text-sm"
+                    className="text-foreground-muted hover:text-secondary transition-colors text-sm"
                   >
                     {item.label}
                   </Link>
@@ -88,16 +88,16 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-navy-400 mb-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
               Get in Touch
             </h3>
-            <div className="space-y-3 text-sm text-navy-300">
+            <div className="space-y-3 text-sm text-foreground-muted">
               <p>
                 Open for opportunities and collaborations.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center text-teal-400 hover:text-teal-300 transition-colors"
+                className="inline-flex items-center text-secondary hover:text-teal-400 transition-colors"
               >
                 Send a message
                 <svg
@@ -119,12 +119,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-6 border-t border-navy-800">
+        <div className="py-6 border-t border-card-border">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-            <p className="text-navy-400 text-sm">
+            <p className="text-muted-foreground text-sm">
               &copy; {currentYear} {siteConfig.name}. All rights reserved.
             </p>
-            <p className="text-navy-500 text-xs">
+            <p className="text-muted-foreground text-xs">
               Built with Next.js & Tailwind CSS
             </p>
           </div>

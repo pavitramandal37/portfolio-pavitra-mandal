@@ -29,15 +29,15 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-navy-900 text-white hover:bg-navy-800 focus:ring-navy-500',
+    'bg-foreground text-background hover:bg-foreground/90 focus:ring-foreground/50',
   secondary:
-    'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-500',
+    'bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-secondary/50',
   outline:
-    'border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white focus:ring-navy-500',
+    'border-2 border-foreground text-foreground hover:bg-foreground hover:text-background focus:ring-foreground/50',
   ghost:
-    'text-navy-700 hover:bg-navy-100 focus:ring-navy-500',
+    'text-foreground-muted hover:bg-muted hover:text-foreground focus:ring-muted-foreground/50',
   accent:
-    'bg-rose-500 text-white hover:bg-rose-600 focus:ring-rose-500',
+    'bg-accent text-accent-foreground hover:bg-accent/90 focus:ring-accent/50',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -57,7 +57,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     } = props;
 
     const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+      'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed';
 
     const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 

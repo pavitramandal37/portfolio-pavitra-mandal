@@ -6,10 +6,10 @@ interface TagProps {
 }
 
 const variantStyles = {
-  default: 'bg-navy-100 text-navy-700',
-  teal: 'bg-teal-100 text-teal-700',
-  navy: 'bg-navy-900 text-white',
-  rose: 'bg-rose-100 text-rose-700',
+  default: 'bg-muted text-foreground-muted',
+  teal: 'bg-secondary/10 text-secondary',
+  navy: 'bg-foreground text-background',
+  rose: 'bg-accent/10 text-accent',
 };
 
 const sizeStyles = {
