@@ -1,6 +1,19 @@
+'use client';
+
+import { motion, type Variants } from 'framer-motion';
 import { getFeaturedProjects } from '@/data/projects';
 import { SectionHeader, Button } from '@/components/ui';
 import ProjectCard from './ProjectCard';
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
 export default function FeaturedProjects() {
   const featuredProjects = getFeaturedProjects();
@@ -8,20 +21,41 @@ export default function FeaturedProjects() {
   return (
     <section className="section-padding bg-background-alt">
       <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          title="Featured Projects"
-          subtitle="A selection of projects that showcase my expertise in ML engineering, data pipelines, and automation"
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <SectionHeader
+            title="Featured Projects"
+            subtitle="A selection of projects that showcase my expertise in AI engineering, data pipelines, and MLOps"
+          />
+        </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+        >
           {featuredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <motion.div key={project.id} variants={cardVariants}>
+              <ProjectCard project={project} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* View All Button */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
           <Button href="/projects" variant="outline" size="lg">
             View All Projects
             <svg
@@ -38,7 +72,7 @@ export default function FeaturedProjects() {
               />
             </svg>
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

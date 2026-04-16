@@ -89,13 +89,13 @@ export default async function ProjectDetailPage({ params }: Props) {
                     Home
                   </Link>
                 </li>
-                <li className="text-slate-500">/</li>
+                <li className="text-muted-foreground">/</li>
                 <li>
                   <Link href="/projects" className="text-slate-300 hover:text-white transition-colors">
                     Projects
                   </Link>
                 </li>
-                <li className="text-slate-500">/</li>
+                <li className="text-muted-foreground">/</li>
                 <li className="text-teal-400 font-medium truncate max-w-[200px]">{project.title}</li>
               </ol>
             </nav>
@@ -189,39 +189,39 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className="lg:col-span-2 space-y-12">
               {/* Problem Statement */}
               {project.problemStatement && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center">
-                    <span className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mr-3">
+                <div className="bg-card rounded-2xl p-6 border border-card-border shadow-sm">
+                  <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
+                    <span className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center mr-3">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </span>
                     Problem Statement
                   </h2>
-                  <p className="text-slate-600 leading-relaxed">{project.problemStatement}</p>
+                  <p className="text-foreground-muted leading-relaxed">{project.problemStatement}</p>
                 </div>
               )}
 
               {/* Approach */}
               {project.approach && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center">
-                    <span className="w-10 h-10 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center mr-3">
+                <div className="bg-card rounded-2xl p-6 border border-card-border shadow-sm">
+                  <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
+                    <span className="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mr-3">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     </span>
                     My Approach
                   </h2>
-                  <p className="text-slate-600 leading-relaxed">{project.approach}</p>
+                  <p className="text-foreground-muted leading-relaxed">{project.approach}</p>
                 </div>
               )}
 
               {/* Outcomes */}
               {project.outcomes && project.outcomes.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center">
-                    <span className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                <div className="bg-card rounded-2xl p-6 border border-card-border shadow-sm">
+                  <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
+                    <span className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mr-3">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
@@ -234,7 +234,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                         <svg className="w-5 h-5 text-teal-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="text-slate-600">{outcome}</span>
+                        <span className="text-foreground-muted">{outcome}</span>
                       </li>
                     ))}
                   </ul>
@@ -244,10 +244,10 @@ export default async function ProjectDetailPage({ params }: Props) {
               {/* Screenshots */}
               {project.screenshots && project.screenshots.length > 0 && (
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4">Screenshots</h2>
+                  <h2 className="text-2xl font-bold text-foreground mb-4">Screenshots</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {project.screenshots.map((screenshot, index) => (
-                      <div key={index} className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 shadow-lg">
+                      <div key={index} className="relative aspect-video rounded-xl overflow-hidden bg-muted shadow-lg">
                         <Image
                           src={screenshot}
                           alt={`${project.title} screenshot ${index + 1}`}
@@ -267,8 +267,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               {/* Video Embed */}
               {project.videoUrl && (
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4">Demo Video</h2>
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 shadow-lg">
+                  <h2 className="text-2xl font-bold text-foreground mb-4">Demo Video</h2>
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-muted shadow-lg">
                     <iframe
                       src={project.videoUrl}
                       className="absolute inset-0 w-full h-full"
@@ -284,8 +284,8 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className="lg:col-span-1 space-y-6">
                 {/* Tech Stack */}
                 {project.techStack && project.techStack.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4">Tech Stack</h3>
+                <div className="bg-card rounded-2xl border border-card-border p-6 shadow-sm">
+                  <h3 className="text-lg font-bold text-foreground mb-4">Tech Stack</h3>
                   <div className="flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
                     <Tag key={tech} size="md">
@@ -297,8 +297,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               )}
 
               {/* Tags */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">Tags</h3>
+              <div className="bg-card rounded-2xl border border-card-border p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-foreground mb-4">Tags</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <Tag key={tag} size="md">
@@ -309,32 +309,32 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
 
               {/* Project Info */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">Project Info</h3>
+              <div className="bg-card rounded-2xl border border-card-border p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-foreground mb-4">Project Info</h3>
                 <dl className="space-y-4 text-sm">
-                  <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                    <dt className="text-slate-500">Status</dt>
-                    <dd className="font-semibold text-slate-900">{project.status}</dd>
+                  <div className="flex justify-between items-center py-2 border-b border-card-border">
+                    <dt className="text-muted-foreground">Status</dt>
+                    <dd className="font-semibold text-foreground">{project.status}</dd>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                    <dt className="text-slate-500">Category</dt>
-                    <dd className="font-semibold text-slate-900">{project.category}</dd>
+                  <div className="flex justify-between items-center py-2 border-b border-card-border">
+                    <dt className="text-muted-foreground">Category</dt>
+                    <dd className="font-semibold text-foreground">{project.category}</dd>
                   </div>
                   {project.company && (
-                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                      <dt className="text-slate-500">Company</dt>
-                      <dd className="font-semibold text-slate-900">{project.company}</dd>
+                    <div className="flex justify-between items-center py-2 border-b border-card-border">
+                      <dt className="text-muted-foreground">Company</dt>
+                      <dd className="font-semibold text-foreground">{project.company}</dd>
                     </div>
                   )}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                    <dt className="text-slate-500">Created</dt>
-                    <dd className="font-semibold text-slate-900">
+                  <div className="flex justify-between items-center py-2 border-b border-card-border">
+                    <dt className="text-muted-foreground">Created</dt>
+                    <dd className="font-semibold text-foreground">
                       {formatRelativeDate(project.dateCreated)}
                     </dd>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <dt className="text-slate-500">Ended</dt>
-                    <dd className="font-semibold text-slate-900">
+                    <dt className="text-muted-foreground">Ended</dt>
+                    <dd className="font-semibold text-foreground">
                       {formatEndDate(project.dateEnded)}
                     </dd>
                   </div>
@@ -342,8 +342,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
 
               {/* Links */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">Links</h3>
+              <div className="bg-card rounded-2xl border border-card-border p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-foreground mb-4">Links</h3>
                 <div className="space-y-2">
                   {project.links.map((link, index) => (
                     <a
@@ -353,8 +353,8 @@ export default async function ProjectDetailPage({ params }: Props) {
                       rel="noopener noreferrer"
                       className={`flex items-center p-3 rounded-xl transition-all ${
                         link.url.startsWith('[PLACEHOLDER')
-                          ? 'text-slate-400 cursor-not-allowed bg-slate-50'
-                          : 'text-slate-700 hover:bg-teal-50 hover:text-teal-700 border border-slate-100 hover:border-teal-200'
+                          ? 'text-muted-foreground cursor-not-allowed bg-muted'
+                          : 'text-foreground-muted hover:bg-secondary/5 hover:text-secondary border border-card-border hover:border-secondary/30'
                       }`}
                     >
                       <span className="capitalize font-medium">{link.type}</span>
@@ -364,7 +364,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                         </svg>
                       )}
                       {link.url.startsWith('[PLACEHOLDER') && (
-                        <span className="ml-auto text-xs text-slate-400">(Coming soon)</span>
+                        <span className="ml-auto text-xs text-muted-foreground">(Coming soon)</span>
                       )}
                     </a>
                   ))}
@@ -377,9 +377,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       {/* Related Projects */}
       {relatedProjects.length > 0 && (
-        <section className="section-padding bg-slate-50">
+        <section className="section-padding bg-background-alt">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Related Projects</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Related Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProjects.map((relatedProject) => (
                 <ProjectCard key={relatedProject.id} project={relatedProject} />

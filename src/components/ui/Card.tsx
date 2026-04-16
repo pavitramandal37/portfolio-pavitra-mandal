@@ -26,7 +26,7 @@ export default function Card({
   padding = 'md',
 }: CardProps) {
   const baseStyles = `
-    bg-white rounded-xl border border-card-border
+    bg-card rounded-xl border border-card-border
     ${paddingStyles[padding]}
     ${hoverable ? 'card-hover cursor-pointer' : ''}
     ${className}
@@ -64,7 +64,7 @@ Card.Title = function CardTitle({
   as?: 'h2' | 'h3' | 'h4';
 }) {
   return (
-    <Component className={`text-xl font-bold text-navy-900 ${className}`}>
+    <Component className={`text-xl font-bold text-foreground ${className}`}>
       {children}
     </Component>
   );
@@ -78,7 +78,7 @@ Card.Description = function CardDescription({
   className?: string;
 }) {
   return (
-    <p className={`text-navy-600 text-sm leading-relaxed ${className}`}>
+    <p className={`text-foreground-muted text-sm leading-relaxed ${className}`}>
       {children}
     </p>
   );
@@ -92,7 +92,7 @@ Card.Footer = function CardFooter({
   className?: string;
 }) {
   return (
-    <div className={`mt-4 pt-4 border-t border-navy-100 ${className}`}>
+    <div className={`mt-4 pt-4 border-t border-card-border ${className}`}>
       {children}
     </div>
   );
