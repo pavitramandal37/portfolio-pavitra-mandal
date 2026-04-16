@@ -142,6 +142,26 @@ export default function ContactPage() {
               </p>
             </div>
 
+            {/* RESUME DOWNLOAD */}
+            <a
+              href="/resume/Pavitra Mandal.pdf"
+              download="Pavitra_Mandal_Resume.pdf"
+              className="group flex items-center gap-4 p-5 rounded-2xl border border-card-border bg-card hover:border-secondary/50 hover:shadow-md transition-all duration-200"
+            >
+              <div className="w-11 h-11 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0 group-hover:bg-secondary/20 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-foreground group-hover:text-secondary transition-colors">Download Resume</p>
+                <p className="text-xs text-foreground-muted mt-0.5">PDF · Latest version</p>
+              </div>
+              <svg className="w-4 h-4 text-muted-foreground opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
           </div>
 
           {/* 3. Contact Form Column */}

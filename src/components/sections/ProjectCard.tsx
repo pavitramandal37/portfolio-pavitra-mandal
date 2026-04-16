@@ -27,7 +27,7 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
           src={project.thumbnail}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-contain transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onError={(e) => {
             // Fallback for placeholder images
@@ -41,14 +41,20 @@ export default function ProjectCard({ project, showFullDescription = false }: Pr
         {/* Status Badge */}
         <div className="absolute top-3 right-3">
           <span
-            className={`px-2 py-1 text-xs font-medium rounded-full ${
+            className="px-2.5 py-1 text-xs font-semibold rounded-full flex items-center gap-1.5"
+            style={
               project.status === 'Live'
-                ? 'bg-teal-500 text-white'
+                ? { backgroundColor: 'rgba(20, 184, 166, 0.9)', color: '#fff' }
                 : project.status === 'In Development'
-                ? 'bg-yellow-500 text-black'
-                : 'bg-muted-foreground text-background'
-            }`}
+                ? { backgroundColor: 'rgba(245, 158, 11, 0.9)', color: '#fff' }
+                : project.status === 'Completed'
+                ? { backgroundColor: 'rgba(34, 197, 94, 0.85)', color: '#fff' }
+                : { backgroundColor: 'rgba(113, 113, 122, 0.85)', color: '#fff' }
+            }
           >
+            {(project.status === 'Live' || project.status === 'In Development') && (
+              <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse inline-block" />
+            )}
             {project.status}
           </span>
         </div>

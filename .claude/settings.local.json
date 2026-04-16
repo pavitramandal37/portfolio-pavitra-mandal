@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"d:\\\\\\\\My Apps\\\\\\\\porfolio project\\\\\\\\portfolio-pavitra-mandal\\\\\\\\public\\\\\\\\resume\\\\\\\\\")",
+      "Bash(find \"d:\\\\\\\\My Apps\\\\\\\\porfolio project\\\\\\\\portfolio-pavitra-mandal\\\\\\\\src\" -type f \\\\\\( -name \"*theme*\" -o -name \"*provider*\" -o -name \"*context*\" \\\\\\))",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

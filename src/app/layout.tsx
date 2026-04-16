@@ -87,7 +87,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Inline script to prevent theme flash */}
+        {/* suppressHydrationWarning: browser extensions (e.g. BIS/Honey) modify this
+            script tag before React hydrates, causing a false mismatch warning. */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
