@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getAllExperiences } from '@/data/experience';
-import { Button, Tag, PageHero } from '@/components/ui';
+import { Button, PageHero } from '@/components/ui';
 import CornerBrackets from '@/components/ui/CornerBrackets';
 import { Experience, Role } from '@/types';
 import pageImages from '@/data/pageImages';
@@ -132,184 +132,259 @@ function calculateDuration(startDate: string, endDate: string): string {
 function RoleCard({ role, isLast }: { role: Role; isLast: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false);
   return (
-    <div className={`relative ${!isLast ? 'mb-6 pb-6 border-b border-card-border' : ''}`}>
-      <div className="mb-3">
-        <div className="flex items-start justify-between mb-2">
-          <div>
-            <h4 className="text-lg font-bold text-foreground">{role.title}</h4>
-            {role.clientCompany && (
-              <span className="inline-flex items-center gap-1.5 mt-1 px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-xs font-semibold text-secondary">
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Client: {role.clientCompany}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2 text-sm text-foreground-muted">
-          <div className="flex items-center gap-1.5">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>{formatDate(role.startDate)} — {formatDate(role.endDate)}</span>
-          </div>
-          <span className="text-muted-foreground">|</span>
-          <span className="font-medium text-secondary">{calculateDuration(role.startDate, role.endDate)}</span>
-          <span className="text-muted-foreground">|</span>
-          <div className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>{role.location}</span>
-          </div>
-        </div>
+    <div style={{ borderBottom: isLast ? 'none' : '1px solid var(--card-border)', paddingBottom: isLast ? 0 : '24px', marginBottom: isLast ? 0 : '24px' }}>
+      <h4 style={{ ...DISPLAY, fontSize: '1.1rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.25, marginBottom: '10px' }}>
+        {role.title}
+      </h4>
+
+      {role.clientCompany && (
+        <span
+          style={{ ...MONO, fontSize: '8px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#E4572E', border: '1px solid rgba(228,87,46,0.35)', padding: '2px 8px', display: 'inline-block', marginBottom: '10px' }}
+        >
+          Client: {role.clientCompany}
+        </span>
+      )}
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '12px' }}>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: 'var(--foreground-muted)' }}>
+          {formatDate(role.startDate)} — {formatDate(role.endDate)}
+        </span>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: '#E4572E' }}>
+          {calculateDuration(role.startDate, role.endDate)}
+        </span>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: 'var(--foreground-muted)', opacity: 0.65 }}>
+          {role.location}
+        </span>
       </div>
-      <p className="text-foreground-muted mb-3 leading-relaxed">{role.description}</p>
-      <button onClick={() => setIsExpanded(!isExpanded)} className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-teal-400 transition-colors">
-        {isExpanded ? 'Show Less' : 'View Full Details'}
-        <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+      <p style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)', lineHeight: 1.8, marginBottom: '14px' }}>
+        {role.description}
+      </p>
+
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="inline-flex items-center gap-1.5"
+        style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}
+      >
+        {isExpanded ? 'Show Less' : 'View Details'}
+        <svg className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      {isExpanded && (
-        <div className="mt-4 space-y-4">
-          {role.highlights && role.highlights.length > 0 && (
-            <div className="bg-muted rounded-xl p-4 border border-card-border">
-              <h5 className="text-sm font-bold text-foreground mb-3">Key Achievements</h5>
-              <ul className="space-y-2">
-                {role.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground-muted">
-                    <svg className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {role.projects && role.projects.length > 0 && (
-            <div>
-              <h5 className="text-sm font-bold text-foreground mb-3">Projects</h5>
-              <div className="space-y-3">
-                {role.projects.map((project, i) => (
-                  <div key={i} className="bg-card rounded-lg p-4 border border-card-border">
-                    <h6 className="font-semibold text-foreground mb-1">{project.name}</h6>
-                    <p className="text-foreground-muted text-sm mb-2">{project.description}</p>
-                    {project.highlights && (
-                      <ul className="space-y-1">
-                        {project.highlights.map((h, hi) => (
-                          <li key={hi} className="flex items-start gap-2 text-xs text-foreground-muted">
-                            <span className="text-secondary font-bold">•</span>{h}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          {role.technologies && role.technologies.length > 0 && (
-            <div>
-              <h5 className="text-sm font-bold text-foreground mb-2">Technologies Used</h5>
-              <div className="flex flex-wrap gap-2">
-                {role.technologies.map(tech => <Tag key={tech} size="sm">{tech}</Tag>)}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
 
-function ExperienceCard({ experience }: { experience: Experience }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const hasMultipleRoles = experience.roles && experience.roles.length > 0;
-  return (
-    <div className="bg-card rounded-2xl border-2 border-card-border hover:border-secondary/50 transition-all shadow-lg hover:shadow-xl p-8">
-      <div className="flex items-start gap-6 mb-6">
-        <div className="relative w-20 h-20 rounded-xl bg-muted border-2 border-card-border flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
-          {experience.companyLogo ? (
-            <Image src={experience.companyLogo} alt={experience.company} fill className="object-contain p-3" />
-          ) : (
-            <span className="text-3xl font-bold text-foreground-muted">{experience.company.charAt(0)}</span>
-          )}
-        </div>
-        <div className="flex-grow">
-          <h3 className="text-2xl font-bold text-foreground mb-2">{experience.company}</h3>
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-sm font-semibold text-secondary">{experience.employmentType}</span>
-            <span className="text-muted-foreground">•</span>
-            <span className="text-foreground-muted font-medium">{formatDate(experience.startDate)} — {formatDate(experience.endDate)}</span>
-            <span className="text-muted-foreground">•</span>
-            <span className="px-3 py-1 bg-muted rounded-full text-sm font-semibold text-foreground-muted">{calculateDuration(experience.startDate, experience.endDate)}</span>
-          </div>
-          {experience.location && (
-            <div className="flex items-center gap-1.5 text-foreground-muted">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="text-sm">{experience.location}</span>
-            </div>
-          )}
-        </div>
-      </div>
-      {hasMultipleRoles ? (
-        <div>
-          <div className="flex items-center gap-2 mb-4 px-4 py-2 bg-secondary/10 rounded-lg border border-secondary/20">
-            <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            <span className="text-sm font-bold text-secondary">Career Progression — {experience.roles!.length} Roles</span>
-          </div>
-          {experience.roles!.map((role, idx) => (
-            <RoleCard key={idx} role={role} isLast={idx === experience.roles!.length - 1} />
-          ))}
-        </div>
-      ) : (
-        <div>
-          {experience.role && <p className="text-lg font-semibold text-secondary mb-3">{experience.role}</p>}
-          {experience.description && <p className="text-foreground-muted mb-4 leading-relaxed">{experience.description}</p>}
-          <button onClick={() => setIsExpanded(!isExpanded)} className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-teal-400 transition-colors">
-            {isExpanded ? 'Show Less' : 'View Full Details'}
-            <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {isExpanded && (
-            <div className="mt-4 space-y-4">
-              {experience.highlights && experience.highlights.length > 0 && (
-                <div className="bg-muted rounded-xl p-4 border border-card-border">
-                  <h5 className="text-sm font-bold text-foreground mb-3">Key Achievements</h5>
-                  <ul className="space-y-2">
-                    {experience.highlights.map((h, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-foreground-muted">
-                        <svg className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            style={{ overflow: 'hidden' }}
+          >
+            <div style={{ paddingTop: '16px' }}>
+              {role.highlights && role.highlights.length > 0 && (
+                <div style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '16px', marginBottom: '14px' }}>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '12px' }}>
+                    Key Achievements
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {role.highlights.map((h, i) => (
+                      <li key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px', fontSize: '0.83rem', color: 'var(--foreground-muted)', lineHeight: 1.65 }}>
+                        <span style={{ color: '#E4572E', flexShrink: 0 }}>—</span>
                         {h}
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              {experience.technologies && experience.technologies.length > 0 && (
+
+              {role.projects && role.projects.length > 0 && (
+                <div style={{ marginBottom: '14px' }}>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '10px' }}>
+                    Projects
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {role.projects.map((project, i) => (
+                      <div key={i} style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '14px' }}>
+                        <p style={{ ...DISPLAY, fontSize: '0.95rem', fontWeight: 400, color: 'var(--foreground)', marginBottom: '5px' }}>
+                          {project.name}
+                        </p>
+                        <p style={{ fontSize: '0.81rem', color: 'var(--foreground-muted)', lineHeight: 1.65, marginBottom: project.highlights ? '8px' : 0 }}>
+                          {project.description}
+                        </p>
+                        {project.highlights && (
+                          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            {project.highlights.map((h, hi) => (
+                              <li key={hi} style={{ display: 'flex', gap: '8px', marginBottom: '4px', fontSize: '0.78rem', color: 'var(--foreground-muted)', lineHeight: 1.5 }}>
+                                <span style={{ color: '#E4572E', flexShrink: 0 }}>·</span>{h}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {role.technologies && role.technologies.length > 0 && (
                 <div>
-                  <h5 className="text-sm font-bold text-foreground mb-2">Technologies Used</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {experience.technologies.map(tech => <Tag key={tech} size="sm">{tech}</Tag>)}
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '8px' }}>
+                    Technologies
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {role.technologies.map(tech => (
+                      <span key={tech} style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 8px', border: '1px solid var(--card-border)', color: 'var(--foreground-muted)' }}>
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function ExperienceCard({ experience, isPresent }: { experience: Experience; isPresent: boolean }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasMultipleRoles = experience.roles && experience.roles.length > 0;
+
+  return (
+    <div
+      className="border overflow-hidden"
+      style={{
+        borderColor: isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)',
+        borderLeft: isPresent ? '3px solid #E4572E' : undefined,
+        backgroundColor: 'var(--card)',
+        boxShadow: isPresent ? '0 4px 24px rgba(228,87,46,0.08)' : 'none',
+      }}
+    >
+      {/* Company header */}
+      <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--card-border)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+        {/* Logo */}
+        <div
+          className="relative shrink-0 overflow-hidden"
+          style={{ width: '52px', height: '52px', border: `1px solid ${isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)'}`, backgroundColor: 'var(--background-alt)' }}
+        >
+          {experience.companyLogo ? (
+            <Image src={experience.companyLogo} alt={experience.company} fill className="object-contain p-2" sizes="52px" />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span style={{ ...MONO, fontSize: '13px', fontWeight: 700, color: isPresent ? '#E4572E' : 'var(--foreground-muted)' }}>
+                {experience.company.slice(0, 2).toUpperCase()}
+              </span>
+            </div>
           )}
         </div>
-      )}
+
+        <div style={{ flex: 1 }}>
+          <h3 style={{ ...DISPLAY, fontSize: '1.4rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.2, marginBottom: '8px' }}>
+            {experience.company}
+          </h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ ...MONO, fontSize: '8px', letterSpacing: '0.12em', textTransform: 'uppercase', color: isPresent ? '#E4572E' : 'var(--foreground-muted)', border: `1px solid ${isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)'}`, padding: '2px 8px' }}>
+              {experience.employmentType}
+            </span>
+            <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)' }}>
+              {formatDate(experience.startDate)} — {formatDate(experience.endDate)}
+            </span>
+            <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: '#E4572E' }}>
+              {calculateDuration(experience.startDate, experience.endDate)}
+            </span>
+          </div>
+          {experience.location && (
+            <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)', opacity: 0.6 }}>
+              {experience.location}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div style={{ padding: '24px 28px' }}>
+        {hasMultipleRoles ? (
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', borderLeft: '2px solid #E4572E', paddingLeft: '10px' }}>
+              <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}>
+                Career Progression · {experience.roles!.length} Roles
+              </span>
+            </div>
+            {experience.roles!.map((role, idx) => (
+              <RoleCard key={idx} role={role} isLast={idx === experience.roles!.length - 1} />
+            ))}
+          </div>
+        ) : (
+          <div>
+            {experience.role && (
+              <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+                {experience.role}
+              </p>
+            )}
+            {experience.description && (
+              <p style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)', lineHeight: 1.8, marginBottom: '16px' }}>
+                {experience.description}
+              </p>
+            )}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="inline-flex items-center gap-1.5"
+              style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}
+            >
+              {isExpanded ? 'Show Less' : 'View Details'}
+              <svg className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div style={{ paddingTop: '16px' }}>
+                    {experience.highlights && experience.highlights.length > 0 && (
+                      <div style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '16px', marginBottom: '14px' }}>
+                        <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '12px' }}>
+                          Key Achievements
+                        </p>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {experience.highlights.map((h, i) => (
+                            <li key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px', fontSize: '0.83rem', color: 'var(--foreground-muted)', lineHeight: 1.65 }}>
+                              <span style={{ color: '#E4572E', flexShrink: 0 }}>—</span>
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {experience.technologies && experience.technologies.length > 0 && (
+                      <div>
+                        <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '8px' }}>
+                          Technologies
+                        </p>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {experience.technologies.map(tech => (
+                            <span key={tech} style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 8px', border: '1px solid var(--card-border)', color: 'var(--foreground-muted)' }}>
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -353,18 +428,49 @@ export default function ExperiencePage() {
               Career Timeline
             </h2>
           </motion.div>
-          <div className="space-y-6">
-            {experiences.map((experience, idx) => (
-              <motion.div
-                key={experience.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-              >
-                <ExperienceCard experience={experience} />
-              </motion.div>
-            ))}
+          <div className="relative">
+            {/* Vertical connecting line */}
+            <div
+              className="absolute hidden sm:block"
+              style={{ left: '19px', top: '20px', bottom: '20px', width: '1px', backgroundColor: 'var(--card-border)' }}
+            />
+
+            <div className="space-y-6">
+              {experiences.map((experience, idx) => {
+                const isPresent = experience.endDate === 'Present';
+                return (
+                  <motion.div
+                    key={experience.id}
+                    className="relative sm:pl-14"
+                    initial={{ opacity: 0, x: -24 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55, delay: idx * 0.1 }}
+                  >
+                    {/* Timeline node */}
+                    <div
+                      className="hidden sm:flex absolute left-0 top-5 w-10 h-10 items-center justify-center overflow-hidden"
+                      style={{
+                        border: `1px solid ${isPresent ? '#E4572E' : 'var(--card-border)'}`,
+                        backgroundColor: isPresent ? 'rgba(228,87,46,0.08)' : 'var(--card)',
+                      }}
+                    >
+                      {experience.companyLogo ? (
+                        <div className="relative w-6 h-6">
+                          <Image src={experience.companyLogo} alt={experience.company} fill className="object-contain" sizes="24px" />
+                        </div>
+                      ) : (
+                        <span style={{ ...MONO, fontSize: '8px', fontWeight: 700, letterSpacing: '0.05em', color: isPresent ? '#E4572E' : 'var(--foreground-muted)' }}>
+                          {experience.company.slice(0, 2).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+
+                    <ExperienceCard experience={experience} isPresent={isPresent} />
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
