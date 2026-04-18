@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { siteConfig } from '@/data/site-config';
-import { SectionHeader, Button } from '@/components/ui';
+import { SectionHeader, Button, PageHero } from '@/components/ui';
+import pageImages from '@/data/pageImages';
 
 // ----------------------------------------------------------------------
 // 1. Icon Components
@@ -66,15 +67,16 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-background">
+    <div className="pb-16 min-h-screen bg-background">
 
-      {/* 1. Header */}
-      <div className="max-w-4xl mx-auto px-4 mb-16 text-center">
-        <SectionHeader
-          title="Let's Build Together"
-          subtitle="Open for collaboration, consulting, or just a friendly tech chat."
-        />
-      </div>
+      <PageHero
+        title="Let's Build"
+        titleItalic="Together"
+        category="Contact"
+        subtitle="Open for collaboration, consulting, or just a friendly tech chat."
+        imageSrc={pageImages.contact}
+        imageAlt="Contact"
+      />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { getAllProjects, getAllCategories, getAllTags } from '@/data/projects';
 import { Project } from '@/types';
 import { ProjectCard } from '@/components/sections';
+import { PageHero } from '@/components/ui';
+import pageImages from '@/data/pageImages';
 
 type SortOption = 'newest' | 'oldest' | 'endDate' | 'title';
 type FilterCategory = Project['category'] | 'All';
@@ -114,46 +116,15 @@ export default function ProjectsPage() {
   }, [allProjects, categories]);
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background">
 
-      {/* ── Page Header ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-background-alt border-b border-card-border">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-medium mb-5">
-              <span className="w-2 h-2 bg-secondary rounded-full animate-pulse" />
-              AI &amp; Data Engineering Portfolio
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">
-              Project Portfolio
-            </h1>
-            <p className="text-lg text-foreground-muted max-w-2xl mx-auto">
-              AI agents, MLOps pipelines, data platforms, and enterprise migrations — built at scale.
-            </p>
-
-            {/* Slim stats bar */}
-            <div className="mt-8 inline-flex flex-wrap justify-center gap-6 sm:gap-10 px-6 py-4 bg-card rounded-2xl border border-card-border text-sm">
-              <span><span className="text-2xl font-bold text-foreground">{stats.total}</span><span className="ml-1.5 text-foreground-muted">Projects</span></span>
-              <span className="text-card-border">|</span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
-                <span className="text-2xl font-bold text-foreground">{stats.active}</span>
-                <span className="ml-0.5 text-foreground-muted">Active</span>
-              </span>
-              <span className="text-card-border">|</span>
-              <span><span className="text-2xl font-bold text-foreground">{stats.completed}</span><span className="ml-1.5 text-foreground-muted">Completed</span></span>
-              <span className="text-card-border hidden sm:inline">|</span>
-              <span className="hidden sm:inline"><span className="text-2xl font-bold text-foreground">{allTags.length}</span><span className="ml-1.5 text-foreground-muted">Technologies</span></span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        title="Project Portfolio"
+        titleItalic="AI & Data Engineering"
+        category="Selected Work"
+        imageSrc={pageImages.projects}
+        imageAlt="Project Portfolio"
+      />
 
       {/* ── Currently Active ─────────────────────────────── */}
       {activeProjects.length > 0 && (
