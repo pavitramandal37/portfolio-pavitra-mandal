@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'dark' | 'cream';
 
 interface ThemeContextType {
   theme: Theme;
@@ -18,28 +18,45 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
+function getISTTheme(): Theme {
+  try {
+    const override = localStorage.getItem('theme-override') as Theme | null;
+    if (override === 'dark' || override === 'cream') return override;
+
+    const istHour = parseInt(
+      new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: 'numeric',
+        hour12: false,
+      }).format(new Date()),
+      10
+    );
+    return istHour >= 6 && istHour < 18 ? 'cream' : 'dark';
+  } catch {
+    return 'dark';
+  }
+}
+
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    }
+    setTheme(getISTTheme());
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
   }, [theme, mounted]);
 
-  // Prevent flash: apply theme attribute via inline script in layout
-  // but still set it here for dynamic changes
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTheme(prev => {
+      const next: Theme = prev === 'dark' ? 'cream' : 'dark';
+      localStorage.setItem('theme-override', next);
+      return next;
+    });
   };
 
   return (

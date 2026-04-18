@@ -1,108 +1,128 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, type Variants } from 'framer-motion';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import CornerBrackets from '@/components/ui/CornerBrackets';
+import pageImages from '@/data/pageImages';
 
-const navCards = [
+const MONO: React.CSSProperties = { fontFamily: 'var(--font-mono)' };
+const DISPLAY: React.CSSProperties = { fontFamily: 'var(--font-display)' };
+
+const navPanels = [
   {
+    number: '01',
     title: 'Projects',
-    description: 'Explore my portfolio of AI systems, data pipelines, and automation tools',
+    subtitle: 'AI Systems & Data Platforms',
     href: '/projects',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-        />
-      </svg>
-    ),
+    imageSrc: pageImages.navProjects,
   },
   {
+    number: '02',
     title: 'Experience',
-    description: 'My professional journey at Sony, Cisco, and Tech Mahindra',
+    subtitle: 'Sony · Cisco · Tech Mahindra',
     href: '/experience',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
-    ),
+    imageSrc: pageImages.navExperience,
   },
   {
+    number: '03',
     title: 'Contact',
-    description: "Let's connect and discuss opportunities or collaborations",
+    subtitle: "Let's build together",
     href: '/contact',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
-    ),
+    imageSrc: pageImages.navContact,
   },
 ];
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-};
-
 export default function QuickNav() {
   return (
-    <section className="section-padding bg-background-alt relative">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+    <section className="section-padding bg-background relative overflow-hidden">
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }}
+      />
 
       <div className="max-w-6xl mx-auto">
+
+        {/* Section header */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-          variants={containerVariants}
+          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+            Explore
+          </p>
+          <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3.5rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+            Navigate the portfolio
+          </h2>
+        </motion.div>
+
+        {/* Photo panels grid */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-5"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
         >
-          {navCards.map((card) => (
-            <motion.div key={card.href} variants={cardVariants}>
-              <Link
-                href={card.href}
-                className="group relative flex flex-col p-6 rounded-xl bg-card border border-card-border overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-secondary/40 h-full"
-              >
-                {/* Teal left accent border */}
-                <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-gradient-to-b from-secondary/60 via-secondary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {navPanels.map(panel => (
+            <motion.div
+              key={panel.href}
+              variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+            >
+              <Link href={panel.href} className="group block relative overflow-hidden" style={{ height: '320px' }}>
+                {/* Landscape photo */}
+                <Image
+                  src={panel.imageSrc}
+                  alt={panel.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  quality={80}
+                />
 
-                {/* Icon */}
-                <div className="inline-flex p-3 rounded-lg bg-secondary/10 text-secondary mb-4 w-fit">
-                  {card.icon}
+                {/* Dark overlay — lightens on hover */}
+                <div
+                  className="absolute inset-0 transition-opacity duration-500"
+                  style={{ background: 'linear-gradient(to top, rgba(14,14,14,0.85) 0%, rgba(14,14,14,0.3) 100%)' }}
+                />
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ backgroundColor: 'rgba(228,87,46,0.12)' }}
+                />
+
+                {/* Corner brackets */}
+                <div className="absolute inset-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <CornerBrackets size={14} color="#E4572E" thickness={1} />
                 </div>
 
-                {/* Text */}
-                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-foreground-muted flex-1">
-                  {card.description}
-                </p>
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(228,87,46,0.9)', marginBottom: '6px' }}>
+                    {panel.number}
+                  </p>
+                  <h3
+                    className="transition-all duration-300 group-hover:translate-x-1"
+                    style={{ ...DISPLAY, fontSize: '1.8rem', fontWeight: 400, color: '#F4F1EA', lineHeight: 1.1, marginBottom: '6px' }}
+                  >
+                    {panel.title}
+                  </h3>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(244,241,234,0.55)' }}>
+                    {panel.subtitle}
+                  </p>
 
-                {/* Arrow */}
-                <div className="mt-4 flex items-center gap-1 text-secondary text-sm font-semibold opacity-0 group-hover:opacity-100 translate-x-0 group-hover:translate-x-1 transition-all duration-200">
-                  Explore
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  {/* Arrow */}
+                  <div
+                    className="mt-4 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0"
+                    style={{ ...MONO, fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#E4572E' }}
+                  >
+                    Explore
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
                 </div>
               </Link>
             </motion.div>

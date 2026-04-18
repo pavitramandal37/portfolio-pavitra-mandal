@@ -1,5 +1,7 @@
 export { default as Hero } from './Hero';
+export { default as HeroRotator } from './HeroRotator';
 export { default as FeaturedProjects } from './FeaturedProjects';
 export { default as QuickNav } from './QuickNav';
 export { default as ProjectCard } from './ProjectCard';
 export { default as CurrentlyBuilding } from './CurrentlyBuilding';
+export { default as TerminalShowcase } from './TerminalShowcase';
