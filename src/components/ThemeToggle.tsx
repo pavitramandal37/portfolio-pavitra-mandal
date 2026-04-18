@@ -15,18 +15,19 @@ export default function ThemeToggle() {
     return <div className="w-10 h-10 rounded-xl bg-muted" />;
   }
 
+  const isDark = theme === 'dark';
+
   return (
     <button
       onClick={toggleTheme}
       className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 bg-muted text-foreground-muted hover:text-foreground"
-      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      aria-label={`Switch to ${isDark ? 'day' : 'night'} mode`}
+      title={isDark ? 'Switch to day theme (cream)' : 'Switch to night theme (dark)'}
     >
-      {/* Sun icon (shown in dark mode) */}
+      {/* Sun icon — shown in dark/night mode, click to go cream/day */}
       <svg
         className={`w-5 h-5 absolute transition-all duration-300 ${
-          theme === 'dark'
-            ? 'opacity-100 rotate-0 scale-100'
-            : 'opacity-0 rotate-90 scale-0'
+          isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'
         }`}
         fill="none"
         stroke="currentColor"
@@ -40,12 +41,10 @@ export default function ThemeToggle() {
         />
       </svg>
 
-      {/* Moon icon (shown in light mode) */}
+      {/* Moon icon — shown in cream/day mode, click to go dark/night */}
       <svg
         className={`w-5 h-5 absolute transition-all duration-300 ${
-          theme === 'light'
-            ? 'opacity-100 rotate-0 scale-100'
-            : 'opacity-0 -rotate-90 scale-0'
+          !isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
         }`}
         fill="none"
         stroke="currentColor"

@@ -1,9 +1,29 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Fraunces, JetBrains_Mono, Inter } from 'next/font/google';
 import { Navigation, Footer } from '@/components/layout';
 import ThemeProvider from '@/components/ThemeProvider';
 import { siteConfig } from '@/data/site-config';
 import './globals.css';
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-jb-mono',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -44,7 +64,7 @@ export const metadata: Metadata = {
         url: new URL(siteConfig.ogImage, siteConfig.url).toString(),
         width: 1200,
         height: 630,
-        alt: 'Pavitra Mandal – Full Stack Data Engineer',
+        alt: 'Pavitra Mandal – AI & Data Platform Engineer',
       },
     ],
   },
@@ -84,18 +104,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`scroll-smooth ${fraunces.variable} ${jetbrainsMono.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        {/* Inline script to prevent theme flash */}
-        {/* suppressHydrationWarning: browser extensions (e.g. BIS/Honey) modify this
-            script tag before React hydrates, causing a false mismatch warning. */}
+        {/* IST-based theme: 06:00–17:59 IST = cream, 18:00–05:59 IST = dark.
+            Manual override stored in localStorage['theme-override'].
+            Runs before React hydrates to prevent flash. */}
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('theme') || 'dark';
+                  var override = localStorage.getItem('theme-override');
+                  var theme;
+                  if (override === 'dark' || override === 'cream') {
+                    theme = override;
+                  } else {
+                    var istHour = parseInt(
+                      new Intl.DateTimeFormat('en-IN', {
+                        timeZone: 'Asia/Kolkata',
+                        hour: 'numeric',
+                        hour12: false
+                      }).format(new Date()),
+                      10
+                    );
+                    theme = (istHour >= 6 && istHour < 18) ? 'cream' : 'dark';
+                  }
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch(e) {
                   document.documentElement.setAttribute('data-theme', 'dark');
@@ -106,7 +144,6 @@ export default function RootLayout({
         />
       </head>
 
-      {/* Google Analytics */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-1MSNYKQ1DC"
         strategy="afterInteractive"
