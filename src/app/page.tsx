@@ -1,12 +1,13 @@
-import { Hero, FeaturedProjects, QuickNav, CurrentlyBuilding } from '@/components/sections';
+import { HeroRotator, CurrentlyBuilding, QuickNav, FeaturedProjects, TerminalShowcase } from '@/components/sections';
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HeroRotator />
+      <FeaturedProjects />
+      <TerminalShowcase />
       <CurrentlyBuilding />
       <QuickNav />
-      <FeaturedProjects />
     </>
   );
 }

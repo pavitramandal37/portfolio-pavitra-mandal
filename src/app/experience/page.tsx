@@ -2,11 +2,115 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getAllExperiences } from '@/data/experience';
-import { Button, Tag } from '@/components/ui';
+import { Button, PageHero } from '@/components/ui';
+import CornerBrackets from '@/components/ui/CornerBrackets';
 import { Experience, Role } from '@/types';
+import pageImages from '@/data/pageImages';
 
-// Helper functions
+const MONO: React.CSSProperties = { fontFamily: 'var(--font-mono)' };
+const DISPLAY: React.CSSProperties = { fontFamily: 'var(--font-display)' };
+
+// ── Education Data ──────────────────────────────────────────────────────────
+const EDUCATION = [
+  {
+    type: 'B.E.',
+    degree: 'Bachelor of Engineering',
+    field: 'Electronics & Communication Engineering',
+    institution: 'G.H. Raisoni Academy of Engineering and Technology',
+    location: 'Nagpur, India',
+    period: '2017 – 2021',
+    score: 'CGPA 8.47 / 10',
+    note: 'Featured Alumni · Raisoni Alumni Foundation',
+    highlight: true,
+  },
+  {
+    type: 'HSC',
+    degree: 'Higher Secondary Certificate',
+    field: 'Computer Science',
+    institution: 'Ordnance Factory Higher Secondary School Chanda',
+    location: 'India',
+    period: '2015 – 2017',
+    score: '72.93%',
+    note: null,
+    highlight: false,
+  },
+  {
+    type: 'SSC',
+    degree: 'Secondary School Certificate',
+    field: '',
+    institution: 'Ordnance Factory Higher Secondary School Chanda',
+    location: 'India',
+    period: '2015',
+    score: '81.40%',
+    note: null,
+    highlight: false,
+  },
+];
+
+// ── Certifications Data ─────────────────────────────────────────────────────
+const MB = '/certificates/Microsoft%20Azure%20Certification';
+const OB = '/certificates/Oracle%20Certification/Oracle%20Database%40AWS%20Architect';
+
+const CERTS = [
+  {
+    name: 'Azure Data Engineer Associate',
+    code: 'DP-203',
+    issuer: 'Microsoft',
+    validity: '2024 – 2026',
+    badge: null as string | null,
+    pdf: `${MB}/Azure%20Data%20Engineer%20Associate.pdf`,
+    accent: '#0078d4',
+  },
+  {
+    name: 'Azure Data Scientist Associate',
+    code: 'DP-100',
+    issuer: 'Microsoft',
+    validity: '2022 – 2026',
+    badge: `${MB}/azure-data-scientist-associate-600x600.png`,
+    pdf: `${MB}/Azure%20Data%20Scientist%20Associate.pdf`,
+    accent: '#0078d4',
+  },
+  {
+    name: 'Azure AI Engineer Associate',
+    code: 'AI-102',
+    issuer: 'Microsoft',
+    validity: '2024 – 2026',
+    badge: null as string | null,
+    pdf: null as string | null,
+    accent: '#0078d4',
+  },
+  {
+    name: 'Power BI Data Analyst Associate',
+    code: 'PL-300',
+    issuer: 'Microsoft',
+    validity: '2024 – 2025',
+    badge: `${MB}/power-bi-data-analyst-associate.png`,
+    pdf: `${MB}/Power%20BI%20Data%20Analyst%20Associate.pdf`,
+    accent: '#f2c811',
+  },
+  {
+    name: 'Database@AWS Architect Professional',
+    code: 'OCP',
+    issuer: 'Oracle',
+    validity: '2025',
+    badge: `${OB}/ODBAWSOCP.jpg`,
+    pdf: `${OB}/Oracle%20Database%40AWS%20Architect%20Certification.pdf`,
+    accent: '#f80000',
+  },
+  {
+    name: 'Core Designer',
+    code: 'CDS',
+    issuer: 'Dataiku',
+    validity: '2025',
+    badge: null as string | null,
+    pdf: '/certificates/DataIku/certificate-j75df26tfeon-1744000514.pdf',
+    accent: '#1e6fce',
+  },
+];
+
+// ── Helper Functions ────────────────────────────────────────────────────────
 function formatDate(dateStr: string): string {
   if (dateStr === 'Present') return 'Present';
   const date = new Date(dateStr);
@@ -19,400 +123,754 @@ function calculateDuration(startDate: string, endDate: string): string {
   const months = Math.max(1, Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30)));
   const years = Math.floor(months / 12);
   const remainingMonths = months % 12;
-
   if (years === 0) return `${months} mo${months > 1 ? 's' : ''}`;
   if (remainingMonths === 0) return `${years} yr${years > 1 ? 's' : ''}`;
   return `${years} yr${years > 1 ? 's' : ''} ${remainingMonths} mo${remainingMonths > 1 ? 's' : ''}`;
 }
 
-// Role Card Component
+// ── Sub-Components ──────────────────────────────────────────────────────────
 function RoleCard({ role, isLast }: { role: Role; isLast: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
   return (
-    <div className={`relative ${!isLast ? 'mb-6 pb-6 border-b border-card-border' : ''}`}>
-      {/* Role Header */}
-      <div className="mb-3">
-        <div className="flex items-start justify-between mb-2">
-          <div>
-            <h4 className="text-lg font-bold text-foreground">{role.title}</h4>
-            {role.clientCompany && (
-              <span className="inline-flex items-center gap-1.5 mt-1 px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-xs font-semibold text-secondary">
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Client: {role.clientCompany}
-              </span>
-            )}
-          </div>
-        </div>
+    <div style={{ borderBottom: isLast ? 'none' : '1px solid var(--card-border)', paddingBottom: isLast ? 0 : '24px', marginBottom: isLast ? 0 : '24px' }}>
+      <h4 style={{ ...DISPLAY, fontSize: '1.1rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.25, marginBottom: '10px' }}>
+        {role.title}
+      </h4>
 
-        <div className="flex flex-wrap items-center gap-2 text-sm text-foreground-muted">
-          <div className="flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>{formatDate(role.startDate)} — {formatDate(role.endDate)}</span>
-          </div>
-          <span className="text-muted-foreground">|</span>
-          <span className="font-medium text-secondary">{calculateDuration(role.startDate, role.endDate)}</span>
-          <span className="text-muted-foreground">|</span>
-          <div className="flex items-center gap-1">
-            <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>{role.location}</span>
-          </div>
-        </div>
+      {role.clientCompany && (
+        <span
+          style={{ ...MONO, fontSize: '8px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#E4572E', border: '1px solid rgba(228,87,46,0.35)', padding: '2px 8px', display: 'inline-block', marginBottom: '10px' }}
+        >
+          Client: {role.clientCompany}
+        </span>
+      )}
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '12px' }}>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: 'var(--foreground-muted)' }}>
+          {formatDate(role.startDate)} — {formatDate(role.endDate)}
+        </span>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: '#E4572E' }}>
+          {calculateDuration(role.startDate, role.endDate)}
+        </span>
+        <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.09em', color: 'var(--foreground-muted)', opacity: 0.65 }}>
+          {role.location}
+        </span>
       </div>
 
-      {/* Description */}
-      <p className="text-foreground-muted mb-3 leading-relaxed">{role.description}</p>
+      <p style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)', lineHeight: 1.8, marginBottom: '14px' }}>
+        {role.description}
+      </p>
 
-      {/* Expand Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-teal-400 transition-colors"
+        className="inline-flex items-center gap-1.5"
+        style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}
       >
-        {isExpanded ? 'Show Less' : 'View Full Details'}
-        <svg
-          className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        {isExpanded ? 'Show Less' : 'View Details'}
+        <svg className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
-      {/* Expandable Content */}
-      {isExpanded && (
-        <div className="mt-4 space-y-4 animate-slide-down">
-          {/* Achievements */}
-          {role.highlights && role.highlights.length > 0 && (
-            <div className="bg-muted rounded-xl p-4 border border-card-border">
-              <h5 className="text-sm font-bold text-foreground mb-3">Key Achievements</h5>
-              <ul className="space-y-2">
-                {role.highlights.map((highlight, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-foreground-muted">
-                    <svg className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Projects */}
-          {role.projects && role.projects.length > 0 && (
-            <div>
-              <h5 className="text-sm font-bold text-foreground mb-3">Projects</h5>
-              <div className="space-y-3">
-                {role.projects.map((project, idx) => (
-                  <div key={idx} className="bg-card rounded-lg p-4 border border-card-border">
-                    <h6 className="font-semibold text-foreground mb-1">{project.name}</h6>
-                    <p className="text-foreground-muted text-sm mb-2">{project.description}</p>
-                    {project.highlights && project.highlights.length > 0 && (
-                      <ul className="space-y-1">
-                        {project.highlights.map((h, hIdx) => (
-                          <li key={hIdx} className="flex items-start gap-2 text-xs text-foreground-muted">
-                            <span className="text-secondary font-bold">•</span>
-                            {h}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Technologies */}
-          {role.technologies && role.technologies.length > 0 && (
-            <div>
-              <h5 className="text-sm font-bold text-foreground mb-2">Technologies Used</h5>
-              <div className="flex flex-wrap gap-2">
-                {role.technologies.map((tech) => (
-                  <Tag key={tech} size="sm">{tech}</Tag>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Experience Card Component
-function ExperienceCard({ experience }: { experience: Experience }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const hasMultipleRoles = experience.roles && experience.roles.length > 0;
-
-  return (
-    <div className="bg-card rounded-2xl border-2 border-card-border hover:border-secondary/50 transition-all shadow-lg hover:shadow-xl p-8">
-      {/* Header */}
-      <div className="flex items-start gap-6 mb-6">
-        {/* Company Logo */}
-        <div className="relative w-20 h-20 rounded-xl bg-muted border-2 border-card-border flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
-          {experience.companyLogo ? (
-            <Image
-              src={experience.companyLogo}
-              alt={experience.company}
-              fill
-              className="object-contain p-3"
-            />
-          ) : (
-            <span className="text-3xl font-bold text-foreground-muted">
-              {experience.company.charAt(0)}
-            </span>
-          )}
-        </div>
-
-        {/* Company Info */}
-        <div className="flex-grow">
-          <h3 className="text-2xl font-bold text-foreground mb-2">{experience.company}</h3>
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-sm font-semibold text-secondary">
-              {experience.employmentType}
-            </span>
-            <span className="text-muted-foreground">•</span>
-            <span className="text-foreground-muted font-medium">
-              {formatDate(experience.startDate)} — {formatDate(experience.endDate)}
-            </span>
-            <span className="text-muted-foreground">•</span>
-            <span className="px-3 py-1 bg-muted rounded-full text-sm font-semibold text-foreground-muted">
-              {calculateDuration(experience.startDate, experience.endDate)}
-            </span>
-          </div>
-          {experience.location && (
-            <div className="flex items-center gap-1.5 text-foreground-muted">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="text-sm">{experience.location}</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Content */}
-      {hasMultipleRoles ? (
-        <div>
-          <div className="flex items-center gap-2 mb-4 px-4 py-2 bg-secondary/10 rounded-lg border border-secondary/20">
-            <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            <span className="text-sm font-bold text-secondary">
-              Career Progression — {experience.roles!.length} Roles
-            </span>
-          </div>
-          {experience.roles!.map((role, idx) => (
-            <RoleCard key={idx} role={role} isLast={idx === experience.roles!.length - 1} />
-          ))}
-        </div>
-      ) : (
-        <div>
-          {experience.role && (
-            <p className="text-lg font-semibold text-secondary mb-3">{experience.role}</p>
-          )}
-          {experience.description && (
-            <p className="text-foreground-muted mb-4 leading-relaxed">{experience.description}</p>
-          )}
-
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-teal-400 transition-colors"
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            style={{ overflow: 'hidden' }}
           >
-            {isExpanded ? 'Show Less' : 'View Full Details'}
-            <svg
-              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          {isExpanded && (
-            <div className="mt-4 space-y-4 animate-slide-down">
-              {experience.highlights && experience.highlights.length > 0 && (
-                <div className="bg-muted rounded-xl p-4 border border-card-border">
-                  <h5 className="text-sm font-bold text-foreground mb-3">Key Achievements</h5>
-                  <ul className="space-y-2">
-                    {experience.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-foreground-muted">
-                        <svg className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {highlight}
+            <div style={{ paddingTop: '16px' }}>
+              {role.highlights && role.highlights.length > 0 && (
+                <div style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '16px', marginBottom: '14px' }}>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '12px' }}>
+                    Key Achievements
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {role.highlights.map((h, i) => (
+                      <li key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px', fontSize: '0.83rem', color: 'var(--foreground-muted)', lineHeight: 1.65 }}>
+                        <span style={{ color: '#E4572E', flexShrink: 0 }}>—</span>
+                        {h}
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {experience.technologies && experience.technologies.length > 0 && (
+              {role.projects && role.projects.length > 0 && (
+                <div style={{ marginBottom: '14px' }}>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '10px' }}>
+                    Projects
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {role.projects.map((project, i) => (
+                      <div key={i} style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '14px' }}>
+                        <p style={{ ...DISPLAY, fontSize: '0.95rem', fontWeight: 400, color: 'var(--foreground)', marginBottom: '5px' }}>
+                          {project.name}
+                        </p>
+                        <p style={{ fontSize: '0.81rem', color: 'var(--foreground-muted)', lineHeight: 1.65, marginBottom: project.highlights ? '8px' : 0 }}>
+                          {project.description}
+                        </p>
+                        {project.highlights && (
+                          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            {project.highlights.map((h, hi) => (
+                              <li key={hi} style={{ display: 'flex', gap: '8px', marginBottom: '4px', fontSize: '0.78rem', color: 'var(--foreground-muted)', lineHeight: 1.5 }}>
+                                <span style={{ color: '#E4572E', flexShrink: 0 }}>·</span>{h}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {role.technologies && role.technologies.length > 0 && (
                 <div>
-                  <h5 className="text-sm font-bold text-foreground mb-2">Technologies Used</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {experience.technologies.map((tech) => (
-                      <Tag key={tech} size="sm">{tech}</Tag>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '8px' }}>
+                    Technologies
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {role.technologies.map(tech => (
+                      <span key={tech} style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 8px', border: '1px solid var(--card-border)', color: 'var(--foreground-muted)' }}>
+                        {tech}
+                      </span>
                     ))}
                   </div>
                 </div>
               )}
             </div>
-          )}
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
+function ExperienceCard({ experience, isPresent }: { experience: Experience; isPresent: boolean }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasMultipleRoles = experience.roles && experience.roles.length > 0;
+
+  return (
+    <div
+      className="border overflow-hidden"
+      style={{
+        borderColor: isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)',
+        borderLeft: isPresent ? '3px solid #E4572E' : undefined,
+        backgroundColor: 'var(--card)',
+        boxShadow: isPresent ? '0 4px 24px rgba(228,87,46,0.08)' : 'none',
+      }}
+    >
+      {/* Company header */}
+      <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--card-border)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+        {/* Logo */}
+        <div
+          className="relative shrink-0 overflow-hidden"
+          style={{ width: '52px', height: '52px', border: `1px solid ${isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)'}`, backgroundColor: 'var(--background-alt)' }}
+        >
+          {experience.companyLogo ? (
+            <Image src={experience.companyLogo} alt={experience.company} fill className="object-contain p-2" sizes="52px" />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span style={{ ...MONO, fontSize: '13px', fontWeight: 700, color: isPresent ? '#E4572E' : 'var(--foreground-muted)' }}>
+                {experience.company.slice(0, 2).toUpperCase()}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div style={{ flex: 1 }}>
+          <h3 style={{ ...DISPLAY, fontSize: '1.4rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.2, marginBottom: '8px' }}>
+            {experience.company}
+          </h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ ...MONO, fontSize: '8px', letterSpacing: '0.12em', textTransform: 'uppercase', color: isPresent ? '#E4572E' : 'var(--foreground-muted)', border: `1px solid ${isPresent ? 'rgba(228,87,46,0.4)' : 'var(--card-border)'}`, padding: '2px 8px' }}>
+              {experience.employmentType}
+            </span>
+            <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)' }}>
+              {formatDate(experience.startDate)} — {formatDate(experience.endDate)}
+            </span>
+            <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: '#E4572E' }}>
+              {calculateDuration(experience.startDate, experience.endDate)}
+            </span>
+          </div>
+          {experience.location && (
+            <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)', opacity: 0.6 }}>
+              {experience.location}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div style={{ padding: '24px 28px' }}>
+        {hasMultipleRoles ? (
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', borderLeft: '2px solid #E4572E', paddingLeft: '10px' }}>
+              <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}>
+                Career Progression · {experience.roles!.length} Roles
+              </span>
+            </div>
+            {experience.roles!.map((role, idx) => (
+              <RoleCard key={idx} role={role} isLast={idx === experience.roles!.length - 1} />
+            ))}
+          </div>
+        ) : (
+          <div>
+            {experience.role && (
+              <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+                {experience.role}
+              </p>
+            )}
+            {experience.description && (
+              <p style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)', lineHeight: 1.8, marginBottom: '16px' }}>
+                {experience.description}
+              </p>
+            )}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="inline-flex items-center gap-1.5"
+              style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}
+            >
+              {isExpanded ? 'Show Less' : 'View Details'}
+              <svg className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div style={{ paddingTop: '16px' }}>
+                    {experience.highlights && experience.highlights.length > 0 && (
+                      <div style={{ border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)', padding: '16px', marginBottom: '14px' }}>
+                        <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '12px' }}>
+                          Key Achievements
+                        </p>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {experience.highlights.map((h, i) => (
+                            <li key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px', fontSize: '0.83rem', color: 'var(--foreground-muted)', lineHeight: 1.65 }}>
+                              <span style={{ color: '#E4572E', flexShrink: 0 }}>—</span>
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {experience.technologies && experience.technologies.length > 0 && (
+                      <div>
+                        <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginBottom: '8px' }}>
+                          Technologies
+                        </p>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {experience.technologies.map(tech => (
+                            <span key={tech} style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 8px', border: '1px solid var(--card-border)', color: 'var(--foreground-muted)' }}>
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Page ────────────────────────────────────────────────────────────────────
 export default function ExperiencePage() {
   const experiences = getAllExperiences();
-
   const totalYears = experiences.reduce((acc, exp) => {
     const start = new Date(exp.startDate);
     const end = exp.endDate === 'Present' ? new Date() : new Date(exp.endDate);
-    const months = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30);
-    return acc + months;
+    return acc + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30);
   }, 0) / 12;
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      {/* Hero Section with Impact Banner */}
-      <section className="relative overflow-hidden bg-background-alt border-b border-card-border">
-        {/* Subtle Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+    <div className="min-h-screen bg-background">
+      <PageHero
+        title="Professional"
+        titleItalic="Experience"
+        category="Career"
+        subtitle={`Sony · Cisco · Tech Mahindra — ${Math.floor(totalYears)}+ years at enterprise scale`}
+        imageSrc={pageImages.experience}
+        imageAlt="Professional Experience"
+      />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-sm font-semibold mb-6">
-              <span className="w-2 h-2 bg-secondary rounded-full animate-pulse" />
-              Full Stack Data Engineering Career
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-              Professional Experience
-            </h1>
-            <p className="text-xl text-foreground-muted max-w-3xl mx-auto">
-              {Math.floor(totalYears)}+ years delivering production-grade data infrastructure and AI solutions at enterprise scale
+      {/* ── Career Timeline ─────────────────────────────── */}
+      <section className="section-padding bg-background-alt relative">
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }} />
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle" style={{ backgroundColor: '#E4572E' }} />
+              Work History
             </p>
-          </div>
+            <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+              Career Timeline
+            </h2>
+          </motion.div>
+          <div className="relative">
+            {/* Vertical connecting line */}
+            <div
+              className="absolute hidden sm:block"
+              style={{ left: '19px', top: '20px', bottom: '20px', width: '1px', backgroundColor: 'var(--card-border)' }}
+            />
 
-          {/* Impact Metrics Banner */}
-          <div className="relative rounded-2xl p-8 shadow-2xl mb-8
-            bg-[radial-gradient(circle_at_top,rgba(20,184,166,0.35),rgba(15,23,42,1))]">
-            <div className="text-center mb-6">
-              <h2 className="text-white text-2xl font-bold mb-2">Business Impact & Scale</h2>
-              <p className="text-teal-100 text-sm">Measurable results across enterprise data infrastructure</p>
+            <div className="space-y-6">
+              {experiences.map((experience, idx) => {
+                const isPresent = experience.endDate === 'Present';
+                return (
+                  <motion.div
+                    key={experience.id}
+                    className="relative sm:pl-14"
+                    initial={{ opacity: 0, x: -24 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55, delay: idx * 0.1 }}
+                  >
+                    {/* Timeline node */}
+                    <div
+                      className="hidden sm:flex absolute left-0 top-5 w-10 h-10 items-center justify-center overflow-hidden"
+                      style={{
+                        border: `1px solid ${isPresent ? '#E4572E' : 'var(--card-border)'}`,
+                        backgroundColor: isPresent ? 'rgba(228,87,46,0.08)' : 'var(--card)',
+                      }}
+                    >
+                      {experience.companyLogo ? (
+                        <div className="relative w-6 h-6">
+                          <Image src={experience.companyLogo} alt={experience.company} fill className="object-contain" sizes="24px" />
+                        </div>
+                      ) : (
+                        <span style={{ ...MONO, fontSize: '8px', fontWeight: 700, letterSpacing: '0.05em', color: isPresent ? '#E4572E' : 'var(--foreground-muted)' }}>
+                          {experience.company.slice(0, 2).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+
+                    <ExperienceCard experience={experience} isPresent={isPresent} />
+                  </motion.div>
+                );
+              })}
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', value: '¥36M', label: 'Annual Cost Savings', sub: 'Platform Migration ROI' },
-                { icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4', value: '3.2GB', label: 'Daily Processing', sub: 'Production DWH Scale' },
-                { icon: 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z', value: '280+', label: 'ETL Pipelines', sub: 'Production Deployments' },
-                { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', value: '99.9%', label: 'Uptime SLA', sub: 'Production Systems' },
-              ].map((item, idx) => (
-                <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
-                  <div className="flex items-center justify-center mb-3">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                      </svg>
+      {/* ── Alumni Feature ──────────────────────────────── */}
+      <section className="section-padding bg-background relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }} />
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-10"
+          >
+            <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle animate-pulse" style={{ backgroundColor: '#E4572E' }} />
+              Recognition
+            </p>
+            <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+              Alumni Success Story
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="relative border overflow-hidden"
+            style={{ borderColor: 'rgba(228,87,46,0.45)', borderLeft: '4px solid #E4572E', backgroundColor: 'var(--card)' }}
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-5">
+              {/* Left: content */}
+              <div className="lg:col-span-3 p-8 lg:p-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <svg className="w-5 h-5 flex-shrink-0" fill="#0a66c2" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                  <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}>
+                    Featured by Raisoni Alumni Foundation
+                  </span>
+                </div>
+
+                <h3 style={{ ...DISPLAY, fontSize: 'clamp(1.5rem, 2.5vw, 2.4rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.2, marginBottom: '16px' }}>
+                  Engineering Intelligence —<br />
+                  <em style={{ fontStyle: 'italic', color: 'var(--foreground-muted)' }}>From Nagpur to Tokyo</em>
+                </h3>
+
+                <p style={{ fontSize: '0.9rem', color: 'var(--foreground-muted)', lineHeight: 1.85, marginBottom: '24px' }}>
+                  Recognised by G.H. Raisoni Academy of Engineering and Technology&apos;s Alumni Foundation for building production AI infrastructure at Sony, Tokyo — a success story shared across the global Raisoni engineering community as a symbol of alumni pride and global impact.
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {['#RaisoniAlumni', '#RaisoniPride', '#GlobalSuccess'].map(tag => (
+                    <span key={tag} style={{ ...MONO, fontSize: '9px', letterSpacing: '0.1em', color: '#E4572E', border: '1px solid rgba(228,87,46,0.35)', padding: '3px 10px' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href="https://www.linkedin.com/posts/raisoni-alumni_raisonialumni-raisonipride-globalsuccess-activity-7415676405134385152-xTLM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC7-SnsBt7sRGQzu2j7JTuPaPY8yyHJUxOQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 transition-all"
+                  style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E', border: '1px solid rgba(228,87,46,0.55)', padding: '10px 22px' }}
+                >
+                  View Featured Post
+                  <svg className="w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+
+              {/* Right: decorative quote */}
+              <div
+                className="lg:col-span-2 flex items-center justify-center p-8 lg:p-12 relative"
+                style={{ backgroundColor: 'rgba(228,87,46,0.04)', borderTop: '1px solid rgba(228,87,46,0.15)' }}
+              >
+                <div className="relative">
+                  <CornerBrackets size={22} color="#E4572E" thickness={1} />
+                  <div className="px-8 py-8 text-center">
+                    <p style={{ ...DISPLAY, fontSize: '4rem', color: '#E4572E', lineHeight: 0.8, marginBottom: '12px' }}>&ldquo;</p>
+                    <p style={{ ...DISPLAY, fontSize: '1.15rem', fontWeight: 400, fontStyle: 'italic', color: 'var(--foreground)', lineHeight: 1.5, maxWidth: '240px' }}>
+                      A Raisoni engineer shaping the future of AI at Sony, Tokyo
+                    </p>
+                    <div
+                      className="mt-5 pt-4"
+                      style={{ borderTop: '1px solid rgba(228,87,46,0.25)' }}
+                    >
+                      <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E4572E' }}>
+                        Raisoni Alumni Foundation
+                      </p>
+                      <p style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', color: 'var(--foreground-muted)', opacity: 0.6, marginTop: '4px' }}>
+                        G.H. Raisoni Academy · Nagpur · 2021
+                      </p>
                     </div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-1">{item.value}</div>
-                    <div className="text-sm font-medium text-teal-100">{item.label}</div>
-                    <div className="text-xs text-teal-200 mt-1">{item.sub}</div>
-                  </div>
                 </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Education Timeline ──────────────────────────── */}
+      <section className="section-padding bg-background-alt relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }} />
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle" style={{ backgroundColor: '#E4572E' }} />
+              Academic Background
+            </p>
+            <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+              Education
+            </h2>
+          </motion.div>
+
+          {/* Timeline */}
+          <div className="relative">
+            {/* Vertical connecting line */}
+            <div
+              className="absolute hidden sm:block"
+              style={{ left: '19px', top: '20px', bottom: '20px', width: '1px', backgroundColor: 'var(--card-border)' }}
+            />
+
+            <div className="space-y-6">
+              {EDUCATION.map((edu, idx) => (
+                <motion.div
+                  key={idx}
+                  className="relative sm:pl-14"
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, delay: idx * 0.12 }}
+                >
+                  {/* Timeline node */}
+                  <div
+                    className="hidden sm:flex absolute left-0 top-5 w-10 h-10 items-center justify-center"
+                    style={{
+                      border: `1px solid ${edu.highlight ? '#E4572E' : 'var(--card-border)'}`,
+                      backgroundColor: edu.highlight ? 'rgba(228,87,46,0.08)' : 'var(--card)',
+                    }}
+                  >
+                    <span style={{ ...MONO, fontSize: '7px', letterSpacing: '0.08em', color: edu.highlight ? '#E4572E' : 'var(--foreground-muted)', fontWeight: 700 }}>
+                      {edu.type}
+                    </span>
+                  </div>
+
+                  {/* Card */}
+                  <div
+                    className="border overflow-hidden"
+                    style={{
+                      borderColor: edu.highlight ? 'rgba(228,87,46,0.4)' : 'var(--card-border)',
+                      borderLeft: edu.highlight ? '3px solid #E4572E' : undefined,
+                      backgroundColor: 'var(--card)',
+                      boxShadow: edu.highlight ? '0 4px 24px rgba(228,87,46,0.08)' : 'none',
+                    }}
+                  >
+                    <div className="p-6 sm:p-7">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="flex-1">
+                          {/* Mobile-only type badge */}
+                          <span
+                            className="sm:hidden inline-block mb-2"
+                            style={{ ...MONO, fontSize: '8px', letterSpacing: '0.12em', textTransform: 'uppercase', color: edu.highlight ? '#E4572E' : 'var(--foreground-muted)', border: '1px solid var(--card-border)', padding: '2px 7px' }}
+                          >
+                            {edu.type}
+                          </span>
+                          <h3 style={{ ...DISPLAY, fontSize: '1.25rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.25 }}>
+                            {edu.degree}
+                            {edu.field && (
+                              <em style={{ fontStyle: 'italic', color: 'var(--foreground-muted)', fontSize: '0.88em' }}>
+                                {' '}— {edu.field}
+                              </em>
+                            )}
+                          </h3>
+                          <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--foreground-muted)', marginTop: '6px' }}>
+                            {edu.institution}
+                          </p>
+                          <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)', opacity: 0.6, marginTop: '3px' }}>
+                            {edu.location}
+                          </p>
+                        </div>
+                        <div className="shrink-0 sm:text-right">
+                          <p style={{ ...MONO, fontSize: '11px', letterSpacing: '0.12em', color: '#E4572E' }}>
+                            {edu.period}
+                          </p>
+                          <p style={{ ...MONO, fontSize: '12px', letterSpacing: '0.06em', color: 'var(--foreground)', marginTop: '5px', fontWeight: 700 }}>
+                            {edu.score}
+                          </p>
+                        </div>
+                      </div>
+
+                      {edu.note && (
+                        <div
+                          className="mt-4 pt-4 flex items-center gap-2"
+                          style={{ borderTop: '1px solid rgba(228,87,46,0.2)' }}
+                        >
+                          <span className="inline-block w-1 h-1 rounded-full animate-pulse" style={{ backgroundColor: '#E4572E' }} />
+                          <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#E4572E' }}>
+                            {edu.note}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Professional Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { value: `${Math.floor(totalYears)}+`, label: 'Years Experience' },
-              { value: `${experiences.length}`, label: 'Companies' },
-              { value: '3', label: 'Continents' },
-              { value: '15%', label: 'Accuracy Gain' },
-            ].map((stat, idx) => (
-              <div key={idx} className="bg-card rounded-xl p-6 text-center border-2 border-card-border hover:border-secondary/50 transition-all shadow-sm">
-                <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm font-semibold text-foreground-muted">{stat.label}</div>
-              </div>
+      {/* ── Certifications ──────────────────────────────── */}
+      <section className="section-padding bg-background relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }} />
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle" style={{ backgroundColor: '#E4572E' }} />
+              Verified Credentials
+            </p>
+            <div className="flex items-end justify-between gap-4 flex-wrap">
+              <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+                Certifications
+              </h2>
+              <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--foreground-muted)', opacity: 0.7 }}>
+                {CERTS.length} active credentials
+              </span>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {CERTS.map((cert, idx) => (
+              <motion.div
+                key={cert.code}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.07 }}
+                className="group border overflow-hidden"
+                style={{
+                  borderColor: 'var(--card-border)',
+                  backgroundColor: 'var(--card)',
+                  borderTop: `2px solid ${cert.accent}`,
+                  transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+                }}
+              >
+                {/* Badge + meta row */}
+                <div
+                  className="flex items-center gap-4 p-5"
+                  style={{ borderBottom: '1px solid var(--card-border)' }}
+                >
+                  {/* Badge / icon */}
+                  <div
+                    className="relative shrink-0 overflow-hidden"
+                    style={{ width: '68px', height: '68px', border: '1px solid var(--card-border)', backgroundColor: 'var(--background-alt)' }}
+                  >
+                    {cert.badge ? (
+                      <Image
+                        src={cert.badge}
+                        alt={cert.name}
+                        fill
+                        className="object-contain p-2"
+                        sizes="68px"
+                        quality={80}
+                      />
+                    ) : (
+                      <div
+                        className="absolute inset-0 flex flex-col items-center justify-center gap-0.5"
+                        style={{ backgroundColor: cert.accent + '12' }}
+                      >
+                        <span style={{ ...MONO, fontSize: '9px', fontWeight: 700, color: cert.accent, letterSpacing: '0.05em' }}>
+                          {cert.issuer.slice(0, 2).toUpperCase()}
+                        </span>
+                        <span style={{ ...MONO, fontSize: '7px', color: cert.accent, opacity: 0.7, letterSpacing: '0.05em' }}>
+                          {cert.code}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <p style={{ ...MONO, fontSize: '8px', letterSpacing: '0.14em', textTransform: 'uppercase', color: cert.accent, marginBottom: '5px' }}>
+                      {cert.issuer} · {cert.code}
+                    </p>
+                    <p style={{ ...DISPLAY, fontSize: '1rem', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.3 }} className="line-clamp-2">
+                      {cert.name}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Footer: validity + link */}
+                <div className="flex items-center justify-between px-5 py-3">
+                  <span style={{ ...MONO, fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--foreground-muted)' }}>
+                    Valid: {cert.validity}
+                  </span>
+                  {cert.pdf ? (
+                    <a
+                      href={cert.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/link inline-flex items-center gap-1 transition-all"
+                      style={{ ...MONO, fontSize: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#E4572E' }}
+                    >
+                      View
+                      <svg className="w-2.5 h-2.5 transition-transform group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <span style={{ ...MONO, fontSize: '8px', color: 'var(--foreground-muted)', opacity: 0.4 }}>—</span>
+                  )}
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section className="py-16 bg-background-alt">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-3">Career Timeline</h2>
-            <p className="text-foreground-muted">From data engineering to AI infrastructure leadership</p>
-          </div>
+      {/* ── Skills Grid ─────────────────────────────────── */}
+      <section className="section-padding bg-background-alt relative">
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }} />
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            className="mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '12px' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle" style={{ backgroundColor: '#E4572E' }} />
+              Core Competencies
+            </p>
+            <h2 style={{ ...DISPLAY, fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 400, color: 'var(--foreground)', lineHeight: 1.1 }}>
+              Technical Expertise
+            </h2>
+          </motion.div>
 
-          <div className="space-y-6">
-            {experiences.map((experience) => (
-              <ExperienceCard key={experience.id} experience={experience} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Grid */}
-      <section className="py-16 bg-background border-y border-card-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-foreground mb-10 text-center">Technical Expertise</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Data Engineering', icon: '💾', skills: 'ETL, PySpark, Databricks, Snowflake, Medallion' },
-              { title: 'Generative AI', icon: '🤖', skills: 'LLMs, RAG, TruLens, Prompt Engineering' },
-              { title: 'ML & Forecasting', icon: '📊', skills: 'DeepAR, Prophet, MLOps, Time Series' },
-              { title: 'Cloud & DevOps', icon: '☁️', skills: 'Azure, CI/CD, GitHub Actions, Airflow' },
+              { title: 'Data Engineering', detail: 'ETL · PySpark · Databricks · Snowflake · Medallion Architecture', accent: '#14b8a6' },
+              { title: 'Generative AI', detail: 'LLMs · RAG · TruLens · Cortex AI · Prompt Engineering', accent: '#E4572E' },
+              { title: 'ML & Forecasting', detail: 'DeepAR · Prophet · MLflow · MLOps · Time Series', accent: '#8b5cf6' },
+              { title: 'Cloud & DevOps', detail: 'Azure · Airflow · CI/CD · GitHub Actions · Docker', accent: '#0078d4' },
             ].map((skill, idx) => (
-              <div key={idx} className="bg-card rounded-xl p-6 border-2 border-card-border hover:border-secondary/50 transition-all shadow-sm hover:shadow-lg">
-                <div className="text-4xl mb-4">{skill.icon}</div>
-                <h3 className="font-bold text-foreground mb-2">{skill.title}</h3>
-                <p className="text-sm text-foreground-muted">{skill.skills}</p>
-              </div>
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.08 }}
+                className="border overflow-hidden group"
+                style={{ borderColor: 'var(--card-border)', borderTop: `2px solid ${skill.accent}`, backgroundColor: 'var(--card)' }}
+              >
+                <div className="p-6">
+                  <h3 style={{ ...DISPLAY, fontSize: '1.15rem', fontWeight: 400, color: 'var(--foreground)', marginBottom: '10px' }}>
+                    {skill.title}
+                  </h3>
+                  <p style={{ ...MONO, fontSize: '9px', letterSpacing: '0.08em', color: 'var(--foreground-muted)', lineHeight: 1.8 }}>
+                    {skill.detail}
+                  </p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16" style={{ background: 'linear-gradient(to bottom right, var(--cta-bg-from), var(--cta-bg-to))' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Collaborate?</h2>
-          <p className="text-gray-300 mb-8 text-lg">
+      {/* ── CTA ─────────────────────────────────────────── */}
+      <section className="section-padding" style={{ background: 'linear-gradient(to bottom right, var(--cta-bg-from), var(--cta-bg-to))' }}>
+        <div className="max-w-4xl mx-auto text-center">
+          <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E4572E', marginBottom: '16px' }}>
+            Open to Opportunities
+          </p>
+          <h2 style={{ ...DISPLAY, fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 400, color: '#F4F1EA', lineHeight: 1.1, marginBottom: '16px' }}>
+            Ready to Collaborate?
+          </h2>
+          <p style={{ ...MONO, fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(244,241,234,0.6)', marginBottom: '40px' }}>
             Open for Tech Lead roles in Data Engineering & AI Infrastructure
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/contact" variant="secondary" size="lg">
-              Get in Touch
-            </Button>
-            <Button
-              href="https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/"
-              external
-              variant="outline"
-              size="lg"
-              className="border-white/30 text-white hover:bg-white hover:text-black"
-            >
+            <Button href="/contact" variant="secondary" size="lg">Get in Touch</Button>
+            <Button href="https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/" external variant="outline" size="lg" className="border-white/30 text-white hover:bg-white hover:text-black">
               Connect on LinkedIn
             </Button>
           </div>
