@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { siteConfig } from '@/data/site-config';
 import { SectionHeader, Button, PageHero } from '@/components/ui';
 import pageImages from '@/data/pageImages';
@@ -17,6 +18,9 @@ const Icons = {
   ),
   Spinner: () => (
     <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+  ),
+  Briefcase: () => (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
   ),
   Social: ({ platform, className }: { platform: string, className?: string }) => {
     switch (platform.toLowerCase()) {
@@ -36,33 +40,101 @@ const Icons = {
   }
 };
 
+const inputClass = "w-full px-4 py-3 rounded-lg bg-muted border border-card-border text-foreground focus:bg-background focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none placeholder:text-muted-foreground";
+
+const SUBJECTS = [
+  'Job Opportunity',
+  'General Inquiry',
+] as const;
+
+type Subject = typeof SUBJECTS[number];
+
+const DEFAULT_SUBJECT: Subject = 'Job Opportunity';
+
+const TEMPLATE_IDS: Record<Subject, string | undefined> = {
+  'Job Opportunity': process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_JOB,
+  'General Inquiry': process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_GENERAL,
+};
+
+const DAILY_LIMIT = 5;
+const RATE_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+const rateLimitKey = (email: string) => `contact_submissions_${email.toLowerCase().trim()}`;
+
+const getRecentSubmissions = (email: string): number[] => {
+  if (typeof window === 'undefined' || !email) return [];
+  try {
+    const raw = localStorage.getItem(rateLimitKey(email));
+    if (!raw) return [];
+    const data: unknown = JSON.parse(raw);
+    if (!Array.isArray(data)) return [];
+    const now = Date.now();
+    return data.filter((t): t is number => typeof t === 'number' && now - t < RATE_WINDOW_MS);
+  } catch {
+    return [];
+  }
+};
+
+const recordSubmission = (email: string) => {
+  if (typeof window === 'undefined' || !email) return;
+  const recent = getRecentSubmissions(email);
+  recent.push(Date.now());
+  localStorage.setItem(rateLimitKey(email), JSON.stringify(recent));
+};
+
+const formatHoursUntilReset = (oldestTimestamp: number): string => {
+  const msLeft = RATE_WINDOW_MS - (Date.now() - oldestTimestamp);
+  const hours = Math.ceil(msLeft / (60 * 60 * 1000));
+  return hours <= 1 ? 'in about an hour' : `in about ${hours} hours`;
+};
+
 export default function ContactPage() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [selectedSubject, setSelectedSubject] = useState<Subject>(DEFAULT_SUBJECT);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMessage('');
+    const form = e.currentTarget;
+    const emailValue = (form.elements.namedItem('email') as HTMLInputElement | null)?.value ?? '';
+
+    const recent = getRecentSubmissions(emailValue);
+    if (recent.length >= DAILY_LIMIT) {
+      const oldest = Math.min(...recent);
+      setFormState('error');
+      setErrorMessage(
+        `You've reached the daily limit of ${DAILY_LIMIT} messages from this email. You can send again ${formatHoursUntilReset(oldest)}.`
+      );
+      return;
+    }
+
+    const templateId = TEMPLATE_IDS[selectedSubject];
+    if (!templateId) {
+      setFormState('error');
+      setErrorMessage('Email service is not configured. Please email me directly at pavitramandal2000@gmail.com');
+      return;
+    }
+
     setFormState('submitting');
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const urlSearchParams = new URLSearchParams();
-    formData.forEach((value, key) => urlSearchParams.append(key, value.toString()));
-
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: urlSearchParams.toString(),
-      });
-
-      if (response.ok) {
-        setFormState('success');
-        form.reset();
-      } else {
-        setFormState('success');
-      }
-    } catch {
+      const result = await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        templateId,
+        form,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      console.log('EmailJS success:', result);
+      recordSubmission(emailValue);
       setFormState('success');
+      form.reset();
+      setSelectedSubject(DEFAULT_SUBJECT);
+    } catch (err) {
+      const e = err as { status?: number; text?: string };
+      console.error('EmailJS error — status:', e?.status, '| text:', e?.text);
+      setFormState('error');
+      setErrorMessage('Something went wrong. Please try again or email me directly at pavitramandal2000@gmail.com');
     }
   };
 
@@ -178,7 +250,7 @@ export default function ContactPage() {
                   </div>
                   <h3 className="text-2xl font-bold text-foreground mb-2">Message Received!</h3>
                   <p className="text-foreground-muted text-center max-w-sm mb-8">
-                    Thanks for reaching out. I've received your message and will get back to you shortly.
+                    Thanks for reaching out. I&apos;ve received your message and will get back to you shortly.
                   </p>
                   <Button onClick={() => setFormState('idle')} variant="outline">
                     Send Another
@@ -191,17 +263,9 @@ export default function ContactPage() {
 
                 <form
                   name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   className="space-y-6"
                 >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p className="hidden">
-                    <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
-                  </p>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label htmlFor="name" className="text-sm font-semibold text-foreground-muted">Name</label>
@@ -210,7 +274,7 @@ export default function ContactPage() {
                         id="name"
                         name="name"
                         required
-                        className="w-full px-4 py-3 rounded-lg bg-muted border border-card-border text-foreground focus:bg-background focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none placeholder:text-muted-foreground"
+                        className={inputClass}
                         placeholder="John Doe"
                       />
                     </div>
@@ -221,7 +285,7 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         required
-                        className="w-full px-4 py-3 rounded-lg bg-muted border border-card-border text-foreground focus:bg-background focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none placeholder:text-muted-foreground"
+                        className={inputClass}
                         placeholder="john@example.com"
                       />
                     </div>
@@ -232,14 +296,77 @@ export default function ContactPage() {
                     <select
                       id="subject"
                       name="subject"
-                      className="w-full px-4 py-3 rounded-lg bg-muted border border-card-border text-foreground focus:bg-background focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
+                      value={selectedSubject}
+                      onChange={(e) => setSelectedSubject(e.target.value as Subject)}
+                      className={inputClass}
                     >
-                      <option value="General Inquiry">General Inquiry</option>
-                      <option value="Project Proposal">Project Proposal</option>
-                      <option value="Freelance/Contract">Freelance/Contract Opportunity</option>
-                      <option value="Just Saying Hi">Just Saying Hi</option>
+                      {SUBJECTS.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
                     </select>
                   </div>
+
+                  {/* Recruiter fields — visible only for Job Opportunity */}
+                  {selectedSubject === 'Job Opportunity' && (
+                    <div className="space-y-5 p-5 rounded-xl bg-secondary/5 border border-secondary/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Icons.Briefcase />
+                        <p className="text-sm font-semibold text-secondary">Recruiter Details</p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <label htmlFor="company" className="text-sm font-semibold text-foreground-muted">Company Name</label>
+                          <input
+                            type="text"
+                            id="company"
+                            name="company"
+                            required
+                            className={inputClass}
+                            placeholder="Acme Corp"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label htmlFor="role" className="text-sm font-semibold text-foreground-muted">Role / Position</label>
+                          <input
+                            type="text"
+                            id="role"
+                            name="role"
+                            required
+                            className={inputClass}
+                            placeholder="Frontend Engineer"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label htmlFor="job_type" className="text-sm font-semibold text-foreground-muted">Employment Type</label>
+                        <select
+                          id="job_type"
+                          name="job_type"
+                          className={inputClass}
+                        >
+                          <option value="Full-time">Full-time</option>
+                          <option value="Part-time">Part-time</option>
+                          <option value="Contract">Contract</option>
+                          <option value="Remote">Remote</option>
+                          <option value="Hybrid">Hybrid</option>
+                        </select>
+                      </div>
+
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          name="wants_resume"
+                          value="Yes"
+                          className="mt-0.5 w-4 h-4 rounded border-card-border accent-secondary cursor-pointer"
+                        />
+                        <span className="text-sm text-foreground-muted group-hover:text-foreground transition-colors">
+                          Please share your updated resume in your reply
+                        </span>
+                      </label>
+                    </div>
+                  )}
 
                   <div className="space-y-2">
                     <label htmlFor="message" className="text-sm font-semibold text-foreground-muted">Message</label>
@@ -248,15 +375,19 @@ export default function ContactPage() {
                       name="message"
                       required
                       rows={5}
-                      className="w-full px-4 py-3 rounded-lg bg-muted border border-card-border text-foreground focus:bg-background focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none resize-none placeholder:text-muted-foreground"
-                      placeholder="Tell me about your project..."
+                      className={`${inputClass} resize-none`}
+                      placeholder={
+                        selectedSubject === 'Job Opportunity'
+                          ? 'Tell me about the role, team, and what you\'re looking for...'
+                          : 'Project pitch, freelance brief, or just say hi — share whatever you\'d like to discuss...'
+                      }
                     />
                   </div>
 
                   {formState === 'error' && (
-                    <div className="p-3 bg-red-500/10 text-red-400 text-sm rounded-lg flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      Something went wrong. Please try again or email me directly.
+                    <div className="p-3 bg-red-500/10 text-red-400 text-sm rounded-lg flex items-start">
+                      <svg className="w-4 h-4 mr-2 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span>{errorMessage || 'Something went wrong. Please try again or email me directly at pavitramandal2000@gmail.com'}</span>
                     </div>
                   )}
 

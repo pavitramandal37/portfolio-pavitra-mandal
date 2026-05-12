@@ -1,261 +1,178 @@
-# Pavitra Mandal - Portfolio Website
+# Pavitra Mandal — Portfolio
 
-A modern, creative portfolio website built with Next.js 14, Tailwind CSS, and MDX. Designed to showcase ML engineering, data engineering, and automation projects.
+Personal portfolio site for **Pavitra Mandal** — AI & Data Platform Engineer based in Tokyo. Built with **Next.js 16**, **React 19**, **Tailwind CSS 4**, **MDX**, and **Framer Motion**. Deployed as a static export to **Netlify**.
+
+---
 
 ## Features
 
-- **Modern Design**: Clean, professional aesthetic with deep blue and teal color palette
-- **Responsive**: Mobile-first design that works on all devices
-- **Fast**: Built with Next.js 14 App Router for optimal performance
-- **SEO Optimized**: Meta tags, Open Graph, sitemap, and robots.txt
-- **MDX Blog**: Write blog posts in Markdown with React component support
-- **Netlify Forms**: Contact form with spam protection
-- **Easy Content Management**: Add projects and blog posts via data files
+- Modern dual-theme design (auto-switching cream/dark based on IST clock)
+- Static export — no server runtime, fast cold loads
+- Responsive, mobile-first layout
+- SEO-ready: Open Graph, Twitter Cards, sitemap, robots.txt
+- MDX-friendly content authoring
+- EmailJS-powered contact form with per-subject templates and a per-email daily rate limit
+- Google Analytics 4 wired up via `next/script`
 
-## Tech Stack
+## Tech stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
-- **Content**: MDX for blog posts
-- **Deployment**: Netlify
-- **TypeScript**: Full type safety
+- **Framework:** Next.js 16 (App Router, static export)
+- **UI:** React 19, Tailwind CSS 4
+- **Content:** MDX (`@next/mdx`, `gray-matter`, `reading-time`)
+- **Motion:** Framer Motion
+- **Email:** EmailJS (`@emailjs/browser`)
+- **Deployment:** Netlify
+- **Language:** TypeScript
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- Node.js 20+
+- npm
 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/pavitramandal37/portfolio-pavitra-mandal.git
-
-# Navigate to project directory
 cd portfolio-pavitra-mandal
-
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
+cp .env.example .env.local       # fill in your EmailJS keys
+npm run dev                      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+### Scripts
 
-### Build for Production
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server on `http://localhost:3000` |
+| `npm run build` | Build a static export to `out/` |
+| `npm run start` | Start a production server (only useful if you remove `output: 'export'`) |
+| `npm run lint` | Run ESLint |
 
-```bash
-npm run build
-npm run start
+## Project structure
+
+```text
+src/
+├── app/                 # Next.js App Router pages
+│   ├── contact/         # Contact form (EmailJS)
+│   ├── experience/      # Experience & certifications
+│   ├── hobby/           # Hobbies & side interests
+│   ├── projects/        # Projects listing & detail pages
+│   ├── blog/            # MDX blog
+│   └── layout.tsx       # Root layout (theme, fonts, GA)
+├── components/
+│   ├── layout/          # Navigation, Footer
+│   └── ui/              # Reusable UI (Button, PageHero, SectionHeader, ...)
+├── content/blog/        # MDX blog posts
+├── data/                # site-config, projects, experience, page images
+└── lib/                 # Helpers (blog utilities, etc.)
+public/
+├── images/              # Static images
+├── resume/              # Resume PDF
+└── videos/              # Demo videos
 ```
 
-## Project Structure
+## Environment variables
 
-```
-portfolio-pavitra-mandal/
-├── public/
-│   ├── images/
-│   │   ├── profile/        # Profile photo (pavitra-mandal-photo.jpg)
-│   │   ├── projects/       # Project thumbnails and screenshots
-│   │   ├── companies/      # Company logos for experience section
-│   │   └── blog/           # Blog post cover images
-│   └── videos/             # Demo videos (if any)
-├── src/
-│   ├── app/                # Next.js App Router pages
-│   │   ├── page.tsx        # Home page
-│   │   ├── projects/       # Projects listing and detail pages
-│   │   ├── experience/     # Experience/Work page
-│   │   ├── blog/           # Blog listing and post pages
-│   │   └── contact/        # Contact page
-│   ├── components/
-│   │   ├── ui/             # Reusable UI components (Button, Card, Tag, etc.)
-│   │   ├── layout/         # Layout components (Navigation, Footer)
-│   │   └── sections/       # Page sections (Hero, FeaturedProjects, etc.)
-│   ├── content/
-│   │   └── blog/           # MDX blog posts
-│   ├── data/
-│   │   ├── projects.ts     # Projects data
-│   │   ├── experience.ts   # Experience data
-│   │   └── site-config.ts  # Site configuration
-│   ├── lib/
-│   │   └── blog.ts         # Blog utilities
-│   └── types/
-│       └── index.ts        # TypeScript type definitions
-├── netlify.toml            # Netlify configuration
-├── next.config.ts          # Next.js configuration
-└── tailwind.config.ts      # Tailwind CSS configuration
-```
+Copy `.env.example` to `.env.local` and fill in the values. **All variables are prefixed `NEXT_PUBLIC_` because the contact form runs entirely in the browser — do not put any genuine secrets here**; everything in this file gets bundled into the static output.
 
-## Content Management
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | EmailJS service ID (your connected mailbox) |
+| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | EmailJS public key |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_JOB` | Template used when subject = "Job Opportunity" |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_GENERAL` | Template used when subject = "General Inquiry" |
 
-### Adding a New Project
+## Contact form
 
-1. Open `src/data/projects.ts`
-2. Add a new project object to the `projects` array:
+The form in [src/app/contact/page.tsx](src/app/contact/page.tsx) sends mail through EmailJS. It exposes **two subject types**:
 
-```typescript
-{
-  id: 'unique-project-id',
-  title: 'Project Title',
-  slug: 'project-slug',
-  description: 'Short description (1-2 sentences)',
-  longDescription: 'Detailed description for project page',
-  category: 'Personal', // 'Personal' | 'Professional' | 'Automation' | 'AI-ML'
-  company: null, // 'Sony' | 'Cisco' | 'Tech Mahindra' | null
-  status: 'Live', // 'Live' | 'In Development' | 'Completed' | 'Archived'
-  featured: true, // Show on home page
-  tags: ['Python', 'React', 'AWS'],
-  thumbnail: '/images/projects/project-thumbnail.jpg',
-  banner: '/images/projects/project-banner.jpg',
-  screenshots: ['/images/projects/screenshot1.jpg'],
-  links: [
-    { type: 'linkedin', url: 'https://linkedin.com/...', label: 'LinkedIn Post' },
-    { type: 'github', url: 'https://github.com/...', label: 'View Code' },
-    { type: 'live', url: 'https://app.example.com', label: 'Live Demo' },
-  ],
-  problemStatement: 'What problem does this solve?',
-  approach: 'How did you approach the solution?',
-  outcomes: ['Outcome 1', 'Outcome 2'],
-  techStack: ['Python', 'React', 'AWS'],
-  dateCreated: '2024-01-15',
-  relatedProjects: ['other-project-id'],
-}
-```
+- **Job Opportunity** — collects company, role, employment type, and an optional "send resume" flag in addition to name/email/message.
+- **General Inquiry** — catch-all for project pitches, freelance briefs, questions, or just a hello.
 
-3. Add project images to `/public/images/projects/`
+Each subject routes to its own EmailJS template via the `TEMPLATE_IDS` map. EmailJS free plans cap you at 2 templates, which is why the dropdown is limited to two.
 
-### Adding a New Blog Post
+### Anti-abuse
 
-1. Create a new `.mdx` file in `src/content/blog/`:
+The form enforces a **client-side daily limit of 5 messages per email address** (24-hour rolling window, tracked in `localStorage`). This is a deterrent, not a hard wall — a determined sender can bypass it by clearing storage or switching browsers. For real protection, set **Allowed Origins** in your EmailJS dashboard so the public key only works from your domain.
 
-```mdx
----
-title: "Your Blog Post Title"
-excerpt: "A brief summary of the blog post"
-date: "2024-01-01"
-tags: ["Tag1", "Tag2"]
-coverImage: "/images/blog/cover.jpg"
-relatedProjects: ["project-slug"]
-published: true
----
+## Content management
 
-# Your Content Here
+### Adding a project
 
-Write your blog post using Markdown...
-```
+1. Open `src/data/projects.ts`.
+2. Append a project object to the `projects` array (see existing entries for the schema).
+3. Drop thumbnails/screenshots into `/public/images/projects/`.
 
-2. Add cover image to `/public/images/blog/`
-3. Set `published: true` when ready to go live
+### Adding a blog post
 
-### Updating Personal Information
+1. Create a new `.mdx` file in `src/content/blog/` with frontmatter:
 
-1. **Site config**: Edit `src/data/site-config.ts` for name, tagline, social links
-2. **Profile photo**: Add `pavitra-mandal-photo.jpg` to `/public/images/profile/`
-3. **Experience**: Edit `src/data/experience.ts` to update work history
+    ```mdx
+    ---
+    title: "Your Blog Post Title"
+    excerpt: "A brief summary"
+    date: "2026-01-01"
+    tags: ["Tag1", "Tag2"]
+    coverImage: "/images/blog/cover.jpg"
+    published: true
+    ---
 
-## Placeholders to Update
+    # Your Content Here
+    ```
 
-Search for these placeholder markers in the codebase and replace them:
+2. Drop the cover image into `/public/images/blog/`.
+3. Set `published: true` when ready.
 
-| Placeholder | Location | Description |
-|-------------|----------|-------------|
-| `[PLACEHOLDER_LINKEDIN_URL]` | `projects.ts` | LinkedIn post URLs |
-| `[PLACEHOLDER_GITHUB_URL]` | `projects.ts` | GitHub repository URLs |
-| `[PLACEHOLDER_LIVE_APP_URL]` | `projects.ts` | Live application URLs |
-| `[PLACEHOLDER_IMAGE_PATH]` | Various | Image paths |
-| `[PLACEHOLDER_DESCRIPTION]` | Various | Content placeholders |
-| `[PLACEHOLDER_EMAIL]` | `site-config.ts` | Your email address |
-| `[PLACEHOLDER_SITE_URL]` | `site-config.ts` | Your domain URL |
-| `[PLACEHOLDER_CALENDLY]` | `contact/page.tsx` | Calendly booking link |
+### Updating personal info
 
-## Deployment to Netlify
+- **Site config:** `src/data/site-config.ts` — name, tagline, URL, social links.
+- **Experience:** `src/data/` files used by `src/app/experience/`.
+- **Profile photo:** `/public/images/profile/`.
 
-### Option 1: Netlify Dashboard
+## Theming
 
-1. Push code to GitHub
-2. Log in to [Netlify](https://netlify.com)
-3. Click "Add new site" → "Import an existing project"
-4. Connect your GitHub repository
-5. Build settings are auto-detected from `netlify.toml`
-6. Click "Deploy site"
+The site auto-switches between a `cream` daytime theme and a `dark` night theme based on **Asia/Kolkata** (IST) clock time — 06:00–17:59 IST is cream, 18:00–05:59 IST is dark. Users can override via the theme toggle; the choice persists in `localStorage['theme-override']`. The decision runs as an inline script in [src/app/layout.tsx](src/app/layout.tsx) before React hydrates, to avoid a flash of the wrong theme.
+
+## Analytics
+
+Google Analytics 4 is wired up in [src/app/layout.tsx](src/app/layout.tsx) with a hardcoded tracking ID (`G-1MSNYKQ1DC`). Replace it if you fork this project.
+
+## Deployment
+
+The site is configured for static export to Netlify:
+
+- [next.config.ts](next.config.ts) sets `output: 'export'` and `images.unoptimized: true`.
+- [netlify.toml](netlify.toml) handles build, redirects, caching, and security headers.
+
+### Option 1: Netlify dashboard
+
+1. Push to GitHub.
+2. In Netlify: **Add new site → Import an existing project**.
+3. Connect the repo. Build settings are auto-detected from `netlify.toml`.
+4. Add the EmailJS env vars under **Site settings → Environment variables**.
+5. Deploy.
 
 ### Option 2: Netlify CLI
 
 ```bash
-# Install Netlify CLI
 npm install -g netlify-cli
-
-# Login to Netlify
 netlify login
-
-# Initialize and deploy
 netlify init
 netlify deploy --prod
 ```
 
-### Environment Variables
+## Browser support
 
-For production, set these in Netlify dashboard:
-- No environment variables required for basic functionality
-- Add any API keys if you integrate external services
-
-### Contact Form Setup
-
-The contact form uses Netlify Forms. To enable:
-1. Deploy to Netlify (form detection is automatic)
-2. Forms will appear in Netlify dashboard → Forms section
-3. Configure email notifications in Netlify form settings
-
-## Customization
-
-### Color Palette
-
-Edit colors in `src/app/globals.css`:
-
-```css
-:root {
-  --navy-900: #0f172a;  /* Primary dark */
-  --teal-600: #0d9488;  /* Secondary/accent */
-  --rose-500: #f43f5e;  /* Highlight accent */
-}
-```
-
-### Typography
-
-The site uses Geist font (included via Next.js). To change:
-1. Update font import in `src/app/layout.tsx`
-2. Update font-family in `globals.css`
-
-### Adding New Pages
-
-1. Create folder in `src/app/` with `page.tsx`
-2. Add to navigation in `src/data/site-config.ts`
-
-## Scripts
-
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run start    # Start production server
-npm run lint     # Run ESLint
-```
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+Latest evergreen Chrome, Firefox, Safari, Edge.
 
 ## Contact
 
-- **LinkedIn**: [pavitra-mandal](https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/)
-- **GitHub**: [pavitramandal37](https://github.com/pavitramandal37)
-- **Instagram**: [pavitra.hito](https://www.instagram.com/pavitra.hito/)
+- **LinkedIn:** [pavitra-mandal](https://www.linkedin.com/in/pavitra-mandal-b0b0571a0/)
+- **GitHub:** [pavitramandal37](https://github.com/pavitramandal37)
+- **Instagram:** [pavitra.hito](https://www.instagram.com/pavitra.hito/)
 
 ---
 
-Built with Next.js and deployed on Netlify.
+Built with Next.js · Deployed on Netlify.
